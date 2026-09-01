@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+
+# Databases (Bharat's layer builds these locally; never commit a binary DB)
+*.db
+*.db-wal
+*.db-shm
+*.sqlite3
+
+# Node / dashboard
+node_modules/
+dashboard/dist/
+dashboard/.vite/
+
+# Bronze raw archive: large, machine-generated, regenerable from the seed.
+# The ARCHIVE ITSELF is precious in production; in the repo it is noise.
+data/bronze/
+
+# OS
+.DS_Store
+Thumbs.db
