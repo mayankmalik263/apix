@@ -1,0 +1,148 @@
+{
+  "series_name": "CPI item: Air fare [normal]: economy class [adult]",
+  "item_labels_seen": [
+    "Air fare",
+    "Air fare [normal]: economy class",
+    "Air fare [normal]: economy class [adult]"
+  ],
+  "base": "2012=100",
+  "weight_in_cpi": 0.08,
+  "geography": "All India (Combined)",
+  "frequency": "Monthly",
+  "publisher": "Price Statistics Division, MoSPI",
+  "annexure": "Annex-V, Year-on-year inflation rate of key items",
+  "extracted_from_files": [
+    "131510_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131538_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131566_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131531_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131524_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131517_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131559_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131552_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+    "131545_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv"
+  ],
+  "n_observations": 12,
+  "observations": [
+    {
+      "period": "2024-05",
+      "year": 2024,
+      "month": 5,
+      "index": 197.9,
+      "revision_status": "final",
+      "source_file": "131524_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": null,
+      "yoy_pct": null
+    },
+    {
+      "period": "2024-06",
+      "year": 2024,
+      "month": 6,
+      "index": 196.3,
+      "revision_status": "final",
+      "source_file": "131524_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": -0.81,
+      "yoy_pct": null
+    },
+    {
+      "period": "2024-07",
+      "year": 2024,
+      "month": 7,
+      "index": 196.1,
+      "revision_status": "final",
+      "source_file": "131531_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": -0.1,
+      "yoy_pct": null
+    },
+    {
+      "period": "2024-09",
+      "year": 2024,
+      "month": 9,
+      "index": 196.5,
+      "revision_status": "final",
+      "source_file": "131552_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": null,
+      "yoy_pct": null
+    },
+    {
+      "period": "2024-10",
+      "year": 2024,
+      "month": 10,
+      "index": 195.4,
+      "revision_status": "final",
+      "source_file": "131552_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": -0.56,
+      "yoy_pct": null
+    },
+    {
+      "period": "2024-11",
+      "year": 2024,
+      "month": 11,
+      "index": 198.5,
+      "revision_status": "final",
+      "source_file": "131559_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": 1.59,
+      "yoy_pct": null
+    },
+    {
+      "period": "2025-05",
+      "year": 2025,
+      "month": 5,
+      "index": 214.3,
+      "revision_status": "final",
+      "source_file": "131524_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": null,
+      "yoy_pct": 8.29
+    },
+    {
+      "period": "2025-06",
+      "year": 2025,
+      "month": 6,
+      "index": 211.6,
+      "revision_status": "final",
+      "source_file": "131531_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": -1.26,
+      "yoy_pct": 7.79
+    },
+    {
+      "period": "2025-07",
+      "year": 2025,
+      "month": 7,
+      "index": 202.3,
+      "revision_status": "provisional",
+      "source_file": "131531_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": -4.4,
+      "yoy_pct": 3.16
+    },
+    {
+      "period": "2025-09",
+      "year": 2025,
+      "month": 9,
+      "index": 205.1,
+      "revision_status": "final",
+      "source_file": "131552_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": null,
+      "yoy_pct": 4.38
+    },
+    {
+      "period": "2025-10",
+      "year": 2025,
+      "month": 10,
+      "index": 211.4,
+      "revision_status": "final",
+      "source_file": "131559_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": 3.07,
+      "yoy_pct": 8.19
+    },
+    {
+      "period": "2025-11",
+      "year": 2025,
+      "month": 11,
+      "index": 215.5,
+      "revision_status": "provisional",
+      "source_file": "131559_Year_on_year_Inflation_rate_of_key_items_Base_2012_100.csv",
+      "mom_pct": 1.94,
+      "yoy_pct": 8.56
+    }
+  ]
+}
