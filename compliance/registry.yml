@@ -1,0 +1,98 @@
+# APIx source compliance registry
+# --------------------------------
+# This file is NOT documentation. The collector reads it at runtime and refuses
+# to issue any request against a source whose verdict is not PERMITTED with a
+# check dated today. A fetch against an uncleared source raises BEFORE the
+# network call happens.
+#
+# verdict values:
+#   PERMITTED   robots.txt allows the fare path, ToS reviewed, collection OK
+#   DISALLOWED  robots.txt or ToS forbids it -- we do not request it
+#   BLOCKED     bot wall / challenge encountered -- we do not attempt to defeat it
+#   UNKNOWN     not yet checked. Treated exactly like DISALLOWED by the gate.
+#
+# Every verdict here starts UNKNOWN. `apix compliance --check` fetches each
+# robots.txt, hashes it into compliance/evidence/, and writes the real verdict
+# to the database. Nobody types a verdict by hand.
+
+sources:
+  # ---- Airlines ----
+  - id: indigo
+    name: IndiGo
+    kind: airline
+    base_url: "https://www.goindigo.in"
+    fare_path: "/"
+    verdict: UNKNOWN
+  - id: air_india
+    name: Air India
+    kind: airline
+    base_url: "https://www.airindia.com"
+    fare_path: "/"
+    verdict: UNKNOWN
+  - id: air_india_express
+    name: Air India Express
+    kind: airline
+    base_url: "https://www.airindiaexpress.com"
+    fare_path: "/"
+    verdict: UNKNOWN
+  - id: akasa
+    name: Akasa Air
+    kind: airline
+    base_url: "https://www.akasaair.com"
+    fare_path: "/"
+    verdict: UNKNOWN
+  - id: spicejet
+    name: SpiceJet
+    kind: airline
+    base_url: "https://www.spicejet.com"
+    fare_path: "/"
+    verdict: UNKNOWN
+
+  # ---- Online travel aggregators ----
+  - id: makemytrip
+    name: MakeMyTrip
+    kind: ota
+    base_url: "https://www.makemytrip.com"
+    fare_path: "/flight/search"
+    verdict: UNKNOWN
+  - id: yatra
+    name: Yatra
+    kind: ota
+    base_url: "https://www.yatra.com"
+    fare_path: "/flights"
+    verdict: UNKNOWN
+  - id: easemytrip
+    name: EaseMyTrip
+    kind: ota
+    base_url: "https://www.easemytrip.com"
+    fare_path: "/flights"
+    verdict: UNKNOWN
+  - id: cleartrip
+    name: Cleartrip
+    kind: ota
+    base_url: "https://www.cleartrip.com"
+    fare_path: "/flights"
+    verdict: UNKNOWN
+  - id: ixigo
+    name: Ixigo
+    kind: ota
+    base_url: "https://www.ixigo.com"
+    fare_path: "/search/result/flight"
+    verdict: UNKNOWN
+  - id: goibibo
+    name: Goibibo
+    kind: ota
+    base_url: "https://www.goibibo.com"
+    fare_path: "/flights"
+    verdict: UNKNOWN
+
+# Collection etiquette. These are enforced in code, not aspirational.
+etiquette:
+  user_agent: "APIx-Research/0.1 (SIH26056 airfare price index; contact: mayankmalik.13857@stu.upes.ac.in)"
+  min_seconds_between_requests: 20
+  max_requests_per_source_per_day: 30
+  respect_crawl_delay: true
+  obey_robots: true
+  # Non-negotiable. Present so a reader can see it is a setting we never flip.
+  bypass_captcha: false
+  rotate_ip: false
