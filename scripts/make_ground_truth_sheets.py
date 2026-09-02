@@ -33,9 +33,15 @@ ASSIGNMENT = {
     "Vidushi": ["BLR-HYD", "MAA-DEL"],
 }
 
-# Three collection days: 2, 3 and 4 September. The 4th is the morning of the
-# presentation -- collect early, it is the freshest number we can show.
-COLLECTION_DAYS = [date(2026, 9, 2), date(2026, 9, 3), date(2026, 9, 4)]
+# Two collection days: 3 and 4 September. Presentation is 4 Sep at 15:00, so
+# the 4th must be collected in the MORNING -- it is the freshest number we can
+# show, and there is no second chance at it.
+#
+# 2 September was available and was not collected. That day is permanently
+# missing from the series and cannot be recovered, which is precisely the
+# property of this data that makes the project worth building. Do not lose
+# the 3rd the same way.
+COLLECTION_DAYS = [date(2026, 9, 3), date(2026, 9, 4)]
 
 COLUMNS = [
     "observation_date",   # pre-filled

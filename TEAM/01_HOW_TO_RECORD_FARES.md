@@ -1,6 +1,11 @@
 # How to record fares — Kritika, Riya, Vidushi
 
-**Read this once. It takes about 20 minutes a day. Do it on 2, 3 and 4 September.**
+**Read this once. It takes about 20 minutes a day.**
+
+**Do it TODAY (3 September) and again TOMORROW MORNING (4 September).**
+The presentation is 4 September at 15:00, so tomorrow's sheet must be filled
+in the morning. There is no second chance at it -- a fare cannot be looked up
+afterwards. 2 September is already lost; do not lose the 3rd the same way.
 
 You are not helping with the project. You are producing the only genuinely
 human-verified data we have, and it is the thing that lets us say our program
@@ -14,14 +19,14 @@ Open the sheet with your name on it:
 
 | Person | Routes | File |
 |---|---|---|
-| **Kritika** | DEL–BOM, DEL–BLR | `data/ground_truth_2026-09-02_kritika.csv` |
-| **Riya** | BOM–BLR, DEL–CCU | `data/ground_truth_2026-09-02_riya.csv` |
-| **Vidushi** | BLR–HYD, MAA–DEL | `data/ground_truth_2026-09-02_vidushi.csv` |
+| **Kritika** | DEL–BOM, DEL–BLR | `data/ground_truth_2026-09-03_kritika.csv` |
+| **Riya** | BOM–BLR, DEL–CCU | `data/ground_truth_2026-09-03_riya.csv` |
+| **Vidushi** | BLR–HYD, MAA–DEL | `data/ground_truth_2026-09-03_vidushi.csv` |
 
 Open it in Excel or Google Sheets. There are **10 rows** already filled in with
 the route and the exact date to search for. You only fill the empty columns.
 
-There is a separate file for the 3rd and the 4th. Use the right day's file.
+There is a separate file for the 4th. Use the right day's file.
 
 **Airport codes:** DEL = Delhi · BOM = Mumbai · BLR = Bengaluru ·
 CCU = Kolkata · HYD = Hyderabad · MAA = Chennai
@@ -94,8 +99,9 @@ something. Type exactly one of these three words:
 market, and our program failing is a fact about us — if you write both as
 "blank" we can never tell those apart again.
 
-If the website itself is broken or won't load, write `OK` in nothing — leave
-status empty and put `site would not load` in notes. Tell Mayank.
+If the website itself is broken or won't load, leave `status` empty, put
+`site would not load` in `notes`, and tell Mayank. That is a failure on our
+side, not a fact about the market, so it must not be written as `SOLD_OUT`.
 
 ---
 
@@ -103,7 +109,7 @@ status empty and put `site would not load` in notes. Tell Mayank.
 
 1. **Check at roughly the same time each day.** Aim for **09:00–10:00**. Fares
    change through the day, so a 9am number and a 9pm number are not comparable.
-   Same hour every day is what makes the three days comparable.
+   Same hour on both days is what makes them comparable.
 
 2. **Do all 10 rows in one sitting.** Ten searches, about 20 minutes.
 
@@ -121,7 +127,7 @@ status empty and put `site would not load` in notes. Tell Mayank.
 
 ## When you are done
 
-Send your filled file to Mayank the same morning. **Do not wait until all three
+Send your filled file to Mayank the same morning. **Do not wait until both
 days are done** — send day one on day one. If the sheet arrives on the 5th it
 is worth nothing to us.
 
