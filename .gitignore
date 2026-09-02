@@ -23,3 +23,6 @@ data/bronze/
 # OS
 .DS_Store
 Thumbs.db
+
+# Filled ground-truth sheets are data, not code -- but the blank templates and
+# the combined file ARE tracked, so the team always has something to open.
