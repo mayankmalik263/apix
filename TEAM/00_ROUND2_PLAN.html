@@ -287,18 +287,44 @@ footer{border-top:2px solid var(--ink);padding-top:16px;margin-top:10px;
       <span>Team <b>TouchGrass.exe</b> · SIH-UPES-2026-T020</span>
     </div>
     <h1>Round 2 <span>/</span> Build&nbsp;Plan</h1>
-    <p class="deck">Who owns what for the next day, what the deck must stop saying, and the exact path through the five-minute demo. Written 2 September, 01:00 — planning against <em>3 September morning</em> as the hard deadline.</p>
+    <p class="deck">Who owns what, what the deck must stop saying, and the exact path through the five-minute demo. Written 3 September, 02:41 — <em>Group G13, Thursday 4 September, 15:00–16:00, Venue &ldquo;Runway&rdquo;.</em></p>
   </div>
 </header>
 
 <div class="clockbar">
-  <div class="cb hot"><div class="k">Working time</div><div class="v num">~24 h</div></div>
+  <div class="cb hot"><div class="k">Working time</div><div class="v num">~36 h</div></div>
+  <div class="cb hot"><div class="k">Collection mornings left</div><div class="v num">2</div></div>
   <div class="cb"><div class="k">Presentation</div><div class="v num">15 min</div></div>
   <div class="cb"><div class="k">PPT · Bharat</div><div class="v num">4–5 min</div></div>
   <div class="cb"><div class="k">Demo · Mayank</div><div class="v num">5 min</div></div>
   <div class="cb"><div class="k">Jury Q&amp;A</div><div class="v num">5 min</div></div>
   <div class="cb hot"><div class="k">Demo runs required</div><div class="v num">10</div></div>
 </div>
+
+<section>
+  <div class="shead"><h2>The slot</h2><span class="rule"></span></div>
+  <div class="crew">
+    <div class="flag">
+      <span class="tagline">This governs the whole pitch</span>
+      <h3>We present back to back with AXIOM, same room, same jury, same problem statement</h3>
+      <p>Group G13 shares 15:00–16:00 at Runway: <strong>AXIOM</strong> (SIH26056), <strong>HackHers</strong> (SIH26056) and Team OneID. Four teams, sixty minutes — exactly the 15-minute format.</p>
+      <p>They will almost certainly show a scraper and a chart, because that is what the brief literally asks for. <strong>Correctness alone does not win the slot.</strong> Being visibly different in the first sixty seconds does. Four things they are unlikely to have, all of which we already do:</p>
+      <ul style="margin:0;padding-left:20px;font-size:15.5px;color:var(--ink-2);line-height:1.55;display:flex;flex-direction:column;gap:5px">
+        <li>a compliance gate that <strong>refuses sources by name, out loud, on stage</strong></li>
+        <li>coverage % and a confidence grade attached to every published value</li>
+        <li>a lineage walk from a published number back to a raw payload hash</li>
+        <li>the simulated data <strong>labelled as simulated before anyone asks</strong></li>
+      </ul>
+      <p>Lead with those. Do not save them for the caveats at the end.</p>
+    </div>
+    <div class="flag warn">
+      <span class="tagline">Two collection mornings, not three</span>
+      <h3>2 September was available and nobody collected it. That day is gone.</h3>
+      <p>A fare cannot be looked up afterwards. That is not a setback to work around — it is the exact property of this data that makes the project worth building, and it is now something we can say from experience rather than theory.</p>
+      <p>Remaining: <strong>this morning, 3 Sep 09:00</strong>, and <strong>tomorrow morning, 4 Sep, early</strong> — before anyone leaves for the venue.</p>
+    </div>
+  </div>
+</section>
 
 <!-- ============ CORRECTIONS ============ -->
 <section>
@@ -334,7 +360,15 @@ footer{border-top:2px solid var(--ink);padding-top:16px;margin-top:10px;
     </div>
 
     <div class="flag warn">
-      <span class="tagline">Correction 03 · already handled in code, don't undo it</span>
+      <span class="tagline">Correction 03 · decided</span>
+      <h3>The index base period: the real series starts at 100 today</h3>
+      <p>The base is the mean of the first daily medians, and our only <em>real</em> data starts today. So the real APIx is based on <strong>3 September</strong> and gives two genuine points — the 3rd and the 4th. The 91-day simulated history renders as a separate, visibly different line and <strong>never anchors the real series.</strong></p>
+      <p class="quote">“Our real index starts at 100 today. The line behind it is simulated from a documented model, and it's drawn differently for that reason.”</p>
+      <p>Nothing real is ever anchored to a simulated number. That's a sentence a judge cannot attack.</p>
+    </div>
+
+    <div class="flag warn">
+      <span class="tagline">Correction 04 · already handled in code, don't undo it</span>
       <h3>Route weights are provisional, and the system says so on every row</h3>
       <p>Our six routes carry <strong>equal weights</strong> because we don't have DGCA city-pair passenger data. The code knows: every index value it produces is stamped <code>weights_provisional = true</code>.</p>
       <p><strong>Do not hand-type weights to make the flag disappear.</strong> “Our weights are provisional pending DGCA traffic data, and the system marks every affected value” is a strength in front of a statistical office. An invented weight that a judge probes is fatal.</p>
@@ -683,19 +717,22 @@ footer{border-top:2px solid var(--ink);padding-top:16px;margin-top:10px;
   <div class="shead"><h2>Timeline</h2><span class="rule"></span></div>
   <div class="sched">
     <table>
-      <thead><tr><th>Hours</th><th>Mayank</th><th>Bharat</th><th>Ayush</th><th>Kritika · Riya · Vidushi</th></tr></thead>
+      <thead><tr><th>When</th><th>Mayank</th><th>Bharat</th><th>Ayush</th><th>Kritika · Riya · Vidushi</th></tr></thead>
       <tbody>
-        <tr><td>0–2</td><td>Bronze writer + CLI</td><td>Schema, both files</td><td>METHODOLOGY.md</td><td>Manual panel, all 30 cells</td></tr>
-        <tr><td>2–5</td><td>Seed 90 days → JSONL</td><td>Loader, Bronze→Silver</td><td>Justification paragraphs</td><td>PPT cut + prior-art page</td></tr>
-        <tr><td>5–9</td><td>FastAPI + lineage</td><td><strong>Index engine</strong></td><td>Verify Bharat by hand</td><td>Q&amp;A sheet</td></tr>
-        <tr><td>9–12</td><td>Dashboard, money chart first</td><td>Backfill Gold, coverage</td><td>Weights, if findable</td><td>Rehearsal 1</td></tr>
-        <tr><td>12–16</td><td>Integration + validation table</td><td>Fix what integration breaks</td><td>—</td><td>Rehearsal 2</td></tr>
-        <tr class="freeze"><td>16–20</td><td><strong>FREEZE.</strong> 10 runs. Screen capture.</td><td>Support only</td><td>—</td><td>Time the run-throughs</td></tr>
+        <tr class="freeze"><td>3 Sep 09:00</td><td>—</td><td>—</td><td>—</td><td><strong>Manual panel, 30 cells. Non-negotiable.</strong></td></tr>
+        <tr><td>3 Sep morning</td><td>Bronze + CLI <em>(done)</em></td><td>Schema, both files</td><td>METHODOLOGY.md</td><td>Send filled sheets to Mayank</td></tr>
+        <tr><td>3 Sep afternoon</td><td>FastAPI + lineage</td><td>Loader, Bronze→Silver</td><td>Justification paragraphs</td><td>PPT cut + prior-art page</td></tr>
+        <tr><td>3 Sep evening</td><td>Dashboard, money chart first</td><td><strong>Index engine</strong></td><td>Verify Bharat by hand</td><td>Q&amp;A sheet</td></tr>
+        <tr><td>3 Sep night</td><td>Integration + validation table</td><td>Backfill Gold, coverage</td><td>Weights, if findable</td><td>Rehearsal 1</td></tr>
+        <tr class="freeze"><td>4 Sep 08:00</td><td>—</td><td>—</td><td>—</td><td><strong>Second manual panel, before anyone leaves</strong></td></tr>
+        <tr class="freeze"><td>4 Sep 09:00</td><td><strong>FREEZE.</strong> 10 runs, counted.</td><td>Support only</td><td>—</td><td>Rehearsal 2, timed</td></tr>
+        <tr><td>4 Sep 12:00</td><td>Screen capture as insurance</td><td>—</td><td>—</td><td>Pendrive check, print Q&amp;A</td></tr>
+        <tr class="freeze"><td>4 Sep 15:00</td><td colspan="4"><strong>PRESENT — Group G13, Runway</strong></td></tr>
       </tbody>
     </table>
   </div>
   <div class="stack col" style="margin-top:18px">
-    <p><strong>The freeze is real.</strong> After hour 16, no new features — only fixes to things that break during the ten runs.</p>
+    <p><strong>The freeze is real.</strong> After 09:00 on the 4th, no new features — only fixes to things that break during the ten runs. Six hours of buffer before the slot is not generous; it is the minimum that survives one thing going wrong.</p>
   </div>
 </section>
 
@@ -779,7 +816,7 @@ footer{border-top:2px solid var(--ink);padding-top:16px;margin-top:10px;
     <div class="ci"><span class="box"></span><span>A 90-second screen recording exists as demo insurance</span><span class="who">Mayank</span></div>
     <div class="ci"><span class="box"></span><span>Bharat can state the index formula without notes</span><span class="who">Bharat</span></div>
     <div class="ci"><span class="box"></span><span>Ayush has verified one day's APIx by hand and it matches the engine</span><span class="who">Ayush</span></div>
-    <div class="ci"><span class="box"></span><span>30 manual ground-truth fares exist in <code>data/ground_truth.csv</code></span><span class="who">Kritika</span></div>
+    <div class="ci"><span class="box"></span><span>60 manual ground-truth fares (2 days × 30) in <code>data/ground_truth.csv</code></span><span class="who">Kritika</span></div>
     <div class="ci"><span class="box"></span><span>The Q&amp;A sheet is printed</span><span class="who">Vidushi</span></div>
     <div class="ci"><span class="box"></span><span>Two full run-throughs done against a clock</span><span class="who">Everyone</span></div>
   </div>
@@ -787,7 +824,7 @@ footer{border-top:2px solid var(--ink);padding-top:16px;margin-top:10px;
 
 <footer>
   <span>APIx · SIH26056 · TouchGrass.exe</span>
-  <span>Plan written 2 Sep 2026 · Method v0.1</span>
+  <span>Plan written 3 Sep 2026 · Group G13 · 4 Sep 15:00</span>
 </footer>
 
 </div>

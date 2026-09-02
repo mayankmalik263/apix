@@ -1,16 +1,44 @@
 # APIx — Internal Round 2 Plan
 
 **Team TouchGrass.exe · SIH-UPES-2026-T020 · Problem SIH26056**
-Written 2 September 2026, 01:00. Round 2 is 3–4 September.
+Written 3 September 2026, 02:41.
 
 ---
 
-## 1. The clock
+## 1. The clock and the slot
 
-We are planning against **3 September morning** as the hard deadline. If it
-turns out to be the 4th, that is a bonus day, not a reason to add scope.
+**Group G13 · Thursday 4 September · 15:00–16:00 · Venue "Runway"**
 
-**Usable working time: roughly 24 hours, of which maybe 16 are productive.**
+**Usable working time: ~36 hours, of which maybe 20 are productive.**
+
+Sharing that hour: **AXIOM** (SIH26056), **HackHers** (SIH26056), and Team
+OneID (a different PS). Four teams, sixty minutes — which is exactly the
+15-minute format.
+
+The fact that governs the pitch: **we and AXIOM present back to back, in the
+same room, to the same jury, on the same problem statement.** They will almost
+certainly show a scraper and a chart, because that is what the brief literally
+asks for. Correctness alone does not win the slot — being visibly *different*
+in the first sixty seconds does.
+
+Four things they are unlikely to have, all of which we already do:
+
+- a compliance gate that **refuses sources by name, out loud, on stage**
+- coverage % and a confidence grade attached to every published value
+- a lineage walk from a published number back to a raw payload hash
+- the simulated data **labelled as simulated before anyone asks**
+
+Lead with those. Do not treat them as caveats at the end.
+
+### Two collection mornings, not three
+
+**2 September was available and nobody collected it. That day is gone
+permanently** — a fare cannot be looked up afterwards. That is not a setback to
+work around; it is the exact property of this data that makes the project worth
+building, and it is now a thing we can say from experience rather than theory.
+
+Remaining: **this morning (3 Sep, 09:00)** and **tomorrow morning (4 Sep,
+early)**. Tomorrow's must be done before people leave for the venue.
 
 The presentation is **15 minutes**, and the shape of it decides everything below:
 
@@ -83,7 +111,20 @@ source and shows the figure, **they do not go on a slide and they do not go in
 the demo script.** Use §2.1 instead — it is ours, it is verified, and we can
 show the file it came from.
 
-### 2.3 Route weights are not derived yet
+### 2.3 The index base period — decided
+
+The index base is the mean of the first daily medians, and our only *real* data
+starts today. So: **the real APIx is based on 3 September and starts at 100
+today**, giving two genuine points (3 and 4 Sep). The 91-day simulated history
+renders as a **separate, visibly different line** and is never used to anchor
+the real series.
+
+Say it plainly: *"Our real index starts at 100 today. The line behind it is
+simulated from a documented model, and it is drawn differently for that
+reason."* Nothing real is ever anchored to a simulated number, and that is a
+sentence a judge cannot attack.
+
+### 2.4 Route weights are not derived yet
 
 Our six routes currently carry **equal weights**, because we do not have DGCA
 city-pair passenger data. The code knows this: every index value it produces is
@@ -421,19 +462,23 @@ different format and contains a claim we now know is wrong.
 
 ## 7. Schedule
 
-Times are from now (2 Sep, 01:00). Everything before the line must be true.
+Clock times, not offsets — the deadline is fixed at 4 Sep 15:00.
 
-| Hours | Mayank | Bharat | Ayush | K / R / V |
+| When | Mayank | Bharat | Ayush | K / R / V |
 |---|---|---|---|---|
-| 0–2 | Bronze writer + CLI | Schema (both files) | METHODOLOGY.md | Manual panel, all 30 cells |
-| 2–5 | Seed 90 days → JSONL | Loader, Bronze→Silver | Justification paragraphs | PPT cut + prior-art page |
-| 5–9 | FastAPI + lineage | **Index engine** | Verify Bharat by hand | Q&A sheet |
-| 9–12 | Dashboard, money chart first | Backfill Gold, coverage | Weights, if findable | Rehearsal 1 |
-| 12–16 | Integration + validation table | Fix what integration breaks | — | Rehearsal 2 |
-| 16–20 | **Freeze.** 10 runs. Screen capture. | Support | — | Time the run-throughs |
+| **3 Sep 09:00** | — | — | — | **Manual panel, 30 cells. Non-negotiable.** |
+| 3 Sep morning | ~~Bronze + CLI~~ **done** | Schema, both files | METHODOLOGY.md | Send filled sheets to Mayank |
+| 3 Sep afternoon | FastAPI + lineage | Loader, Bronze→Silver | Justification paragraphs | PPT cut + prior-art page |
+| 3 Sep evening | Dashboard, money chart first | **Index engine** | Verify Bharat by hand | Q&A sheet |
+| 3 Sep night | Integration + validation table | Backfill Gold, coverage | Weights, if findable | Rehearsal 1 |
+| **4 Sep 08:00** | — | — | — | **Second manual panel, before anyone leaves** |
+| 4 Sep 09:00 | **FREEZE.** 10 runs, counted. | Support only | — | Rehearsal 2, timed |
+| 4 Sep 12:00 | Screen capture as insurance | — | — | Pendrive check, print Q&A sheet |
+| **4 Sep 15:00** | **PRESENT** | | | |
 
-**The freeze is real.** After hour 16, no new features. Only fixes to things
-that break during the 10 runs.
+**The freeze is real.** After 09:00 on the 4th, no new features — only fixes
+to things that break during the ten runs. Six hours of buffer before the slot
+is not generous; it is the minimum that survives one thing going wrong.
 
 ---
 
@@ -467,7 +512,7 @@ bottom without a discussion.
 | Live portal blocks us during the demo | High | Live attempt falls back to cached data and *prints why*. The fallback demonstrates the status vocabulary — it is a feature, not a save. |
 | Bharat's schema and Mayank's collector diverge | Medium | §4.1 is frozen. Any change is announced in the group before it is committed. |
 | Index engine not finished by hour 9 | Medium | Dashboard reads whatever Gold rows exist; an incomplete series still renders. Never let the chart depend on a complete backfill. |
-| Only ~1 day of manual ground truth | Certain | Say so. "30 human-verified fares from one day" is honest and still strong. Do not imply more. |
+| Only 2 days of real collection | Certain | Say so. "Two days of real collection, 60 human-verified fares" is honest and still strong. Never imply more. |
 | Someone asks for the state-level CPI numbers | Medium | We do not present them. See §2.2. |
 | Demo machine differs from build machine | Medium | SQLite + static dashboard + no Docker means the whole thing is a folder copy. |
 | We over-explain and run out of time | **High** | Vidushi cuts anything that needs more than one sentence. This is the meeting's own rule. |
@@ -527,6 +572,6 @@ We are ready when all of these are true:
 - [ ] A 90-second screen recording exists as demo insurance
 - [ ] Bharat can state the index formula without notes
 - [ ] Ayush has verified one day's APIx by hand and it matches the engine
-- [ ] 30 manual ground-truth fares exist in `data/ground_truth.csv`
+- [ ] 60 manual ground-truth fares (2 days x 30) in `data/ground_truth.csv`
 - [ ] The Q&A sheet is printed
 - [ ] Two full run-throughs are done against a clock
