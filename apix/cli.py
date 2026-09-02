@@ -51,17 +51,25 @@ def cmd_collect(args) -> int:
     basket = load_basket()
     obs = date.today() if args.today else date.fromisoformat(args.date)
 
-    # Only the replay adapter exists so far. Live adapters register here and
-    # the gate decides at run time whether each one is allowed to proceed.
-    adapters = [ReplayAdapter(anchor_date=obs)]
+    # Live adapters register here; the gate decides at run time whether each
+    # one may proceed. Replay is the fallback so a demo never shows an empty
+    # screen because a portal was slow.
+    if args.live:
+        from apix.collect.live_cleartrip import CleartripAdapter
+        adapters = [CleartripAdapter()]
+    elif args.simulated:
+        adapters = [ReplayAdapter(anchor_date=obs)]
+    else:
+        from apix.collect.live_cleartrip import CleartripAdapter
+        adapters = [CleartripAdapter(), ReplayAdapter(anchor_date=obs)]
 
     from apix.collect.runner import collect_day
 
-    print(f"Collecting {basket.cells_per_day} cells "
-          f"({len(basket.routes)} routes x {len(basket.windows)} windows) for {obs}")
+    print(f"Collecting for {obs}")
     print(BAR)
     for a in adapters:
-        print(collect_day(a, obs, resume=not args.force).line())
+        print(collect_day(a, obs, resume=not args.force,
+                          only_routes=args.routes, only_windows=args.windows).line())
     print(BAR)
     return 0
 
@@ -128,6 +136,11 @@ def build_parser() -> argparse.ArgumentParser:
     g.add_argument("--today", action="store_true")
     g.add_argument("--date", help="YYYY-MM-DD")
     c.add_argument("--force", action="store_true", help="re-collect cells already present")
+    src = c.add_mutually_exclusive_group()
+    src.add_argument("--live", action="store_true", help="live sources only")
+    src.add_argument("--simulated", action="store_true", help="replay only")
+    c.add_argument("--routes", nargs="*", help="limit to these route codes")
+    c.add_argument("--windows", nargs="*", type=int, help="limit to these windows")
     c.set_defaults(func=cmd_collect)
 
     c = sub.add_parser("seed", help="generate labelled synthetic history")

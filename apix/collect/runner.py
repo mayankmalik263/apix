@@ -75,8 +75,11 @@ def collect_day(
     enforce_gate: bool = True,
     resume: bool = True,
     throttle: bool | None = None,
+    only_routes: list[str] | None = None,
+    only_windows: list[int] | None = None,
 ) -> CollectSummary:
-    """Collect all 30 cells for one day from one adapter."""
+    """Collect the day's cells for one adapter. Subset flags exist so a demo
+    can run one live cell in seconds rather than the full grid."""
     basket = load_basket()
     summary = CollectSummary(observation_date=observation_date, source_id=adapter.source_id)
 
@@ -102,8 +105,13 @@ def collect_day(
 
     already = bronze.existing_cells(observation_date, adapter.source_id) if resume else set()
 
-    for route in basket.routes:
-        for w in basket.windows:
+    routes = [r for r in basket.routes
+              if not only_routes or r.code in set(only_routes)]
+    windows = [w for w in basket.windows
+               if not only_windows or w in set(only_windows)]
+
+    for route in routes:
+        for w in windows:
             if (route.code, w) in already:
                 summary.skipped_existing += 1
                 continue
