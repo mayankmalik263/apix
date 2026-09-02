@@ -1,0 +1,793 @@
+<title>APIx Round 2 Plan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --paper:#eff3f4;
+  --card:#ffffff;
+  --sunk:#e4eaec;
+  --rule:#ccd7db;
+  --rule-soft:#dee6e9;
+  --ink:#111a1f;
+  --ink-2:#3f525b;
+  --ink-3:#6d818b;
+  --accent:#0e5570;
+  --accent-soft:#d8e8ef;
+  --rust:#a84b1c;
+  --rust-soft:#f6e3d7;
+  --good:#1e6b48;
+  --good-soft:#d8ebe1;
+  --amber:#8a6100;
+  --amber-soft:#f7ebcf;
+  --shadow:0 1px 2px rgba(17,26,31,.06),0 10px 26px -18px rgba(17,26,31,.30);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0c1317;
+    --card:#141d22;
+    --sunk:#101a1f;
+    --rule:#2a3a42;
+    --rule-soft:#1e2b32;
+    --ink:#e6eef1;
+    --ink-2:#adbfc7;
+    --ink-3:#7a8f99;
+    --accent:#6cb8d6;
+    --accent-soft:#14323f;
+    --rust:#e2915d;
+    --rust-soft:#38220f;
+    --good:#71c49b;
+    --good-soft:#12301f;
+    --amber:#d9ab4e;
+    --amber-soft:#332609;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -20px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0c1317;
+  --card:#141d22;
+  --sunk:#101a1f;
+  --rule:#2a3a42;
+  --rule-soft:#1e2b32;
+  --ink:#e6eef1;
+  --ink-2:#adbfc7;
+  --ink-3:#7a8f99;
+  --accent:#6cb8d6;
+  --accent-soft:#14323f;
+  --rust:#e2915d;
+  --rust-soft:#38220f;
+  --good:#71c49b;
+  --good-soft:#12301f;
+  --amber:#d9ab4e;
+  --amber-soft:#332609;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -20px rgba(0,0,0,.9);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Serif",Georgia,serif;
+  font-size:16.5px;line-height:1.62;-webkit-font-smoothing:antialiased;
+}
+img,svg{max-width:100%;height:auto;display:block}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px 90px}
+.col{max-width:70ch}
+p{margin:0}
+strong{font-weight:600;color:var(--ink)}
+a{color:var(--accent)}
+h1,h2,h3,h4,.ui{font-family:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif}
+.mono,code,.k{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+code{
+  font-size:.85em;background:var(--sunk);border:1px solid var(--rule-soft);
+  border-radius:3px;padding:.06em .34em;
+}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- masthead ---------- */
+header{border-bottom:2px solid var(--ink);margin-bottom:14px}
+.mast{padding:46px 0 22px;display:flex;flex-direction:column;gap:20px}
+.eyebrow{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:7px 18px;
+}
+.eyebrow b{color:var(--accent);font-weight:500}
+h1{
+  font-size:clamp(38px,7vw,64px);font-weight:700;letter-spacing:-.025em;
+  line-height:.96;margin:0;text-wrap:balance;
+}
+h1 span{color:var(--ink-3);font-weight:500}
+.deck{font-size:19px;line-height:1.5;color:var(--ink-2);max-width:60ch}
+.deck em{font-style:normal;color:var(--ink);font-weight:600}
+
+/* ---------- constraint bar ---------- */
+.clockbar{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:5px;overflow:hidden;margin:0 0 48px;box-shadow:var(--shadow);
+}
+.cb{background:var(--card);padding:14px 16px 15px}
+.cb .k{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.cb .v{
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-size:20px;font-weight:700;
+  margin-top:4px;font-variant-numeric:tabular-nums;letter-spacing:-.01em;
+}
+.cb.hot .v{color:var(--rust)}
+
+/* ---------- sections ---------- */
+section{margin-bottom:58px;scroll-margin-top:20px}
+.shead{display:flex;align-items:center;gap:14px;margin-bottom:22px}
+.shead h2{
+  font-size:14px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  margin:0;white-space:nowrap;
+}
+.shead .rule{flex:1;height:1px;background:var(--rule)}
+.stack{display:flex;flex-direction:column;gap:18px}
+
+/* ---------- callouts ---------- */
+.flag{
+  border:1px solid var(--rule);border-left:3px solid var(--rust);
+  background:var(--card);border-radius:0 5px 5px 0;padding:18px 20px;
+  display:flex;flex-direction:column;gap:11px;box-shadow:var(--shadow);
+}
+.flag.ok{border-left-color:var(--good)}
+.flag.warn{border-left-color:var(--amber)}
+.flag h3{
+  font-size:17px;font-weight:600;margin:0;letter-spacing:-.005em;text-wrap:balance;
+}
+.flag .tagline{
+  font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--rust);
+}
+.flag.ok .tagline{color:var(--good)}
+.flag.warn .tagline{color:var(--amber)}
+.flag p{font-size:15.5px;color:var(--ink-2);line-height:1.55;max-width:74ch}
+.quote{
+  border-left:2px solid var(--accent);padding:2px 0 2px 16px;
+  font-size:16.5px;color:var(--ink);max-width:64ch;
+}
+
+/* ---------- tables ---------- */
+.tw{
+  overflow-x:auto;border:1px solid var(--rule);border-radius:5px;
+  background:var(--card);box-shadow:var(--shadow);
+}
+table{border-collapse:collapse;width:100%;min-width:520px;
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-size:14.5px}
+th{
+  text-align:left;font-family:"IBM Plex Mono",monospace;font-weight:600;
+  font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);
+  padding:11px 15px;border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+td{padding:11px 15px;border-bottom:1px solid var(--rule-soft);
+  vertical-align:top;color:var(--ink-2);line-height:1.45}
+tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink);font-weight:600}
+td.n,th.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.pill{
+  display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;
+  font-weight:600;letter-spacing:.07em;padding:2px 7px;border-radius:3px;white-space:nowrap;
+}
+.p-must{background:var(--good-soft);color:var(--good)}
+.p-should{background:var(--accent-soft);color:var(--accent)}
+.p-wont{background:var(--rust-soft);color:var(--rust)}
+.p-could{background:var(--sunk);color:var(--ink-3)}
+
+/* ---------- crew cards ---------- */
+.crew{display:flex;flex-direction:column;gap:16px}
+.person{
+  background:var(--card);border:1px solid var(--rule);border-radius:6px;
+  overflow:hidden;box-shadow:var(--shadow);
+}
+.ph{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:15px 20px;border-bottom:1px solid var(--rule-soft);background:var(--sunk);
+}
+.ph .nm{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:22px;
+  font-weight:700;letter-spacing:-.015em}
+.ph .owns{font-size:14.5px;color:var(--ink-2);flex:1;min-width:200px}
+.ph .chip{
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;
+  background:var(--accent-soft);color:var(--accent);white-space:nowrap;
+}
+.pb{padding:6px 20px 18px;display:flex;flex-direction:column}
+.blk{padding:14px 0;border-bottom:1px dashed var(--rule-soft);
+  display:grid;grid-template-columns:88px 1fr;gap:18px}
+.blk:last-child{border-bottom:0}
+.blk .when{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;
+  color:var(--accent);padding-top:3px;font-variant-numeric:tabular-nums;
+}
+.blk h4{font-size:15px;font-weight:600;margin:0 0 6px;letter-spacing:-.005em}
+.blk ul{margin:0;padding-left:17px;font-size:15px;color:var(--ink-2);
+  line-height:1.5;display:flex;flex-direction:column;gap:4px}
+.blk li::marker{color:var(--ink-3)}
+.dod{
+  margin-top:10px;font-family:"IBM Plex Sans Condensed",sans-serif;font-size:13.5px;
+  color:var(--ink-2);border-left:2px solid var(--good);padding-left:11px;
+}
+.dod b{
+  display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--good);margin-bottom:2px;
+}
+.saynote{
+  margin-top:12px;background:var(--accent-soft);border-radius:4px;padding:12px 14px;
+  font-size:14.5px;color:var(--ink-2);line-height:1.5;
+}
+.saynote b{display:block;font-family:"IBM Plex Mono",monospace;font-size:9.5px;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+
+/* ---------- schedule ---------- */
+.sched{overflow-x:auto;border:1px solid var(--rule);border-radius:5px;
+  background:var(--card);box-shadow:var(--shadow)}
+.sched table{min-width:760px}
+.sched td:first-child{
+  font-family:"IBM Plex Mono",monospace;color:var(--accent);
+  font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600;
+}
+.freeze td{background:var(--rust-soft);color:var(--ink)}
+.freeze td:first-child{color:var(--rust)}
+
+/* ---------- runbook ---------- */
+.run{display:flex;flex-direction:column;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.beat{background:var(--card);display:grid;grid-template-columns:62px 1fr;
+  gap:16px;padding:14px 18px}
+.beat .t{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;
+  color:var(--accent);font-variant-numeric:tabular-nums}
+.beat .s{font-size:15px;color:var(--ink-2);line-height:1.5}
+.beat .s b{display:block;font-family:"IBM Plex Sans Condensed",sans-serif;
+  font-size:14.5px;color:var(--ink);margin-bottom:3px;font-weight:600}
+
+/* ---------- checklist ---------- */
+.check{display:flex;flex-direction:column;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.ci{background:var(--card);padding:13px 18px;display:flex;gap:13px;align-items:flex-start;
+  font-size:15.5px;color:var(--ink-2)}
+.ci .box{
+  flex:none;width:15px;height:15px;border:1.5px solid var(--ink-3);
+  border-radius:3px;margin-top:4px;
+}
+.ci .who{
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+  margin-left:auto;padding-top:4px;white-space:nowrap;
+}
+
+pre{
+  margin:0;overflow-x:auto;background:var(--sunk);border:1px solid var(--rule-soft);
+  border-radius:5px;padding:16px 18px;font-family:"IBM Plex Mono",monospace;
+  font-size:12.5px;line-height:1.7;color:var(--ink-2);
+}
+pre b{color:var(--ink);font-weight:600}
+pre i{color:var(--ink-3);font-style:normal}
+
+footer{border-top:2px solid var(--ink);padding-top:16px;margin-top:10px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);display:flex;
+  justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media(max-width:700px){
+  .blk,.ph{grid-template-columns:1fr}
+  .blk{gap:8px}
+  .beat{grid-template-columns:50px 1fr;gap:12px}
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="mast">
+    <div class="eyebrow">
+      <span>SIH 2026 · <b>SIH26056</b></span>
+      <span>MoSPI · Data Informatics &amp; Innovation</span>
+      <span>Team <b>TouchGrass.exe</b> · SIH-UPES-2026-T020</span>
+    </div>
+    <h1>Round 2 <span>/</span> Build&nbsp;Plan</h1>
+    <p class="deck">Who owns what for the next day, what the deck must stop saying, and the exact path through the five-minute demo. Written 2 September, 01:00 — planning against <em>3 September morning</em> as the hard deadline.</p>
+  </div>
+</header>
+
+<div class="clockbar">
+  <div class="cb hot"><div class="k">Working time</div><div class="v num">~24 h</div></div>
+  <div class="cb"><div class="k">Presentation</div><div class="v num">15 min</div></div>
+  <div class="cb"><div class="k">PPT · Bharat</div><div class="v num">4–5 min</div></div>
+  <div class="cb"><div class="k">Demo · Mayank</div><div class="v num">5 min</div></div>
+  <div class="cb"><div class="k">Jury Q&amp;A</div><div class="v num">5 min</div></div>
+  <div class="cb hot"><div class="k">Demo runs required</div><div class="v num">10</div></div>
+</div>
+
+<!-- ============ CORRECTIONS ============ -->
+<section>
+  <div class="shead"><h2>Three corrections before anything else</h2><span class="rule"></span></div>
+  <div class="stack" style="margin-bottom:20px">
+    <p class="col">These were checked against our own downloaded files tonight. Two of them mean slides are currently wrong. Fix these before writing a single new sentence of the deck.</p>
+  </div>
+
+  <div class="crew">
+    <div class="flag">
+      <span class="tagline">Correction 01 · the deck currently says the opposite</span>
+      <h3>India <em>does</em> publish an airfare index. We were about to tell a MoSPI judge it doesn't.</h3>
+      <p>MoSPI publishes <strong>“Air fare [normal]: economy class [adult]”</strong> — weight <strong>0.08</strong>, Base 2012=100, All-India Combined, monthly, in the CPI press-release <strong>Annex-V</strong> key-items table. We recovered 12 monthly observations from press releases already sitting on disk.</p>
+      <div class="tw" style="margin:4px 0">
+        <table>
+          <thead><tr><th>Index, base 2012=100</th><th class="n">May</th><th class="n">Jun</th><th class="n">Jul</th><th class="n">Sep</th><th class="n">Oct</th><th class="n">Nov</th></tr></thead>
+          <tbody>
+            <tr><td>2024</td><td class="n">197.9</td><td class="n">196.3</td><td class="n">196.1</td><td class="n">196.5</td><td class="n">195.4</td><td class="n">198.5</td></tr>
+            <tr><td>2025</td><td class="n">214.3</td><td class="n">211.6</td><td class="n">202.3</td><td class="n">205.1</td><td class="n">211.4</td><td class="n">215.5</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Our extractor reproduces MoSPI's own published inflation rates to the decimal — 8.29 / 7.79 / 3.16 / 4.38 / 8.24 / 8.56 — which is how we know it's right. <strong>This is better for us, not worse.</strong> The corrected pitch:</p>
+      <p class="quote">India measures every airfare in the country with <strong>one number, at weight 0.08, national level only, once a month.</strong> That number fell 4.4% in a single month, and its year-on-year rate swung from 3.16% to 8.56% inside five months. One monthly draw cannot describe a market that reprices hourly across 1,100 city pairs. We produce <strong>30 route-level observations a day.</strong></p>
+      <p>That survives a judge who knows their own publications. “Nothing exists” does not.</p>
+    </div>
+
+    <div class="flag">
+      <span class="tagline">Correction 02 · unverified numbers, currently in the demo script</span>
+      <h3>The state-level CPI statistics cannot be traced to any file we hold</h3>
+      <p>The build plan cites item code 294, COICOP 07.3.3.1.2.01, a state spread of 376.09 points, Punjab 432.69, Andhra Pradesh 56.60, Sikkim exactly 100.00, σ = 7.54%, and a −17.8% fall in March 2025. <strong>None of those figures appear in any of our 491 downloaded CSVs.</strong> The two files that plan calls “already downloaded” — <code>dgca_citypair_traffic_2015_2026.csv</code> and <code>mospi_cpi_airfare.json</code> — do not exist anywhere on disk.</p>
+      <p>They may be perfectly real and simply not downloaded yet. But until someone opens a source and shows the figure, <strong>they do not go on a slide and they do not open the demo.</strong> Use Correction 01 instead: it's ours, it's verified, and we can show the file it came from.</p>
+    </div>
+
+    <div class="flag warn">
+      <span class="tagline">Correction 03 · already handled in code, don't undo it</span>
+      <h3>Route weights are provisional, and the system says so on every row</h3>
+      <p>Our six routes carry <strong>equal weights</strong> because we don't have DGCA city-pair passenger data. The code knows: every index value it produces is stamped <code>weights_provisional = true</code>.</p>
+      <p><strong>Do not hand-type weights to make the flag disappear.</strong> “Our weights are provisional pending DGCA traffic data, and the system marks every affected value” is a strength in front of a statistical office. An invented weight that a judge probes is fatal.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTRACTS ============ -->
+<section>
+  <div class="shead"><h2>The interface contracts</h2><span class="rule"></span></div>
+  <div class="stack col" style="margin-bottom:20px">
+    <p>These exist so nobody waits for anybody. Agree them now and no one is blocked for the next 24 hours.</p>
+  </div>
+
+  <div class="crew">
+    <div class="flag ok">
+      <span class="tagline">Mayank → Bharat</span>
+      <h3>Bronze is a file, not a table</h3>
+      <p>The collector writes newline-delimited JSON to <code>data/bronze/&lt;date&gt;/&lt;source_id&gt;.jsonl</code>, one line per cell:</p>
+<pre><b>observation_date</b>  2026-09-02        <b>fetch_status</b>   OK
+<b>route_code</b>        DEL-BOM           <b>http_status</b>    200
+<b>window_days</b>       21                <b>payload</b>        <i>&lt;raw body, verbatim&gt;</i>
+<b>departure_date</b>    2026-09-23        <b>payload_sha256</b> <i>&lt;64 hex chars&gt;</i>
+<b>source_id</b>         replay            <b>error_detail</b>   null
+<b>source_class</b>      SIMULATED         <b>fetched_at_utc</b> 2026-09-02T14:30:00+00:00</pre>
+      <p>Mayank can collect before the database exists; Bharat can build the schema before the collector works. The raw archive survives the database being dropped and rebuilt — which it will be, several times, tonight. And when a jury asks “where is your raw data?”, we open a file. <strong>Bharat's loader reads these. It never writes them.</strong></p>
+    </div>
+
+    <div class="flag ok">
+      <span class="tagline">Ayush → Bharat</span>
+      <h3>The maths is a spec, not code</h3>
+      <p>Ayush writes <code>METHODOLOGY.md</code> with the formulas and the <em>reason</em> for each choice. Bharat implements exactly that. If Bharat needs to deviate he asks Ayush — he does not quietly pick a different formula.</p>
+    </div>
+
+    <div class="flag ok">
+      <span class="tagline">Bharat → Mayank</span>
+      <h3>The API reads Gold, and column names are frozen</h3>
+      <p>Mayank's FastAPI layer queries <code>gold_apix_daily</code> and <code>gold_route_index_daily</code>. If Bharat renames a column, he says so in the group <strong>immediately</strong>. A renamed column at 4am is a dead demo.</p>
+    </div>
+
+    <div class="flag ok">
+      <span class="tagline">Everyone</span>
+      <h3>The status vocabulary is frozen at seven</h3>
+      <p><code>apix/vocab.py</code> is committed and is the contract: <code>OK</code>, <code>SOLD_OUT</code>, <code>NO_SERVICE</code>, <code>SOURCE_DISALLOWED</code>, <code>FETCH_FAIL</code>, <code>BLOCKED</code>, <code>PARSE_FAIL</code> — across three classes: <strong>MARKET</strong> (the market spoke), <strong>POLICY</strong> (we chose not to collect), <strong>SYSTEM</strong> (we failed). Nobody adds an eighth. If you think you need one, it's a bug in your parsing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DATABASE ============ -->
+<section>
+  <div class="shead"><h2>SQLite now, Postgres on paper</h2><span class="rule"></span></div>
+  <div class="stack col">
+    <p><strong>We build and demo on SQLite.</strong> Stated plainly: Docker is not installed on the build machine, and neither is WSL2. Installing both means two reboots and a BIOS virtualisation check, 24 hours before a demo that must run ten times. Not a risk worth taking for zero marks.</p>
+    <p>Bharat also commits <code>db/schema.postgres.sql</code> — the same tables written properly for PostgreSQL, using what SQLite hasn't got: <code>JSONB</code> with a GIN index for raw payloads, <code>NUMERIC(10,2)</code> for money instead of float, <code>TIMESTAMPTZ</code>, real <code>CHECK</code> constraints on the status vocabulary, and true schemas instead of name prefixes.</p>
+    <p>That file isn't decoration. It's the answer to <em>“why SQLite?”</em>:</p>
+    <p class="quote">SQLite is our demo profile because it installs nowhere and cannot fail on stage. Postgres is the production target — here is the schema, and here is exactly what changes. The application code is unchanged because it goes through SQLAlchemy.</p>
+    <p>That answer scores. “We used SQLite because it was easy” does not.</p>
+  </div>
+</section>
+
+<!-- ============ CREW ============ -->
+<section>
+  <div class="shead"><h2>Assignments</h2><span class="rule"></span></div>
+  <div class="stack col" style="margin-bottom:22px">
+    <p>One rule: <strong>you own an area, not a list of files.</strong> If something in your area is broken at 3am, it's yours regardless of who wrote it.</p>
+  </div>
+
+  <div class="crew">
+
+    <!-- MAYANK -->
+    <div class="person">
+      <div class="ph">
+        <span class="nm">Mayank</span>
+        <span class="owns">Collection engine · API · dashboard · repo · demo packaging</span>
+        <span class="chip">Runs the demo</span>
+      </div>
+      <div class="pb">
+        <div class="blk">
+          <div class="when">Block A<br>2 h</div>
+          <div>
+            <h4>Bronze writer + CLI</h4>
+            <ul>
+              <li><code>collect/bronze.py</code> — writes the JSONL contract above</li>
+              <li><code>collect/runner.py</code> — 6 routes × 5 windows, writes <em>every</em> outcome including failures, refuses uncleared sources through the gate</li>
+              <li><code>cli.py</code> — <code>collect</code>, <code>compliance</code>, <code>seed</code>, <code>serve</code></li>
+            </ul>
+            <div class="dod"><b>Done when</b><code>seed --days 90</code> produces 90 folders of JSONL, and <code>compliance --report</code> prints the 11-row table.</div>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block B<br>2 h</div>
+          <div>
+            <h4>API</h4>
+            <ul>
+              <li>FastAPI over Bharat's Gold tables</li>
+              <li><code>/v1/apix/series</code>, <code>/latest</code>, <code>/routes/{code}/series</code>, <code>/windows/{days}/series</code>, <code>/compliance/report</code>, <code>/methodology</code></li>
+              <li><code>/v1/lineage/{date}/{route}/{window}</code> — walks Gold → Silver → the Bronze file and returns the payload hash. <strong>Build this before anything pretty.</strong> It <em>is</em> the auditability claim.</li>
+            </ul>
+            <div class="dod"><b>Done when</b><code>/docs</code> renders and every endpoint returns real data.</div>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block C<br>3 h</div>
+          <div>
+            <h4>Dashboard</h4>
+            <ul>
+              <li><strong>The money chart:</strong> APIx daily line over the real MoSPI monthly series as a step line. If only one chart exists, it's this one.</li>
+              <li>Headline strip — today's APIx, day-on-day change, coverage %, confidence grade</li>
+              <li>Booking-window curve: five windows on one axis, the thing no official index publishes</li>
+              <li>Simulated series drawn visibly differently, with a legend entry saying so</li>
+            </ul>
+            <div class="dod"><b>Done when</b>It opens with the API down and still shows something sensible.</div>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block D<br>2 h</div>
+          <div>
+            <h4>Freeze and package</h4>
+            <ul>
+              <li>One command, cold clone → running dashboard</li>
+              <li><strong>Run it 10 times. Count them. Write the count down.</strong></li>
+              <li>90-second screen capture as insurance against a live failure</li>
+              <li>README with the compliance table and a screenshot</li>
+            </ul>
+            <div class="saynote"><b>Also yours</b>The git history. One commit per working thing, message says <em>why</em> not what. You and Bharat both push to <code>main</code> — pull before you push, every time.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BHARAT -->
+    <div class="person">
+      <div class="ph">
+        <span class="nm">Bharat</span>
+        <span class="owns">Database · loader · index engine implementation</span>
+        <span class="chip">Presents 4–5 min</span>
+      </div>
+      <div class="pb">
+        <div class="blk">
+          <div class="when">Block A<br>2 h</div>
+          <div>
+            <h4>Schema — both files</h4>
+            <ul>
+              <li><code>db/schema.sql</code> — SQLite, what we actually run on</li>
+              <li><code>db/schema.postgres.sql</code> — a <strong>presentation asset</strong>, write it properly</li>
+              <li>Seven tables: <code>bronze_observation_raw</code>, <code>silver_fare_observation</code>, <code>gold_cell_median</code>, <code>gold_route_index_daily</code>, <code>gold_apix_daily</code>, <code>source_registry</code>, <code>ground_truth</code></li>
+            </ul>
+            <div class="dod"><b>Done when</b>The schema applies clean and you can insert one fake row.</div>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block B<br>3 h</div>
+          <div>
+            <h4>Loader — Bronze to Silver</h4>
+            <ul>
+              <li>Read Mayank's JSONL files. <strong>Never modify them.</strong></li>
+              <li>Parse into base fare / taxes / fees / total; attach carrier and flight number</li>
+              <li>Assign a status to <em>every</em> row from <code>vocab.py</code> — no NULLs</li>
+              <li>Deduplicate on the logical flight key</li>
+              <li>Flag outliers by Ayush's method. <strong>Flag, never delete.</strong></li>
+            </ul>
+            <div class="dod"><b>Done when</b>Running the loader twice gives an identical row count.</div>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block C<br>4 h</div>
+          <div>
+            <h4>Index engine — your headline piece</h4>
+            <ul>
+              <li>Implement exactly what Ayush wrote. Store <code>method_version</code> on every Gold row.</li>
+              <li>Compute coverage and confidence in the same pass, not as later decoration</li>
+              <li>Propagate <code>weights_provisional</code> onto every affected row</li>
+              <li><strong>The test that matters:</strong> a small fixture whose APIx you worked out on paper. If the engine reproduces your hand calculation, it's right.</li>
+            </ul>
+            <div class="dod"><b>Done when</b><code>gold_apix_daily</code> has 90 rows and at least one B or C confidence grade.</div>
+            <div class="saynote"><b>Be able to say these without notes</b>Which index formula you used and why · why the median and not the mean · why windows combine geometrically but routes combine arithmetically · what happens to the index when a source is blocked for two days.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AYUSH -->
+    <div class="person">
+      <div class="ph">
+        <span class="nm">Ayush</span>
+        <span class="owns">All mathematics and statistical justification</span>
+        <span class="chip">Backs Bharat on formulas</span>
+      </div>
+      <div class="pb">
+        <div class="blk">
+          <div class="when">Block A<br>2 h</div>
+          <div>
+            <h4>METHODOLOGY.md v0.1 — the whole spec, with subscripts</h4>
+            <ul>
+              <li>Cell median: <code>P(r,w,t) = median{ fare : status=OK, not outlier }</code></li>
+              <li>Price relative: <code>R(r,w,t) = P(r,w,t) / P(r,w,0)</code>, base = mean of first 7 daily medians, base period = 100</li>
+              <li>Route index: geometric mean across the 5 windows — <strong>name it: this is a Jevons index</strong>, and it's what CPI elementary aggregation uses</li>
+              <li>National: <code>APIx(t) = Σ ω·I(r,t)</code> with fixed weights — <strong>name it: Laspeyres-type</strong>, revised annually not daily</li>
+              <li>Outlier rule: modified Z-score on MAD, threshold 3.5, per cell. Say whose method it is (Iglewicz &amp; Hoaglin) and why not mean ± 3σ.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block B<br>2 h</div>
+          <div>
+            <h4>Written justifications — plain English, these are jury answers</h4>
+            <ul>
+              <li>Why median, not mean — fare distributions are right-skewed</li>
+              <li>Why geometric across windows, arithmetic across routes</li>
+              <li>Why 7 days of base, and what the index does before day 7</li>
+              <li>Why no machine learning — we measure, we don't predict</li>
+            </ul>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block C<br>if time</div>
+          <div>
+            <h4>Weights</h4>
+            <ul>
+              <li>Find DGCA city-pair passenger numbers, derive the six weights</li>
+              <li><strong>If you can't find them in 90 minutes, stop.</strong> The provisional-weights flag is already built and is a perfectly good answer.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block D<br>1 h</div>
+          <div>
+            <h4>Verify Bharat</h4>
+            <ul>
+              <li>Recompute one day's APIx by hand from the Silver rows</li>
+            </ul>
+            <div class="dod"><b>Why this matters</b>If your number and the engine's number differ, that's the most important bug in the project.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KRITIKA -->
+    <div class="person">
+      <div class="ph">
+        <span class="nm">Kritika</span>
+        <span class="owns">Ground truth — the human-verified fare panel</span>
+        <span class="chip">Highest-value non-code item</span>
+      </div>
+      <div class="pb">
+        <div class="blk">
+          <div class="when">Today<br>2 h</div>
+          <div>
+            <h4>Price all 30 cells by hand</h4>
+            <ul>
+              <li>6 routes × 5 windows. Split with Riya and Vidushi — 2 routes each, 10 cells each.</li>
+              <li>Columns: <code>date_checked, time, route, window_days, departure_date, airline, flight_no, fare_shown, website, status, notes</code></li>
+              <li><code>status</code> uses our vocabulary: <code>OK</code>, <code>SOLD_OUT</code>, or <code>NO_SERVICE</code>. <strong>Never leave a cell blank</strong> — if there's no flight, that's <code>NO_SERVICE</code>, and it's information.</li>
+              <li>Save as <code>data/ground_truth.csv</code>, send to Mayank</li>
+            </ul>
+            <div class="saynote"><b>Departure dates from 2 September</b>T+1 → 3 Sep · T+7 → 9 Sep · T+14 → 16 Sep · T+21 → 23 Sep · T+45 → 17 Oct</div>
+            <div class="dod"><b>Why this matters more than it looks</b>It converts “we scraped some numbers” into “we validated against 30 independently human-verified fares.” One line in the demo, disproportionate credibility. Then chase Riya and Vidushi until all 30 rows exist — that chasing <em>is</em> the job.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIYA -->
+    <div class="person">
+      <div class="ph">
+        <span class="nm">Riya</span>
+        <span class="owns">Ground truth · prior-art evidence</span>
+        <span class="chip">Answers “how is this new?”</span>
+      </div>
+      <div class="pb">
+        <div class="blk">
+          <div class="when">Block A<br>1 h</div>
+          <div>
+            <h4>Your 10 cells of the manual panel</h4>
+            <ul><li>Same format as Kritika's, coordinate so the sheet is identical</li></ul>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block B<br>2 h</div>
+          <div>
+            <h4>The prior-art page — one page, with sources</h4>
+            <ul>
+              <li><strong>US:</strong> BLS publishes CPI “Airline fares”, series <code>CUUR0000SETG01</code>, monthly, public API at api.bls.gov. Confirm it is monthly and <em>not route-level</em>.</li>
+              <li><strong>Europe:</strong> Eurostat HICP <code>CP0733</code> “Passenger transport by air”, dataset <code>prc_hicp_midx</code>, monthly. Confirm <em>not route-level</em>.</li>
+              <li><strong>India:</strong> the MoSPI Air fare item — weight 0.08, monthly, national only</li>
+              <li>Any commercial product (IATA, airline analytics) — what it costs, who can access it</li>
+            </ul>
+            <div class="dod"><b>The sentence we want to be able to say</b>“No index anywhere publishes airfares daily at route level, and India's only airfare number is a single monthly national figure at weight 0.08.” Your page is what makes that sayable.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDUSHI -->
+    <div class="person">
+      <div class="ph">
+        <span class="nm">Vidushi</span>
+        <span class="owns">PPT · Q&amp;A sheet · rehearsal discipline</span>
+        <span class="chip">Owns the clock</span>
+      </div>
+      <div class="pb">
+        <div class="blk">
+          <div class="when">Block A<br>2 h</div>
+          <div>
+            <h4>Cut the deck to 4–5 minutes</h4>
+            <ul>
+              <li><strong>Fix the airfare claim</strong> using Correction 01. Anywhere the deck says India has no airfare index, it must now say India has <em>one national monthly number at weight 0.08</em>.</li>
+              <li><strong>Remove the state-level statistics</strong> entirely until someone produces the source file</li>
+              <li>Time it out loud. 4–5 minutes is roughly 550–700 spoken words. Cut until it fits — <strong>do not speak faster.</strong></li>
+              <li>Bell MT, every text box ending above 6.7", never touch slides 1 and 2</li>
+              <li><strong>Export a PDF as well as the PPTX. Both on the pendrive.</strong></li>
+            </ul>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block B<br>1 h</div>
+          <div>
+            <h4>The Q&amp;A sheet — one page, printed</h4>
+            <ul>
+              <li>Which index formula? Why median not mean? <em>(from Ayush)</em></li>
+              <li><strong>Where is the AI?</strong> “There is none, deliberately. This measures, it doesn't predict. A model would make the number harder to audit.”</li>
+              <li><strong>The PS asks for CAPTCHA handling and IP rotation — where is it?</strong> “Deliberately absent. The same statement requires robots.txt compliance; both can't hold. Sources that refuse are logged and reported as a finding.”</li>
+              <li><strong>How much of this is real?</strong> “MoSPI overlay real. Compliance checks real, run today. Today's collection real. The 90-day history is simulated from a documented model and labelled SIMULATED in the database.”</li>
+            </ul>
+          </div>
+        </div>
+        <div class="blk">
+          <div class="when">Block C<br>ongoing</div>
+          <div>
+            <h4>Rehearsal discipline — nobody else owns this</h4>
+            <ul>
+              <li>Hold the clock for the 10 prototype runs. Write down how many actually succeeded.</li>
+              <li>Time Bharat's 4–5 minutes. Time Mayank's 5 minutes. Full run-through, twice.</li>
+            </ul>
+            <div class="dod"><b>Your call to make</b>Apply the meeting's own rule: anything Bharat or Mayank can't explain in one clean sentence gets cut from the script. You decide, and they don't get to argue.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ SCHEDULE ============ -->
+<section>
+  <div class="shead"><h2>Timeline</h2><span class="rule"></span></div>
+  <div class="sched">
+    <table>
+      <thead><tr><th>Hours</th><th>Mayank</th><th>Bharat</th><th>Ayush</th><th>Kritika · Riya · Vidushi</th></tr></thead>
+      <tbody>
+        <tr><td>0–2</td><td>Bronze writer + CLI</td><td>Schema, both files</td><td>METHODOLOGY.md</td><td>Manual panel, all 30 cells</td></tr>
+        <tr><td>2–5</td><td>Seed 90 days → JSONL</td><td>Loader, Bronze→Silver</td><td>Justification paragraphs</td><td>PPT cut + prior-art page</td></tr>
+        <tr><td>5–9</td><td>FastAPI + lineage</td><td><strong>Index engine</strong></td><td>Verify Bharat by hand</td><td>Q&amp;A sheet</td></tr>
+        <tr><td>9–12</td><td>Dashboard, money chart first</td><td>Backfill Gold, coverage</td><td>Weights, if findable</td><td>Rehearsal 1</td></tr>
+        <tr><td>12–16</td><td>Integration + validation table</td><td>Fix what integration breaks</td><td>—</td><td>Rehearsal 2</td></tr>
+        <tr class="freeze"><td>16–20</td><td><strong>FREEZE.</strong> 10 runs. Screen capture.</td><td>Support only</td><td>—</td><td>Time the run-throughs</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="stack col" style="margin-top:18px">
+    <p><strong>The freeze is real.</strong> After hour 16, no new features — only fixes to things that break during the ten runs.</p>
+  </div>
+</section>
+
+<!-- ============ CUT LINE ============ -->
+<section>
+  <div class="shead"><h2>The cut line</h2><span class="rule"></span></div>
+  <div class="stack col" style="margin-bottom:20px">
+    <p>Decide now, while it's cheap. When we run late — and we will — cut from the bottom without a discussion.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Item</th><th>Call</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Compliance gate with dated evidence</td><td><span class="pill p-must">MUST</span></td><td>Answers the hardest question in the PS. Already built.</td></tr>
+        <tr><td>Bronze → Silver → Gold with real lineage</td><td><span class="pill p-must">MUST</span></td><td>The auditability claim collapses without it</td></tr>
+        <tr><td>Index engine + method version + confidence</td><td><span class="pill p-must">MUST</span></td><td>Separates an index from a scraper</td></tr>
+        <tr><td>APIx vs MoSPI overlay chart</td><td><span class="pill p-must">MUST</span></td><td>The single frame that carries the pitch</td></tr>
+        <tr><td>One genuinely live fare from a permitted source</td><td><span class="pill p-must">MUST</span></td><td>Proves the pipeline touches reality once</td></tr>
+        <tr><td>Manual ground-truth validation table</td><td><span class="pill p-should">SHOULD</span></td><td>Two hours of non-coder time for large credibility</td></tr>
+        <tr><td>Booking-window curve</td><td><span class="pill p-should">SHOULD</span></td><td>Strong, and unique to us</td></tr>
+        <tr><td>Lineage drill-down in the UI</td><td><span class="pill p-should">SHOULD</span></td><td>The API endpoint alone can carry it</td></tr>
+        <tr><td>Route heatmap</td><td><span class="pill p-could">COULD</span></td><td>Cut this first</td></tr>
+        <tr><td>A second and third live source</td><td><span class="pill p-wont">WON'T</span></td><td>The adapter pattern shows extensibility once</td></tr>
+        <tr><td>Docker, Postgres running, CI, auth</td><td><span class="pill p-wont">WON'T</span></td><td>Zero marks. The schema file is the story.</td></tr>
+        <tr><td>Forecasting or ML</td><td><span class="pill p-wont">WON'T</span></td><td>Actively harmful — MoSPI wants measurement</td></tr>
+        <tr><td>Anti-bot work of any kind</td><td><span class="pill p-wont">WON'T</span></td><td>Contradicts our entire position</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ RISKS ============ -->
+<section>
+  <div class="shead"><h2>Risks, stated honestly</h2><span class="rule"></span></div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Risk</th><th>Odds</th><th>What we do</th></tr></thead>
+      <tbody>
+        <tr><td>Live portal blocks us during the demo</td><td>High</td><td>Live attempt falls back to cached data and <em>prints why</em>. The fallback demonstrates the status vocabulary — it's a feature, not a save.</td></tr>
+        <tr><td>Schema and collector diverge</td><td>Medium</td><td>The JSONL contract is frozen. Any change is announced in the group before it's committed.</td></tr>
+        <tr><td>Index engine unfinished by hour 9</td><td>Medium</td><td>Dashboard reads whatever Gold rows exist. Never let the chart depend on a complete backfill.</td></tr>
+        <tr><td>Only ~1 day of manual ground truth</td><td>Certain</td><td>Say so. “30 human-verified fares from one day” is honest and still strong. Don't imply more.</td></tr>
+        <tr><td>Someone asks for the state-level CPI numbers</td><td>Medium</td><td>We don't present them. See Correction 02.</td></tr>
+        <tr><td>Demo machine differs from build machine</td><td>Medium</td><td>SQLite + static dashboard + no Docker means the whole thing is a folder copy.</td></tr>
+        <tr><td><strong>We over-explain and run out of time</strong></td><td><strong>High</strong></td><td>Vidushi cuts anything needing more than one sentence. This is the meeting's own rule.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="stack col" style="margin-top:20px">
+    <p class="quote">The honest limitation to volunteer <em>before</em> a judge finds it: we have one day of real collection and a 90-day simulated history. We say that out loud, we label it in the database, and we draw it differently on the chart. A prototype with honest labels beats one with an impressive unlabelled backfill, every time.</p>
+  </div>
+</section>
+
+<!-- ============ RUNBOOK ============ -->
+<section>
+  <div class="shead"><h2>The five-minute demo</h2><span class="rule"></span></div>
+  <div class="stack col" style="margin-bottom:20px">
+    <p>Rehearse this exact path. Nothing else.</p>
+  </div>
+  <div class="run">
+    <div class="beat"><div class="t">0:00</div><div class="s"><b>The official number</b>MoSPI's real airfare series on screen. “India measures every airfare with one monthly national number, weight 0.08. It moved 4.4% in a month.”</div></div>
+    <div class="beat"><div class="t">0:45</div><div class="s"><b>Run the compliance gate</b>“Six sources cleared today, five refused by name. The refusal is the feature — we don't defeat blocks.”</div></div>
+    <div class="beat"><div class="t">1:30</div><div class="s"><b>Run the collector</b>“Thirty cells. Every outcome recorded, including the failures.”</div></div>
+    <div class="beat"><div class="t">2:15</div><div class="s"><b>Follow one fare through the layers</b>Raw payload with its hash → the parsed row → the index cell. “Every published number walks back to bytes we kept.”</div></div>
+    <div class="beat"><div class="t">3:15</div><div class="s"><b>The overlay</b>Our daily line against MoSPI's monthly steps. Then the booking-window curve: “no index anywhere publishes this.”</div></div>
+    <div class="beat"><div class="t">4:15</div><div class="s"><b>Uncertainty, out loud</b>Coverage and the confidence grade. Name the simulated series <em>before</em> anyone asks. Show the ground-truth table.</div></div>
+    <div class="beat"><div class="t">4:45</div><div class="s"><b>Close on scope</b>“Six routes, five windows, 150 observations per route per month against the official one. Adding a route is a config line.”</div></div>
+  </div>
+  <div class="stack col" style="margin-top:20px">
+    <p><strong>If something fails on stage:</strong> say what failed, point at the status it produced, and carry on. A <code>BLOCKED</code> row appearing live is the system working as designed. Don't apologise for it, and don't try to fix it in front of them.</p>
+  </div>
+</section>
+
+<!-- ============ DOD ============ -->
+<section>
+  <div class="shead"><h2>Definition of done</h2><span class="rule"></span></div>
+  <div class="check">
+    <div class="ci"><span class="box"></span><span>The prototype has been run <strong>10 times</strong> and someone wrote down the count</span><span class="who">Mayank · Vidushi</span></div>
+    <div class="ci"><span class="box"></span><span>The PPT is 4–5 minutes <strong>timed out loud</strong>, and the wrong airfare claim is fixed</span><span class="who">Vidushi</span></div>
+    <div class="ci"><span class="box"></span><span>PPTX <strong>and</strong> PDF are on a pendrive</span><span class="who">Vidushi</span></div>
+    <div class="ci"><span class="box"></span><span>A 90-second screen recording exists as demo insurance</span><span class="who">Mayank</span></div>
+    <div class="ci"><span class="box"></span><span>Bharat can state the index formula without notes</span><span class="who">Bharat</span></div>
+    <div class="ci"><span class="box"></span><span>Ayush has verified one day's APIx by hand and it matches the engine</span><span class="who">Ayush</span></div>
+    <div class="ci"><span class="box"></span><span>30 manual ground-truth fares exist in <code>data/ground_truth.csv</code></span><span class="who">Kritika</span></div>
+    <div class="ci"><span class="box"></span><span>The Q&amp;A sheet is printed</span><span class="who">Vidushi</span></div>
+    <div class="ci"><span class="box"></span><span>Two full run-throughs done against a clock</span><span class="who">Everyone</span></div>
+  </div>
+</section>
+
+<footer>
+  <span>APIx · SIH26056 · TouchGrass.exe</span>
+  <span>Plan written 2 Sep 2026 · Method v0.1</span>
+</footer>
+
+</div>
