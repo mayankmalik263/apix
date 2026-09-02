@@ -18,7 +18,18 @@ Check it works:
 python -m apix.cli bronze --stats
 ```
 
-You should see ~2,730 records across 91 days. If you do, you're ready.
+You should see ~2,700 simulated records across 91 days, **plus real
+`cleartrip` records for 3 September**. Those real ones are the point — the
+simulated history exists only so the chart has a shape behind them.
+
+Look at one real record before you design anything:
+
+```bash
+python -c "from apix.collect import bronze; import datetime; r=[x for x in bronze.read_day(datetime.date(2026,9,3)) if x['source_id']=='cleartrip'][0]; print(r['route_code'], r['window_days'], r['fetch_status'], len(r['payload']), r['payload_sha256'][:16])"
+```
+
+Real payloads are ~1.8 MB each. That is the raw archive doing its job — do not
+trim them.
 
 ---
 
@@ -155,8 +166,28 @@ For each Bronze record:
    status, with all the fare columns empty. The cell is still represented.
    This is how coverage stays honest.
 
-2. **If `fetch_status` is `OK`** → `json.loads(rec["payload"])`, read the
-   `quotes` list, write one Silver row per quote.
+2. **If `fetch_status` is `OK`** → parse the payload. **There are now TWO
+   payload shapes**, so branch on `source_id`:
+
+   ```python
+   if rec["source_id"] == "cleartrip":
+       from apix.collect.live_cleartrip import parse_quotes
+       quotes = parse_quotes(rec["payload"])      # REAL fares
+   else:
+       quotes = json.loads(rec["payload"])["quotes"]   # replay, simulated
+   ```
+
+   **Do not write your own Cleartrip parser.** `parse_quotes()` already exists,
+   is validated against the source (its minimum matches the cheapest fare the
+   site itself displayed), and lives beside the adapter so there is one place
+   to fix when the site changes.
+
+   Both shapes return the same dict per quote:
+   `carrier, flight_no, departure_time, stops, base_fare, taxes, fees,
+   total_fare, currency`. Some fields are `None` for live data — Cleartrip's
+   fare object does not carry a flight number. `None` is fine here; it is a
+   missing *attribute*, not a missing observation, and the row still has a
+   status of `OK`.
 
 3. **If the payload won't parse, or has no usable quotes** → one row with
    status `PARSE_FAIL`.
