@@ -13,8 +13,8 @@
   --good:#1e6b48; --good-soft:#d8ebe1;
   --amber:#8a6100; --amber-soft:#f7ebcf;
   --violet:#5a4a86; --violet-soft:#e3dff0;
-  --may:#0e5570; --bha:#8a3d6b; --ayu:#3d6b4a;
-  --may-soft:#d8e8ef; --bha-soft:#f2dfeb; --ayu-soft:#dcebe1;
+  --may:#0e5570; --bha:#8a3d6b;
+  --may-soft:#d8e8ef; --bha-soft:#f2dfeb;
   --shadow:0 1px 2px rgba(17,26,31,.06),0 10px 26px -18px rgba(17,26,31,.30);
 }
 @media (prefers-color-scheme: dark){
@@ -27,8 +27,8 @@
     --good:#71c49b; --good-soft:#12301f;
     --amber:#d9ab4e; --amber-soft:#332609;
     --violet:#a99ad4; --violet-soft:#241f38;
-    --may:#6cb8d6; --bha:#d98cbb; --ayu:#7cc494;
-    --may-soft:#14323f; --bha-soft:#33192a; --ayu-soft:#152e1e;
+    --may:#6cb8d6; --bha:#d98cbb;
+    --may-soft:#14323f; --bha-soft:#33192a;
     --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -20px rgba(0,0,0,.9);
   }
 }
@@ -41,8 +41,8 @@
   --good:#71c49b; --good-soft:#12301f;
   --amber:#d9ab4e; --amber-soft:#332609;
   --violet:#a99ad4; --violet-soft:#241f38;
-  --may:#6cb8d6; --bha:#d98cbb; --ayu:#7cc494;
-  --may-soft:#14323f; --bha-soft:#33192a; --ayu-soft:#152e1e;
+  --may:#6cb8d6; --bha:#d98cbb;
+  --may-soft:#14323f; --bha-soft:#33192a;
   --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -20px rgba(0,0,0,.9);
 }
 
@@ -87,7 +87,6 @@ h1 span{color:var(--ink-3);font-weight:500}
 .fbtn[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
 .fbtn[data-p="mayank"][aria-pressed="true"]{background:var(--may);border-color:var(--may);color:#fff}
 .fbtn[data-p="bharat"][aria-pressed="true"]{background:var(--bha);border-color:var(--bha);color:#fff}
-.fbtn[data-p="ayush"][aria-pressed="true"]{background:var(--ayu);border-color:var(--ayu);color:#fff}
 .progress{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11.5px;
   color:var(--ink-3);font-variant-numeric:tabular-nums}
 
@@ -175,14 +174,12 @@ td.n,th.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
   border-radius:0 6px 6px 0;overflow:hidden;box-shadow:var(--shadow)}
 .lane[data-p="mayank"]{border-left-color:var(--may)}
 .lane[data-p="bharat"]{border-left-color:var(--bha)}
-.lane[data-p="ayush"]{border-left-color:var(--ayu)}
 .lh{padding:12px 18px;border-bottom:1px solid var(--rule-soft);background:var(--sunk);
   display:flex;align-items:baseline;gap:11px;flex-wrap:wrap}
 .lh .nm{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:20px;font-weight:700;
   letter-spacing:-.015em}
 .lane[data-p="mayank"] .lh .nm{color:var(--may)}
 .lane[data-p="bharat"] .lh .nm{color:var(--bha)}
-.lane[data-p="ayush"] .lh .nm{color:var(--ayu)}
 .lh .badge{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;
   letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;border-radius:3px;
   background:var(--violet);color:#fff}
@@ -285,8 +282,8 @@ footer{border-top:2px solid var(--ink);padding-top:15px;margin-top:10px;
       <span>Team <b>TouchGrass.exe</b></span>
       <span>Repo <b>github.com/mayankmalik263/apix</b></span>
     </div>
-    <h1>Weekend Handbook</h1>
-    <p class="deck">Everything the three of you need, in order, in one page. Every task says <em>which file to open</em>, <em>what to type</em>, and <em>how you know it worked</em>. Presentation is <em>Monday 7 September, 15:00, Runway</em>.</p>
+    <h1>Tonight <span>&amp;</span> the Weekend</h1>
+    <p class="deck">Everything you and Bharat need, in order, in one page. Every task says <em>which file to open</em>, <em>what to type</em>, and <em>how you know it worked</em>. The prototype gets finished <em>tonight</em>. Presentation is <em>Monday 7 September, 15:00, Runway</em>.</p>
   </div>
 </header>
 
@@ -295,13 +292,12 @@ footer{border-top:2px solid var(--ink);padding-top:15px;margin-top:10px;
   <button class="fbtn" data-p="all" aria-pressed="true">Everything</button>
   <button class="fbtn" data-p="mayank" aria-pressed="false">Only Mayank</button>
   <button class="fbtn" data-p="bharat" aria-pressed="false">Only Bharat</button>
-  <button class="fbtn" data-p="ayush" aria-pressed="false">Only Ayush</button>
   <span class="progress" id="prog">0 of 0 done</span>
 </div>
 
 <div class="clockbar">
-  <div class="cb"><div class="k">Work starts</div><div class="v num">Fri 23:00</div></div>
-  <div class="cb hot"><div class="k">Prototype done</div><div class="v num">Sat 19:00</div></div>
+  <div class="cb hot"><div class="k">Build tonight</div><div class="v num">20:00 → 04:00</div></div>
+  <div class="cb hot"><div class="k">Prototype done</div><div class="v num">Sat 04:00</div></div>
   <div class="cb"><div class="k">Freeze</div><div class="v num">Sun 20:00</div></div>
   <div class="cb"><div class="k">Present</div><div class="v num">Mon 15:00</div></div>
   <div class="cb ok"><div class="k">Real days collected</div><div class="v num">2 ✓</div></div>
@@ -339,7 +335,7 @@ footer{border-top:2px solid var(--ink);padding-top:15px;margin-top:10px;
   <div class="shead"><h2>Setup — do this before Friday 23:00</h2><span class="rule"></span></div>
   <div class="stack">
     <div class="flag info">
-      <span class="tagline">Bharat and Ayush · 20 minutes · do it now, not at 23:00</span>
+      <span class="tagline">Bharat · 20 minutes · do this first</span>
       <h3>Get your machine working</h3>
       <p>Do this <strong>before</strong> the session starts. If something breaks, we want to know now, not when the clock is running.</p>
 
@@ -389,130 +385,109 @@ git push</pre></div>
   </div>
 </section>
 
+<!-- ================= HANDOVER ================= -->
+<section>
+  <div class="shead"><h2>Ayush is out — here is where his work went</h2><span class="rule"></span></div>
+  <div class="stack">
+    <div class="flag warn">
+      <span class="tagline">Read this before you start</span>
+      <h3>His tasks did not disappear. They were split by who has to defend them.</h3>
+      <p>Ayush owned the maths write-up and the independent checking. Both still matter on Monday — a judge will ask <em>“why the median?”</em> and <em>“how do you know your number is right?”</em> regardless of who is on the team.</p>
+      <div class="tw" style="margin:3px 0">
+        <table>
+          <thead><tr><th>What Ayush had</th><th>Now</th><th>Why that person</th></tr></thead>
+          <tbody>
+            <tr><td>Confirm the 4 formulas</td><td>Mayank</td><td>20 minutes of reading. Unblocks Bharat.</td></tr>
+            <tr><td>§3 median · §6 geometric · §7 arithmetic</td><td><strong>Bharat</strong></td><td>He implements these and gets asked about them on Monday. You cannot defend a paragraph someone else wrote.</td></tr>
+            <tr><td>§4 base · §5 MAD · §8 status · §12 model</td><td><strong>Mayank</strong></td><td>These are about data quality and collection, which is your half of the system.</td></tr>
+            <tr><td>Verify the index by hand</td><td><strong>Mayank</strong></td><td>You are not writing the engine, so your check is genuinely independent. That is the whole point of a check.</td></tr>
+            <tr><td>Try to break the index</td><td>Mayank</td><td>Same reason.</td></tr>
+            <tr><td>Hunt for DGCA route weights</td><td><span class="pill p-wont">DROPPED</span></td><td>Optional before, and we already have a better answer: the system flags every value as <code>weights_provisional</code>. Do not spend tonight on this.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="warnbox"><b>The one rule that replaces having a third person</b>Bharat writes the engine, Mayank checks it with a spreadsheet. Neither of you checks your own work. If you both verify with the same code, you have verified nothing.</div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= ROUND 1 ================= -->
 <div class="round">
   <div class="rhead">
     <span class="rn">ROUND 1</span><span class="rt">Foundations</span>
-    <span class="rw">Fri 23:00 → Sat 02:00</span>
-    <span class="rg">Database exists · API answers · formulas agreed</span>
+    <span class="rw">Tonight 20:00 → 22:00</span>
+    <span class="rg">Database exists · API answers</span>
   </div>
-  <div class="baton">🏁 Ayush starts — 20 minutes — then Bharat and Mayank begin</div>
+  <div class="baton">🏁 Mayank starts — 20 minutes — then both of you work in parallel</div>
 
   <div class="lanes">
-
-    <!-- AYUSH R1 -->
-    <div class="lane" data-p="ayush">
-      <div class="lh"><span class="nm">Ayush</span><span class="badge">Starts</span><span class="mins">20 min, then 2 h</span></div>
+    <div class="lane" data-p="mayank">
+      <div class="lh"><span class="nm">Mayank</span><span class="badge">Starts</span><span class="mins">20 min, then 1.5 h</span></div>
       <div class="lb">
         <div class="files">
-          <div class="fl"><span class="tag write">edit</span><span>METHODOLOGY.md</span><span class="d">the only file you touch tonight</span></div>
+          <div class="fl"><span class="tag read">read</span><span>METHODOLOGY.md §3, §5, §6, §7</span><span class="d">just read and approve</span></div>
+          <div class="fl"><span class="tag write">write</span><span>apix/api/main.py</span><span class="d">new file</span></div>
         </div>
 
-        <h4>Task 1 · Read four formulas and say if they are right (20 minutes)</h4>
-        <p>Open <code>METHODOLOGY.md</code> in the repo. Read sections <strong>3, 5, 6 and 7</strong>. For each one, say out loud in the room either <strong>"correct"</strong> or <strong>"wrong — change it to this"</strong>.</p>
-        <p>You are not writing anything yet. You are just approving or rejecting.</p>
-        <div class="tasks" data-group="r1-ayush">
-          <label class="task"><input type="checkbox"><span class="tx">§3 — the cell price is the <strong>median</strong> of the OK, non-outlier fares</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">§5 — outliers found by modified Z-score on MAD, cut-off 3.5</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">§6 — the five windows combine using a <strong>geometric mean</strong> (Jevons)</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">§7 — the six routes combine using a <strong>weighted normal average</strong> (Laspeyres-type)</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Told Bharat out loud that he can start</span></label>
+        <h4>First, 20 minutes: approve the four formulas so Bharat can start</h4>
+        <p>Open <code>METHODOLOGY.md</code>. Read sections 3, 5, 6 and 7. For each, say to Bharat either <strong>“correct, go”</strong> or <strong>“change this”</strong>. You are not writing yet — just approving.</p>
+        <div class="tasks" data-group="r1-may-approve">
+          <label class="task"><input type="checkbox"><span class="tx">§3 — the cell price is the <strong>median</strong> of OK, non-outlier fares</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">§5 — outliers by modified Z-score on MAD, cut-off 3.5</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">§6 — five windows combine by <strong>geometric</strong> mean (Jevons)</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">§7 — six routes combine by <strong>weighted normal</strong> average (Laspeyres-type)</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Told Bharat he can start</span></label>
         </div>
-        <div class="warnbox"><b>Why this is first, and why it is only 20 minutes</b>Bharat is about to write code that does exactly these four things. If a formula changes after he has built it, he rewrites it. Twenty minutes now saves two hours at 3am.</div>
+        <div class="warnbox"><b>Why this is 20 minutes and not skippable</b>Bharat is about to write code that does exactly these four things. If a formula changes after he has built it, he rewrites it at 2am.</div>
 
-        <h4>Task 2 · Write two explanations (2 hours)</h4>
-        <p>In <code>METHODOLOGY.md</code> there are boxes marked <code>[AYUSH: WHY]</code>. Tonight you write two of them. Each is <strong>3 to 4 sentences of plain English</strong>. Not maths — reasons.</p>
-        <ol>
-          <li><strong>§8 first — why a sold-out flight and a broken scraper are different things.</strong> Both look like a missing price. One is a fact about the market, the other is a fact about us. If you record both as blank, you can never tell them apart again, and you can never honestly report how much you failed to measure.</li>
-          <li><strong>§3 second — why we use the median, not the average.</strong> Use our own measurement below.</strong></li>
-        </ol>
-        <div class="tipbox"><b>Real numbers to use in §3 — we measured these</b>DEL–BOM leaving 24 September, checked on 3 September: cheapest <strong>₹6,090</strong>, median <strong>₹7,675</strong>, dearest <strong>₹24,056</strong>. That is a 4× spread on one route on one date. The average of that spread is around ₹8,900 — a price almost nobody actually paid. The median describes the ticket a normal person sees.</div>
-        <div class="warnbox"><b>About ChatGPT / Gemini</b>Use it to check your grammar and tighten your sentences. Do not let it write the argument. On Monday a judge will ask you to explain this out loud in your own words, and it will be obvious if you are reciting.</div>
-
-        <div class="tasks" data-group="r1-ayush-2">
-          <label class="task"><input type="checkbox"><span class="tx">§8 box written — sold-out vs broken scraper</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">§3 box written — median vs average, using the ₹6,090 / ₹24,056 example</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Committed and pushed</span></label>
+        <h4>Then: the API — five endpoints</h4>
+        <p>You do <strong>not</strong> need Bharat's database yet. Read the Bronze files directly — that is why Bronze is a file contract and not a table.</p>
+        <div class="tasks" data-group="r1-may-api">
+          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/compliance/report</code> — the 11-source table from the verdict ledger</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/bronze/stats</code> — archive summary</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><strong><code>GET /v1/lineage/{date}/{route}/{window}</code> — build this first</strong></span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/methodology</code> — serves METHODOLOGY.md as text</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/health</code></span></label>
         </div>
-        <div class="dod"><b>Round 1 done when</b>The four formulas are confirmed out loud, and two boxes are written, committed and pushed.</div>
+        <p>Lineage returns, for one cell: source, fetch status, payload size, <strong>the SHA-256 hash</strong>, and how many fare quotes are inside.</p>
+        <div class="cmd"><pre>uvicorn apix.api.main:app --reload --port 8000</pre></div>
+        <p>Open <code>http://localhost:8000/docs</code>. FastAPI writes that documentation page itself — the brief asks for API documentation and that page <em>is</em> it.</p>
+        <div class="warnbox"><b>Lineage before anything pretty</b>It is the auditability claim: any published number traces back to the exact bytes we saved. AXIOM will have a scraper and a chart. They will almost certainly not have this.</div>
+        <div class="dod"><b>Done when</b><code>/docs</code> loads and lineage returns a real SHA-256 for <code>DEL-BOM / 21 / 2026-09-03</code>.</div>
       </div>
     </div>
 
-    <!-- BHARAT R1 -->
     <div class="lane" data-p="bharat">
-      <div class="lh"><span class="nm">Bharat</span><span class="mins">2.5 h</span></div>
+      <div class="lh"><span class="nm">Bharat</span><span class="mins">2 h</span></div>
       <div class="lb">
         <div class="files">
-          <div class="fl"><span class="tag write">write</span><span>db/schema.sql</span><span class="d">half done — two example tables are written for you</span></div>
-          <div class="fl"><span class="tag write">write</span><span>db/schema.postgres.sql</span><span class="d">new file, you create it</span></div>
-          <div class="fl"><span class="tag read">read</span><span>TEAM/02_BHARAT_START_HERE.md</span><span class="d">your full brief</span></div>
-          <div class="fl"><span class="tag read">read</span><span>apix/vocab.py</span><span class="d">the seven allowed statuses</span></div>
+          <div class="fl"><span class="tag write">write</span><span>db/schema.sql</span><span class="d">2 tables done for you, 5 marked TODO</span></div>
+          <div class="fl"><span class="tag write">write</span><span>db/schema.postgres.sql</span><span class="d">new file</span></div>
+          <div class="fl"><span class="tag read">read</span><span>apix/vocab.py</span><span class="d">the 7 allowed statuses</span></div>
         </div>
 
-        <h4>Task 1 · Look at the real data before designing for it (10 minutes)</h4>
+        <h4>First, 10 minutes: look at real data before designing for it</h4>
         <div class="cmd"><pre>git pull
 python -m apix.cli bronze --stats</pre></div>
-        <p>Then look at one <strong>real</strong> record — an actual airfare we captured:</p>
-        <div class="cmd"><pre>python -c "from apix.collect import bronze; import json,datetime; r=[x for x in bronze.read_day(datetime.date(2026,9,3)) if x['source_id']=='cleartrip'][0]; print(r['route_code'], 'T+'+str(r['window_days']), r['fetch_status'], len(r['payload']),'bytes', r['payload_sha256'][:16])"</pre></div>
-        <p>Each real payload is about 1.8 MB. That is the raw archive doing its job. Do not trim it.</p>
+        <p>You should see <code>cleartrip=60</code> — those are <strong>real airfares</strong> we collected on 3 and 4 September. Look at one:</p>
+        <div class="cmd"><pre>python -c "from apix.collect import bronze; import datetime; r=[x for x in bronze.read_day(datetime.date(2026,9,4)) if x['source_id']=='cleartrip'][0]; print(r['route_code'],'T+'+str(r['window_days']),r['fetch_status'],len(r['payload']),'bytes',r['payload_sha256'][:16])"</pre></div>
 
-        <h4>Task 2 · Finish db/schema.sql (60–90 minutes)</h4>
-        <p>Open <code>db/schema.sql</code>. <strong>Two tables are already written in full</strong> — <code>bronze_observation_raw</code> and <code>silver_fare_observation</code>. Copy their style. Five tables are marked TODO with every column listed for you.</p>
-        <div class="tasks" data-group="r1-bharat">
-          <label class="task"><input type="checkbox"><span class="tx"><code>gold_cell_median</code> — one row per route+window+day</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>gold_route_index_daily</code> — one row per route+day</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>gold_apix_daily</code> — one row per day, the published number</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>source_registry</code> — the compliance evidence</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>ground_truth</code> — fares checked by hand</span></label>
+        <h4>Then: finish db/schema.sql</h4>
+        <p><code>bronze_observation_raw</code> and <code>silver_fare_observation</code> are already written in full. Copy their style. Five tables are marked TODO with every column listed.</p>
+        <div class="tasks" data-group="r1-bha">
+          <label class="task"><input type="checkbox"><span class="tx"><code>gold_cell_median</code></span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>gold_route_index_daily</code></span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>gold_apix_daily</code> — the published number</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>source_registry</code></span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>ground_truth</code></span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>db/schema.postgres.sql</code> — JSONB, NUMERIC(10,2), TIMESTAMPTZ, real schemas</span></label>
         </div>
-        <p>Apply it and check:</p>
         <div class="cmd"><pre>sqlite3 apix.db &lt; db/schema.sql
 python -c "import sqlite3;print([r[0] for r in sqlite3.connect('apix.db').execute(\"SELECT name FROM sqlite_master WHERE type='table' ORDER BY 1\")])"</pre></div>
-        <p>You should see all seven table names.</p>
-        <div class="warnbox"><b>The single most important line in the file</b>The <code>UNIQUE (...)</code> constraint on <code>silver_fare_observation</code>. It is what stops your loader duplicating every row when you run it twice. It is already written — do not remove it.</div>
-
-        <h4>Task 3 · Write db/schema.postgres.sql (30 minutes)</h4>
-        <p>Same seven tables, written the way you would for a real production database. This file is <strong>a presentation asset</strong>, not busywork.</p>
-        <div class="tw" style="margin:2px 0">
-          <table>
-            <thead><tr><th>SQLite (what we demo on)</th><th>Postgres (the real target)</th><th>Why</th></tr></thead>
-            <tbody>
-              <tr><td><code>payload TEXT</code></td><td><code>payload JSONB</code> + GIN index</td><td>you can query inside the raw archive</td></tr>
-              <tr><td><code>REAL</code> for money</td><td><code>NUMERIC(10,2)</code></td><td>floats lose paise</td></tr>
-              <tr><td><code>TEXT</code> for times</td><td><code>TIMESTAMPTZ</code></td><td>real timezone handling</td></tr>
-              <tr><td>name prefixes</td><td><code>bronze.</code> <code>silver.</code> <code>gold.</code></td><td>proper namespacing</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="tipbox"><b>Learn this sentence — a judge will ask "why SQLite?"</b>“SQLite is our demo profile because it installs nowhere and cannot fail on stage. Postgres is the production target — here is the schema, and here is exactly what changes: JSONB for payloads, NUMERIC for money, TIMESTAMPTZ, and real schemas instead of name prefixes.”</div>
-        <div class="dod"><b>Round 1 done when</b>All seven tables exist, you can insert one fake Silver row, both schema files are committed and pushed.</div>
-      </div>
-    </div>
-
-    <!-- MAYANK R1 -->
-    <div class="lane" data-p="mayank">
-      <div class="lh"><span class="nm">Mayank</span><span class="mins">2.5 h</span></div>
-      <div class="lb">
-        <div class="files">
-          <div class="fl"><span class="tag write">write</span><span>apix/api/main.py</span><span class="d">new file</span></div>
-          <div class="fl"><span class="tag read">read</span><span>apix/collect/bronze.py</span><span class="d">read_day(), stats()</span></div>
-          <div class="fl"><span class="tag read">read</span><span>apix/collect/compliance.py</span><span class="d">report()</span></div>
-        </div>
-
-        <h4>Build the API — five endpoints</h4>
-        <p>You do <strong>not</strong> need Bharat's database for this round. Read the Bronze files directly. That is exactly why we made Bronze a file contract instead of a table.</p>
-        <div class="tasks" data-group="r1-mayank">
-          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/compliance/report</code> — the 11-source table straight from the verdict ledger</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/bronze/stats</code> — archive summary</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><strong><code>GET /v1/lineage/{date}/{route}/{window}</code></strong> — build this one first</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/methodology</code> — serves METHODOLOGY.md as text</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/health</code> — is the API alive</span></label>
-        </div>
-        <p>The lineage endpoint returns, for one cell: the source, the fetch status, the payload size, <strong>the SHA-256 hash</strong>, and how many fare quotes are in it.</p>
-        <div class="cmd"><pre>uvicorn apix.api.main:app --reload --port 8000</pre></div>
-        <p>Then open <code>http://localhost:8000/docs</code> in a browser. FastAPI builds that documentation page by itself — the problem statement asks for API documentation and this <em>is</em> it.</p>
-        <div class="warnbox"><b>Why lineage before anything pretty</b>It is the auditability claim. Any published number can be traced back to the exact bytes we saved. AXIOM will have a scraper and a chart. They almost certainly will not have this.</div>
-        <div class="dod"><b>Round 1 done when</b><code>/docs</code> loads and lineage returns a real SHA-256 for <code>DEL-BOM / 21 / 2026-09-03</code>.</div>
+        <p>All seven table names should print.</p>
+        <div class="warnbox"><b>The most important line in the file</b>The <code>UNIQUE (...)</code> constraint on <code>silver_fare_observation</code>. It is what stops your loader duplicating every row on a re-run. It is already written — do not remove it.</div>
+        <div class="tipbox"><b>Learn this — a judge will ask “why SQLite?”</b>“SQLite is our demo profile because it installs nowhere and cannot fail on stage. Postgres is the production target — here is the schema, and here is exactly what changes: JSONB for payloads, NUMERIC for money, TIMESTAMPTZ, and real schemas instead of name prefixes.”</div>
+        <div class="dod"><b>Done when</b>Seven tables exist, one fake Silver row inserts, both files pushed.</div>
       </div>
     </div>
   </div>
@@ -522,33 +497,31 @@ python -c "import sqlite3;print([r[0] for r in sqlite3.connect('apix.db').execut
 <div class="round">
   <div class="rhead">
     <span class="rn">ROUND 2</span><span class="rt">Data flows</span>
-    <span class="rw">Sat 02:00 → 04:00</span>
+    <span class="rw">Tonight 22:00 → 00:00</span>
     <span class="rg">Clean table exists · chart shows real data</span>
   </div>
-  <div class="baton">🏁 Bharat starts — 90 minutes — Mayank and Ayush work throughout</div>
+  <div class="baton">🏁 Bharat starts — 90 minutes — Mayank builds the dashboard meanwhile</div>
 
   <div class="lanes">
     <div class="lane" data-p="bharat">
       <div class="lh"><span class="nm">Bharat</span><span class="badge">Starts</span><span class="mins">90 min</span></div>
       <div class="lb">
         <div class="files">
-          <div class="fl"><span class="tag write">write</span><span>apix/load/loader.py</span><span class="d">skeleton exists — fill in the TODOs</span></div>
-          <div class="fl"><span class="tag read">read</span><span>apix/collect/live_cleartrip.py</span><span class="d">parse_quotes() — already written, just call it</span></div>
+          <div class="fl"><span class="tag write">write</span><span>apix/load/loader.py</span><span class="d">skeleton exists, 4 functions to fill</span></div>
+          <div class="fl"><span class="tag read">read</span><span>apix/collect/live_cleartrip.py</span><span class="d">parse_quotes() — already written</span></div>
         </div>
         <h4>The loader: raw files → clean table</h4>
-        <p>Open <code>apix/load/loader.py</code>. The structure is written. Four functions are marked TODO and each one has the rules in its docstring.</p>
-        <div class="tasks" data-group="r2-bharat">
-          <label class="task"><input type="checkbox"><span class="tx"><code>quotes_from_record()</code> — branch on <code>source_id</code>. Two payload shapes.</span></label>
+        <div class="tasks" data-group="r2-bha">
+          <label class="task"><input type="checkbox"><span class="tx"><code>quotes_from_record()</code> — branch on <code>source_id</code>, two payload shapes</span></label>
           <label class="task"><input type="checkbox"><span class="tx"><code>silver_rows_for()</code> — the three cases: failure / no quotes / quotes</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>modified_z_scores()</code> — the MAD maths from METHODOLOGY §5</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>modified_z_scores()</code> — the MAD maths from §5</span></label>
           <label class="task"><input type="checkbox"><span class="tx"><code>flag_outliers()</code> — group by cell, set the flag, never delete</span></label>
         </div>
-        <div class="warnbox"><b>The trap that costs people an hour</b>There are <strong>two different payload shapes</strong>. Real Cleartrip data and simulated replay data are not the same. For <code>cleartrip</code>, call the existing <code>parse_quotes()</code> — it is already written and already validated against the website itself. <strong>Do not write a second Cleartrip parser.</strong></div>
-        <p>Test it the only way that matters — run it twice:</p>
+        <div class="warnbox"><b>The trap that costs an hour</b>There are <strong>two different payload shapes</strong>. For <code>cleartrip</code> call the existing <code>parse_quotes()</code> — already written, already validated against the website. <strong>Do not write a second Cleartrip parser.</strong></div>
         <div class="cmd"><pre>python -m apix.load.loader
 python -m apix.load.loader</pre></div>
-        <p><strong>The row count must be identical both times.</strong> If it doubled, the <code>UNIQUE</code> constraint in your schema is missing or wrong.</p>
-        <div class="dod"><b>Round 2 done when</b>Two runs give the same row count, and you push straight away so Mayank can use the table.</div>
+        <p><strong>The row count must be identical both times.</strong> If it doubled, your <code>UNIQUE</code> constraint is wrong.</p>
+        <div class="dod"><b>Done when</b>Two runs, same count. Push immediately so Mayank can query the table.</div>
       </div>
     </div>
 
@@ -556,128 +529,97 @@ python -m apix.load.loader</pre></div>
       <div class="lh"><span class="nm">Mayank</span><span class="mins">2 h</span></div>
       <div class="lb">
         <div class="files">
-          <div class="fl"><span class="tag write">write</span><span>dashboard/index.html</span><span class="d">new — one single file</span></div>
+          <div class="fl"><span class="tag write">write</span><span>dashboard/index.html</span><span class="d">one single file</span></div>
           <div class="fl"><span class="tag read">read</span><span>data/mospi_airfare_index.json</span><span class="d">the real government series</span></div>
         </div>
         <h4>The dashboard, and the one chart that matters</h4>
-        <p>One static HTML file. ECharts saved locally, not from the internet. Served by FastAPI. <strong>No npm, no build step</strong> — it must work with no wifi and with the API stopped.</p>
-        <div class="tasks" data-group="r2-mayank">
-          <label class="task"><input type="checkbox"><span class="tx"><strong>The money chart</strong> — the real MoSPI monthly series as a step line, our daily series over it</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Headline strip — today's value, change since yesterday, coverage %, confidence grade</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Simulated data drawn differently, with a legend entry that says "simulated"</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Page still opens sensibly when the API is stopped</span></label>
+        <p>One static HTML file. ECharts saved locally, not fetched from the internet. Served by FastAPI. <strong>No npm, no build step</strong> — it must work with no wifi and with the API stopped.</p>
+        <div class="tasks" data-group="r2-may">
+          <label class="task"><input type="checkbox"><span class="tx"><strong>The money chart</strong> — real MoSPI monthly series as a step line, our daily series over it</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Headline strip — today's value, change, coverage %, confidence grade</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Simulated data drawn differently, legend says “simulated”</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Page still opens sensibly with the API stopped</span></label>
         </div>
-        <div class="tipbox"><b>If only one chart exists on Monday, it is this one</b>A continuous daily line against the government's monthly steps, using their real published data, in a single frame. That picture is the entire argument.</div>
-        <div class="dod"><b>Round 2 done when</b>The MoSPI overlay draws from the real extracted file, and the page opens with uvicorn stopped.</div>
-      </div>
-    </div>
-
-    <div class="lane" data-p="ayush">
-      <div class="lh"><span class="nm">Ayush</span><span class="mins">2 h</span></div>
-      <div class="lb">
-        <div class="files">
-          <div class="fl"><span class="tag write">edit</span><span>METHODOLOGY.md</span><span class="d">three more boxes</span></div>
-        </div>
-        <h4>Three more explanations</h4>
-        <div class="tasks" data-group="r2-ayush">
-          <label class="task"><input type="checkbox"><span class="tx"><strong>§5</strong> — why MAD, and not "average plus 3 standard deviations"</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><strong>§6</strong> — why the five windows are combined by multiplying, not adding</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><strong>§7</strong> — why the six routes are combined by adding, not multiplying</span></label>
-        </div>
-        <p><strong>§5 in plain terms:</strong> the standard deviation is itself dragged upward by the very outlier it is supposed to catch. The median is not moved by extreme values, so MAD stays honest. Also mention: when a festival pushes an entire cell up together, nothing gets flagged — and that is correct. The flag is for one weird price, not for a real market move.</p>
-        <p><strong>§6 and §7 are one idea seen from two sides.</strong> Windows are five repeated looks at the same route's price, so they multiply. Routes each carry a share of what travellers actually spend, like items in a shopping basket, so they add up with weights.</p>
-        <div class="warnbox"><b>This distinction is the whole thing</b>Getting it right is the difference between “a student built a scraper” and “a student built an index.” Bharat will be asked this on Monday, and you are the one who has to have taught it to him.</div>
-        <div class="dod"><b>Round 2 done when</b>Five of the seven boxes are written, committed and pushed.</div>
+        <div class="tipbox"><b>If only one chart exists on Monday, it is this one</b>A continuous daily line against the government's monthly steps, using their real published data, in a single frame. That picture is the whole argument.</div>
+        <div class="dod"><b>Done when</b>The MoSPI overlay draws from the real file, and the page opens with uvicorn stopped.</div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="flag warn" style="margin:0 0 40px">
-  <span class="tagline">Sat 04:00 → 11:00 · Sleep</span>
-  <h3>Stop at 04:00 even if you are "nearly done"</h3>
-  <p>"Nearly done" at 4am becomes a bug you chase for three hours on Saturday afternoon. You have all of Saturday and all of Sunday. The thing that will beat us is exhaustion, not the clock.</p>
 </div>
 
 <!-- ================= ROUND 3 ================= -->
 <div class="round">
   <div class="rhead">
     <span class="rn">ROUND 3</span><span class="rt">The index</span>
-    <span class="rw">Sat 11:30 → 15:30</span>
-    <span class="rg">A real APIx number exists</span>
+    <span class="rw">Tonight 00:00 → 02:30</span>
+    <span class="rg">A real APIx number exists — and someone has checked it</span>
   </div>
-  <div class="baton">🏁 Bharat starts — the engine — Ayush checks behind him, Mayank wires the API</div>
+  <div class="baton">🏁 Bharat starts — the engine — Mayank wires the API, then checks his numbers</div>
 
   <div class="lanes">
     <div class="lane" data-p="bharat">
-      <div class="lh"><span class="nm">Bharat</span><span class="badge">Starts</span><span class="mins">3 h</span></div>
+      <div class="lh"><span class="nm">Bharat</span><span class="badge">Starts</span><span class="mins">2.5 h</span></div>
       <div class="lb">
         <div class="files">
-          <div class="fl"><span class="tag write">write</span><span>apix/index/engine.py</span><span class="d">skeleton exists — six TODOs</span></div>
-          <div class="fl"><span class="tag read">read</span><span>METHODOLOGY.md §3–§9</span><span class="d">Ayush's spec — follow it exactly</span></div>
+          <div class="fl"><span class="tag write">write</span><span>apix/index/engine.py</span><span class="d">skeleton exists, 6 functions</span></div>
+          <div class="fl"><span class="tag read">read</span><span>METHODOLOGY.md §3–§9</span><span class="d">follow it exactly</span></div>
         </div>
-        <h4>The index engine — this is your headline piece</h4>
-        <p>Open <code>apix/index/engine.py</code>. Six functions, each with its METHODOLOGY section quoted in the docstring. Build them in this order — each feeds the next.</p>
-        <div class="tasks" data-group="r3-bharat">
+        <h4>The index engine — your headline piece</h4>
+        <p>Six functions, each with its METHODOLOGY section quoted above it. Build in this order — each feeds the next.</p>
+        <div class="tasks" data-group="r3-bha">
           <label class="task"><input type="checkbox"><span class="tx"><code>cell_medians()</code> — one median per route+window+day</span></label>
           <label class="task"><input type="checkbox"><span class="tx"><code>price_relatives()</code> — today's median ÷ the base day's median</span></label>
           <label class="task"><input type="checkbox"><span class="tx"><code>route_index()</code> — <strong>geometric</strong> mean across the 5 windows</span></label>
           <label class="task"><input type="checkbox"><span class="tx"><code>national_index()</code> — <strong>weighted normal</strong> average across the 6 routes</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>coverage()</code> and <code>confidence()</code> — computed in the same pass</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>compute_day()</code> — ties it together and writes the three gold tables</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>coverage()</code> and <code>confidence()</code> — same pass, not bolted on after</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>compute_day()</code> — ties it together, writes the three gold tables</span></label>
         </div>
-        <div class="tipbox"><b>The base day</b>The real index is based on <strong>3 September</strong> — our first real collection day. It reads exactly 100 there. Simulated history is based separately and never anchors the real numbers.</div>
-        <div class="warnbox"><b>Do not improvise a formula</b>If something in METHODOLOGY looks wrong to you, tell Ayush. Do not quietly change it. He has to defend it on Monday and he cannot defend something he does not know you changed.</div>
+        <div class="tipbox"><b>The base day</b>The real index is based on <strong>3 September</strong>, our first real collection day. It reads exactly 100 there. Simulated history is based separately and never anchors the real numbers.</div>
+        <div class="warnbox"><b>Do not improvise a formula</b>If something in METHODOLOGY looks wrong, tell Mayank before you change it. He approved those four formulas and he is about to check your output against them.</div>
         <div class="cmd"><pre>python -m apix.index.engine</pre></div>
-        <div class="dod"><b>Round 3 done when</b><code>gold_apix_daily</code> has rows for 3 and 4 September, each with a coverage figure and a confidence grade.</div>
-      </div>
-    </div>
 
-    <div class="lane" data-p="ayush">
-      <div class="lh"><span class="nm">Ayush</span><span class="mins">2 h</span></div>
-      <div class="lb">
-        <div class="files">
-          <div class="fl"><span class="tag read">read</span><span>scripts/dump_for_ayush.py</span><span class="d">your tool — already written</span></div>
-          <div class="fl"><span class="tag write">edit</span><span>METHODOLOGY.md</span><span class="d">last two boxes</span></div>
+        <h4>While it runs: write your three explanations</h4>
+        <p>In <code>METHODOLOGY.md</code>, three boxes are yours. <strong>3 to 4 sentences of plain English each.</strong> These are the answers you give on Monday.</p>
+        <div class="tasks" data-group="r3-bha-why">
+          <label class="task"><input type="checkbox"><span class="tx"><strong>§3 — why the median, not the average.</strong> Use our own measurement: DEL–BOM leaving 24 Sep, cheapest ₹6,090, median ₹7,675, dearest ₹24,056. A 4× spread on one route on one date. The average is about ₹8,900 — a price almost nobody paid.</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><strong>§6 — why windows multiply.</strong> They are ratios, and ratios multiply. A plain average would let T+1 — the dearest and jumpiest window — dominate the route.</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><strong>§7 — why routes add up.</strong> Each route carries a real share of what travellers spend, like items in a shopping basket. Windows carry no spending weight of their own.</span></label>
         </div>
-        <h4>Check Bharat's numbers by hand — the most valuable hour of your weekend</h4>
-        <p>You are going to work out the index in a spreadsheet and see whether the code agrees. <strong>Use a spreadsheet, not Python.</strong> If you both use code, you have not really checked anything — you have just run the same assumptions twice.</p>
-        <div class="cmd"><pre>python scripts/dump_for_ayush.py DEL-BOM 2026-09-04</pre></div>
-        <p>That writes <code>data/verify_DEL-BOM_2026-09-04.csv</code>. Open it in Google Sheets. Then:</p>
-        <div class="tasks" data-group="r3-ayush">
-          <label class="task"><input type="checkbox"><span class="tx">Filter to <code>status = OK</code> and <code>is_outlier = 0</code>. Everything else is excluded from the average — but stays in the file.</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">For each of the 5 windows, take <code>=MEDIAN()</code> of <code>total_fare</code>. You now have 5 numbers.</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Do the same for <strong>2026-09-03</strong> — that is the base day. Five more numbers.</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Divide each 4 Sep median by the matching 3 Sep median. Five ratios.</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Geometric mean of those five ratios: <code>=GEOMEAN(range)*100</code>. That is the route index.</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Compare with what the engine wrote to <code>gold_route_index_daily</code> for DEL-BOM on 4 Sep.</span></label>
-        </div>
-        <div class="warnbox"><b>If the two numbers do not match</b>That is the most important bug in the project, and it must be fixed before anything else happens on Saturday. One of you is wrong. Far better to find out now than while a judge is watching.</div>
-        <h4>Then: the last two boxes</h4>
-        <p><strong>§4</strong> — why a one-day base is acceptable for v0.1, and what changes when we have 7 days. <strong>§12</strong> — read the simulation model description and check it matches what the code actually does.</p>
-        <div class="dod"><b>Round 3 done when</b>You can say: “I recomputed DEL–BOM for 4 September in a spreadsheet and got the same number the engine did.”</div>
+        <div class="warnbox"><b>Write these yourself</b>You will be asked all three out loud. It is obvious when someone is reciting a paragraph they did not write.</div>
+        <div class="dod"><b>Done when</b><code>gold_apix_daily</code> has rows for 3 and 4 September with coverage and a confidence grade, and your three boxes are written.</div>
       </div>
     </div>
 
     <div class="lane" data-p="mayank">
-      <div class="lh"><span class="nm">Mayank</span><span class="mins">3 h</span></div>
+      <div class="lh"><span class="nm">Mayank</span><span class="mins">2.5 h</span></div>
       <div class="lb">
         <div class="files">
           <div class="fl"><span class="tag write">edit</span><span>apix/api/main.py</span><span class="d">add the Gold endpoints</span></div>
-          <div class="fl"><span class="tag write">edit</span><span>dashboard/index.html</span><span class="d">wire it to the API</span></div>
+          <div class="fl"><span class="tag read">read</span><span>scripts/dump_for_check.py</span><span class="d">your checking tool — already written</span></div>
         </div>
-        <h4>API reads the index · dashboard reads the API</h4>
-        <div class="tasks" data-group="r3-mayank">
+        <h4>First: API reads the index, dashboard reads the API</h4>
+        <div class="tasks" data-group="r3-may-api">
           <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/apix/latest</code> and <code>/v1/apix/series</code></span></label>
           <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/routes/{code}/series</code></span></label>
           <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/windows/{days}/series</code> — the booking-window curve</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>GET /v1/health/coverage</code></span></label>
           <label class="task"><input type="checkbox"><span class="tx">Extend lineage to walk Gold → Silver → Bronze now the tables exist</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Dashboard pulls live from the API</span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><strong>The booking-window curve chart</strong> — five lines, one per window</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Dashboard pulls live from the API · booking-window curve chart</span></label>
         </div>
-        <div class="tipbox"><b>Make the window curve good</b>Our real data already found something no official index publishes — see "What our own data found" near the bottom of this page. That chart is genuinely ours.</div>
-        <div class="dod"><b>Round 3 done when</b>The dashboard shows a real APIx number that came from the API, which came from Gold, which traces back to a payload hash.</div>
+
+        <h4>Then, the moment Bharat's engine runs: check his numbers</h4>
+        <p>This was Ayush's job and it is now yours. <strong>Use a spreadsheet, not Python.</strong> If you check his code with your code, you have checked nothing.</p>
+        <div class="cmd"><pre>python scripts/dump_for_check.py DEL-BOM 2026-09-04</pre></div>
+        <p>That writes <code>data/verify_DEL-BOM_2026-09-04.csv</code>. Open it in Google Sheets:</p>
+        <div class="tasks" data-group="r3-may-verify">
+          <label class="task"><input type="checkbox"><span class="tx">Filter to <code>status = OK</code> and <code>is_outlier = 0</code></span></label>
+          <label class="task"><input type="checkbox"><span class="tx">For each of the 5 windows: <code>=MEDIAN()</code> of <code>total_fare</code> → five numbers</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Same again for <strong>2026-09-03</strong>, the base day → five more</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Divide each 4 Sep median by the matching 3 Sep one → five ratios</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>=GEOMEAN(range)*100</code> → that is the route index</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Compare against <code>gold_route_index_daily</code> for DEL-BOM, 4 Sep</span></label>
+        </div>
+        <div class="warnbox"><b>If the two numbers disagree</b>That is the most important bug in the project and it gets fixed before anything else. One of you is wrong. Far better to find out at 2am than while a judge is watching.</div>
+        <div class="dod"><b>Done when</b>You can say: “I recomputed DEL–BOM for 4 September in a spreadsheet and got the same number the engine did.”</div>
       </div>
     </div>
   </div>
@@ -686,11 +628,11 @@ python -m apix.load.loader</pre></div>
 <!-- ================= ROUND 4 ================= -->
 <div class="round">
   <div class="rhead">
-    <span class="rn">ROUND 4</span><span class="rt">Integration</span>
-    <span class="rw">Sat 16:00 → 19:00</span>
+    <span class="rn">ROUND 4</span><span class="rt">It all runs at once</span>
+    <span class="rw">Tonight 02:30 → 04:00</span>
     <span class="rg">PROTOTYPE COMPLETE</span>
   </div>
-  <div class="baton">🏁 Mayank starts — one-command demo — then all three try to break it</div>
+  <div class="baton">🏁 Mayank starts — one-command demo — then both of you try to break it</div>
 
   <div class="lanes">
     <div class="lane" data-p="mayank">
@@ -698,78 +640,97 @@ python -m apix.load.loader</pre></div>
       <div class="lb">
         <div class="files">
           <div class="fl"><span class="tag write">edit</span><span>apix/cli.py</span><span class="d">add the demo subcommand</span></div>
-          <div class="fl"><span class="tag write">write</span><span>README.md · tests/</span><span class="d">new</span></div>
+          <div class="fl"><span class="tag write">write</span><span>README.md</span><span class="d">new</span></div>
         </div>
         <h4>One command, cold start to dashboard</h4>
         <div class="cmd"><pre>python -m apix.cli demo</pre></div>
-        <p>That one command must: check compliance → collect one live cell → load Silver → compute Gold → start the API → open the dashboard. If the website is slow it falls back to saved data <strong>and prints why</strong>.</p>
-        <div class="tasks" data-group="r4-mayank">
-          <label class="task"><input type="checkbox"><span class="tx"><code>demo</code> subcommand works from a cold start</span></label>
+        <p>Must do all of this by itself: check compliance → collect one live cell → load Silver → compute Gold → start the API → open the dashboard. If the website is slow it falls back to saved data <strong>and prints why</strong>.</p>
+        <div class="tasks" data-group="r4-may">
+          <label class="task"><input type="checkbox"><span class="tx"><code>demo</code> works from a cold start</span></label>
           <label class="task"><input type="checkbox"><span class="tx">README with architecture, the compliance table, a screenshot</span></label>
           <label class="task"><input type="checkbox"><span class="tx">Test: the gate refuses a source that is not cleared</span></label>
           <label class="task"><input type="checkbox"><span class="tx">Test: running the loader twice gives the same row count</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Test: the engine reproduces a small hand-built example</span></label>
         </div>
-        <div class="dod"><b>Round 4 done when</b>Someone who has never seen the repo runs one command and reaches the dashboard.</div>
+        <div class="dod"><b>Done when</b>One command takes a cold clone to a working dashboard.</div>
       </div>
     </div>
 
     <div class="lane" data-p="bharat">
       <div class="lh"><span class="nm">Bharat</span><span class="mins">90 min</span></div>
       <div class="lb">
-        <h4>Load the evidence tables, build the validation table</h4>
-        <div class="tasks" data-group="r4-bharat">
+        <h4>Load the evidence tables</h4>
+        <div class="tasks" data-group="r4-bha">
           <label class="task"><input type="checkbox"><span class="tx"><code>source_registry</code> loaded from <code>compliance/verdicts/*.json</code></span></label>
-          <label class="task"><input type="checkbox"><span class="tx"><code>ground_truth</code> loaded from <code>data/ground_truth.csv</code> (the girls' sheets)</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">A query comparing our collected median against each hand-checked fare, with the difference</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><code>ground_truth</code> loaded from <code>data/ground_truth.csv</code></span></label>
+          <label class="task"><input type="checkbox"><span class="tx">A query comparing our median against each hand-checked fare, with the difference</span></label>
         </div>
-        <div class="tipbox"><b>Why this table matters so much</b>“Our program said ₹6,090 and a human checking the website by hand also said ₹6,090.” That sentence is worth more than any chart, and AXIOM almost certainly cannot say it.</div>
-        <div class="dod"><b>Round 4 done when</b>A comparison table prints and you can read it out loud.</div>
+        <div class="tipbox"><b>Why this table is worth the time</b>“Our program said ₹6,090 and a human checking the website by hand also said ₹6,090.” That sentence beats any chart, and AXIOM almost certainly cannot say it.</div>
+        <div class="dod"><b>Done when</b>A comparison table prints and you can read it out loud.</div>
       </div>
     </div>
 
-    <div class="lane" data-p="ayush">
-      <div class="lh"><span class="nm">Ayush</span><span class="mins">90 min</span></div>
+    <div class="lane" data-p="mayank bharat" style="border-left-color:var(--violet)">
+      <div class="lh"><span class="nm" style="color:var(--violet)">Both together</span><span class="mins">last 30 min</span></div>
       <div class="lb">
-        <h4>Try to make the index lie</h4>
-        <p>Your job is to attack it. Four experiments:</p>
-        <div class="tasks" data-group="r4-ayush">
-          <label class="task"><input type="checkbox"><span class="tx">Delete one Bronze file and re-run. Does coverage go <em>down</em>?</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Does the confidence grade fall from A to B or C when coverage drops?</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Does a <code>SOLD_OUT</code> cell count as observed, but a <code>BLOCKED</code> one not?</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Is <code>weights_provisional</code> set to true on every single row?</span></label>
+        <h4>First three test runs — then sleep</h4>
+        <div class="tasks" data-group="r4-both">
+          <label class="task"><input type="checkbox"><span class="tx">Run <code>python -m apix.cli demo</code> three times, write down what broke</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Push everything</span></label>
         </div>
-        <h4>Then: hunt for DGCA weights — stop after 60 minutes</h4>
-        <p>Look for DGCA city-pair passenger numbers so we can weight routes by real traffic. <strong>If you have not found them in an hour, stop.</strong> The provisional-weights flag is already built, and “our weights are provisional and the system marks every affected value” is a strong answer — arguably stronger than a number we cannot source.</p>
-        <div class="dod"><b>Round 4 done when</b>You have tried to make the index lie and it refused — or you found where it does, and told Bharat.</div>
+        <div class="warnbox"><b>Stop at 04:00 even if something is “nearly done”</b>“Nearly done” at 4am becomes a bug you chase for three hours on Saturday. You have all of Saturday and all of Sunday. What beats teams at this stage is exhaustion, not the clock.</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ================= ROUND 5 ================= -->
+<!-- ================= SATURDAY ================= -->
 <div class="round">
   <div class="rhead">
-    <span class="rn">ROUND 5</span><span class="rt">Ten runs</span>
-    <span class="rw">Sat 20:00 → 23:00</span>
-    <span class="rg">The meeting's own requirement</span>
+    <span class="rn">SATURDAY</span><span class="rt">Ten runs and the write-up</span>
+    <span class="rw">Sat 12:00 → 20:00</span>
+    <span class="rg">Everything that is not code</span>
   </div>
-  <div class="baton">🏁 All three together — this is not solo work</div>
+  <div class="baton">🏁 Mayank starts — collect the day — then both</div>
+
   <div class="lanes">
-    <div class="lane" data-p="mayank bharat ayush" style="border-left-color:var(--violet)">
-      <div class="lh"><span class="nm" style="color:var(--violet)">All three</span><span class="mins">3 h</span></div>
+    <div class="lane" data-p="mayank">
+      <div class="lh"><span class="nm">Mayank</span><span class="badge">Starts</span><span class="mins">all day</span></div>
       <div class="lb">
-        <h4>Run the demo ten times. Write the count on paper.</h4>
-        <p>Not “it should work”. Ten actual runs, tallied, with a note of what broke each time. Rotate who drives — all three of you must be able to run it.</p>
-        <div class="tasks" data-group="r5">
-          <label class="task"><input type="checkbox"><span class="tx">Runs 1–3 — expect breakage. That is the point of doing this.</span></label>
+        <div class="cmd"><pre>python -m apix.cli compliance --check
+python -m apix.cli collect --today --live</pre></div>
+        <div class="tasks" data-group="sat-may">
+          <label class="task"><input type="checkbox"><span class="tx">12:00 — collect Saturday's real data (third real day)</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Write your four METHODOLOGY boxes: <strong>§4</strong> base period · <strong>§5</strong> why MAD not 3-sigma · <strong>§8</strong> sold-out vs broken scraper · <strong>§12</strong> check the simulation description matches the code</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Try to break the index: delete a Bronze file, re-run — does coverage go <em>down</em>? Does the grade drop?</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Record the <strong>90-second screen capture</strong> of a perfect run, as insurance</span></label>
+        </div>
+        <div class="tipbox"><b>§8 is the most quotable idea in the project</b>A sold-out flight and a crashed scraper both look like a missing price. One is a fact about the market, the other is a fact about us. Record both as blank and you can never tell them apart again — or honestly report what you failed to measure.</div>
+      </div>
+    </div>
+    <div class="lane" data-p="bharat">
+      <div class="lh"><span class="nm">Bharat</span><span class="mins">all day</span></div>
+      <div class="lb">
+        <div class="tasks" data-group="sat-bha">
+          <label class="task"><input type="checkbox"><span class="tx">Finish anything left from last night</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Rehearse your 4–5 minute PPT section against a clock</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Drill the four questions with Mayank asking, no notes: which formula · why median · why geometric vs arithmetic · what happens when a source is blocked for two days</span></label>
+        </div>
+        <div class="dod"><b>Done when</b>You answer all four without looking anything up. Boring is the target.</div>
+      </div>
+    </div>
+    <div class="lane" data-p="mayank bharat" style="border-left-color:var(--violet)">
+      <div class="lh"><span class="nm" style="color:var(--violet)">Both together</span><span class="mins">evening</span></div>
+      <div class="lb">
+        <h4>The ten runs — the meeting's own requirement</h4>
+        <p>Not “it should work”. Ten actual runs, tallied on paper, with a note of what broke. Swap who drives — both of you must be able to run it.</p>
+        <div class="tasks" data-group="sat-both">
+          <label class="task"><input type="checkbox"><span class="tx">Runs 1–3, expect breakage. That is the point.</span></label>
           <label class="task"><input type="checkbox"><span class="tx">Fix everything found</span></label>
           <label class="task"><input type="checkbox"><span class="tx">Runs 4–7 clean</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Runs 8–10 — one drives, the other two watch as if they were the jury</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Runs 8–10 — one drives, the other watches as if he were the jury</span></label>
           <label class="task"><input type="checkbox"><span class="tx"><strong>Run it once with the wifi turned off</strong></span></label>
         </div>
-        <div class="warnbox"><b>The wifi-off run is not optional</b>Venue wifi failing is the single most likely thing to go wrong on Monday. The fallback must be visibly graceful, and you must have seen it happen before it happens in front of a judge.</div>
-        <div class="dod"><b>Round 5 done when</b>Ten runs are recorded and the last three were clean.</div>
+        <div class="warnbox"><b>The wifi-off run is not optional</b>Venue wifi failing is the single most likely thing to go wrong on Monday. You must have seen the fallback happen before it happens in front of a judge.</div>
       </div>
     </div>
   </div>
@@ -778,51 +739,24 @@ python -m apix.load.loader</pre></div>
 <!-- ================= SUNDAY ================= -->
 <div class="round">
   <div class="rhead">
-    <span class="rn">SUNDAY</span><span class="rt">Polish and rehearse</span>
-    <span class="rw">Sun 11:00 → 20:00</span>
-    <span class="rg">Freeze at 20:00 — no new features after that</span>
+    <span class="rn">SUNDAY</span><span class="rt">Rehearse and freeze</span>
+    <span class="rw">Sun 12:00 → 20:00</span>
+    <span class="rg">No new features after 20:00</span>
   </div>
-  <div class="baton">🏁 Mayank starts — morning collection — then rehearsal all day</div>
+  <div class="baton">🏁 Mayank starts — collect the day — then rehearsal only</div>
   <div class="lanes">
-    <div class="lane" data-p="mayank">
-      <div class="lh"><span class="nm">Mayank</span><span class="badge">Starts</span><span class="mins">all day</span></div>
+    <div class="lane" data-p="mayank bharat" style="border-left-color:var(--violet)">
+      <div class="lh"><span class="nm" style="color:var(--violet)">Both</span><span class="mins">all day</span></div>
       <div class="lb">
-        <div class="cmd"><pre>python -m apix.cli compliance --check
-python -m apix.cli collect --today --live</pre></div>
-        <div class="tasks" data-group="sun-mayank">
-          <label class="task"><input type="checkbox"><span class="tx">11:00 — collect Sunday's real data</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Record a <strong>90-second screen capture</strong> of a perfect run, as insurance</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Rehearse your 5-minute demo against a clock, three times</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Copy the whole folder to a pendrive — it is SQLite, so it is just a folder</span></label>
+        <div class="tasks" data-group="sun">
+          <label class="task"><input type="checkbox"><span class="tx">12:00 — Mayank collects Sunday's real data (fourth real day)</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Two full run-throughs against a clock: PPT 4–5 min, demo 5 min, Q&amp;A 5 min</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Drill every question in the Q&amp;A table below, both directions</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">METHODOLOGY.md finished — all seven boxes, version 0.1, draft note deleted</span></label>
+          <label class="task"><input type="checkbox"><span class="tx">Copy the whole folder to a pendrive. It is SQLite, so it is just a folder.</span></label>
+          <label class="task"><input type="checkbox"><span class="tx"><strong>20:00 — FREEZE.</strong> Only fixes to things that break, no new features.</span></label>
         </div>
-        <div class="dod"><b>Done when</b>The recording exists and your five minutes lands at about 4:45.</div>
-      </div>
-    </div>
-    <div class="lane" data-p="bharat">
-      <div class="lh"><span class="nm">Bharat</span><span class="mins">all day</span></div>
-      <div class="lb">
-        <h4>Rehearse your 4–5 minutes, and drill four questions until they are boring</h4>
-        <div class="tasks" data-group="sun-bharat">
-          <label class="task"><input type="checkbox"><span class="tx">“Which index formula did you use, and what is it called?”</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">“Why the median and not the average?”</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">“Why geometric across windows but arithmetic across routes?”</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">“What happens to the index if a source is blocked for two days?”</span></label>
-        </div>
-        <p>Ayush asks, you answer, no notes. Repeat until you are bored of it. Bored is the target.</p>
-        <div class="dod"><b>Done when</b>You answer all four without looking anything up.</div>
-      </div>
-    </div>
-    <div class="lane" data-p="ayush">
-      <div class="lh"><span class="nm">Ayush</span><span class="mins">all day</span></div>
-      <div class="lb">
-        <h4>Be the jury</h4>
-        <div class="tasks" data-group="sun-ayush">
-          <label class="task"><input type="checkbox"><span class="tx">Drill Bharat on the four questions until he is fluent</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Drill Mayank on “how much of this is real?”, “where is the AI?”, “the PS asks for CAPTCHA handling”</span></label>
-          <label class="task"><input type="checkbox"><span class="tx">Finish METHODOLOGY.md — all seven boxes, version stamped 0.1, delete the draft note at the top</span></label>
-        </div>
-        <div class="warnbox"><b>Your call to make, and they do not get to argue</b>Apply the meeting's own rule: anything Bharat or Mayank cannot explain in <strong>one clean sentence</strong>, cut it from the script. You decide.</div>
-        <div class="dod"><b>Done when</b>METHODOLOGY.md has no draft box left and both of them are fluent.</div>
+        <div class="warnbox"><b>Apply the meeting's own rule</b>Anything either of you cannot explain in <strong>one clean sentence</strong>, cut it from the script. Agree it now, while nobody is attached to it.</div>
       </div>
     </div>
   </div>
@@ -837,7 +771,7 @@ python -m apix.cli collect --today --live</pre></div>
     <div class="beat"><div class="t">11:00</div><div class="s"><b>Two full run-throughs, timed</b>PPT 4–5 min · demo 5 min · Q&amp;A drill 5 min. Vidushi holds the clock.</div></div>
     <div class="beat"><div class="t">13:00</div><div class="s"><b>Pendrive check</b>PPTX and PDF both on it. Open them on a <em>different</em> laptop to be sure.</div></div>
     <div class="beat"><div class="t">14:30</div><div class="s"><b>Arrive at Runway</b>Laptop charged, demo already running. Do not start the app for the first time in front of the jury.</div></div>
-    <div class="beat"><div class="t">15:00</div><div class="s"><b>Present</b>Bharat 4–5 min · Mayank 5 min demo · all three on questions.</div></div>
+    <div class="beat"><div class="t">15:00</div><div class="s"><b>Present</b>Bharat 4–5 min · Mayank 5 min demo · both of you on questions.</div></div>
   </div>
 </section>
 
@@ -900,7 +834,7 @@ python -m apix.cli collect --today --live</pre></div>
         <tr><td>The problem statement asks for CAPTCHA handling and IP rotation.</td><td>Mayank</td><td>Deliberately absent. The same statement also requires robots.txt and terms compliance — both cannot be true at once. We built a permission-tiered system instead, and we report the sources that refuse as a finding about market observability.</td></tr>
         <tr><td>How much of this is real?</td><td>Mayank</td><td>The MoSPI overlay is real official data. The compliance checks are real, run today. The collection is real — 30 cells a day from a permitted source. The 91-day history behind it is simulated from a documented model, labelled SIMULATED in the database, and drawn differently on the chart.</td></tr>
         <tr><td>Six routes out of 1,100 city pairs?</td><td>Bharat</td><td>Answer per route, never in total. Five observations a day is about 150 a month, against the government's one national monthly figure. Adding a route is one line of config.</td></tr>
-        <tr><td>A festival surge and a broken parser both look like a spike.</td><td>Ayush</td><td>They arrive as different statuses. A surge is a run of OK rows and the median resists it. A broken parser is PARSE_FAIL — no fare, coverage drops, confidence downgrades, and the raw file is kept so we can re-parse the history later.</td></tr>
+        <tr><td>A festival surge and a broken parser both look like a spike.</td><td>Mayank</td><td>They arrive as different statuses. A surge is a run of OK rows and the median resists it. A broken parser is PARSE_FAIL — no fare, coverage drops, confidence downgrades, and the raw file is kept so we can re-parse the history later.</td></tr>
         <tr><td>What if the website redesigns its page?</td><td>Mayank</td><td>Rows become PARSE_FAIL, coverage falls, the grade drops, and the series says so rather than quietly making a number up. Because the raw archive is immutable, fixing the parser recovers the history afterwards.</td></tr>
       </tbody>
     </table>
@@ -965,8 +899,8 @@ python -m apix.load.loader
 <i># Bharat: build the index</i>
 python -m apix.index.engine
 
-<i># Ayush: dump one route-day to CSV for spreadsheet checking</i>
-python scripts/dump_for_ayush.py DEL-BOM 2026-09-04
+<i># Mayank: dump one route-day to CSV for spreadsheet checking</i>
+python scripts/dump_for_check.py DEL-BOM 2026-09-04
 
 <i># Mayank: run the API, then open http://localhost:8000/docs</i>
 uvicorn apix.api.main:app --reload --port 8000</pre></div>
@@ -1001,12 +935,12 @@ uvicorn apix.api.main:app --reload --port 8000</pre></div>
 ├─ scripts/
 │  ├─ extract_mospi_airfare.py  <i>the real government series</i>
 │  ├─ make_ground_truth_sheets.py
-│  └─ dump_for_ayush.py         <b>AYUSH</b> <i>your tool</i>
+│  └─ dump_for_check.py         <b>MAYANK</b> <i>the checking tool</i>
 ├─ data/
 │  ├─ bronze/&lt;date&gt;/            <i>raw archive — never edit</i>
 │  ├─ mospi_airfare_index.json  <i>12 real monthly observations</i>
 │  └─ ground_truth*.csv         <i>the hand-checking sheets</i>
-├─ METHODOLOGY.md               <b>AYUSH</b> <i>7 boxes to write</i>
+├─ METHODOLOGY.md               <b>BOTH</b>  <i>Bharat 3 boxes, Mayank 4</i>
 └─ TEAM/                        <i>this handbook and the briefs</i></pre></div>
     </div>
   </div>
@@ -1016,18 +950,18 @@ uvicorn apix.api.main:app --reload --port 8000</pre></div>
 <section>
   <div class="shead"><h2>Definition of done — all of these must be true</h2><span class="rule"></span></div>
   <div class="tasks" data-group="dod">
-    <label class="task"><input type="checkbox"><span class="tx">Demo run <strong>10 times</strong>, count written down, last three clean <em>— all three</em></span></label>
+    <label class="task"><input type="checkbox"><span class="tx">Demo run <strong>10 times</strong>, count written down, last three clean <em>— both</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">Run once with the wifi off, fallback visibly graceful <em>— Mayank</em></span></label>
-    <label class="task"><input type="checkbox"><span class="tx">Ayush recomputed one route-day in a spreadsheet and it matched the engine <em>— Ayush</em></span></label>
+    <label class="task"><input type="checkbox"><span class="tx">Mayank recomputed one route-day in a spreadsheet and it matched the engine <em>— Mayank</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">Bharat answers all four formula questions with no notes <em>— Bharat</em></span></label>
-    <label class="task"><input type="checkbox"><span class="tx">METHODOLOGY.md v0.1 — all seven boxes written <em>— Ayush</em></span></label>
+    <label class="task"><input type="checkbox"><span class="tx">METHODOLOGY.md v0.1 — all seven boxes written <em>— Bharat 3, Mayank 4</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">Real collection ran Saturday, Sunday and Monday morning <em>— Mayank</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">30 cells checked by hand, comparison table prints <em>— girls + Bharat</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">PPT is 4–5 minutes timed aloud, wrong airfare claim fixed <em>— Vidushi</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">PPTX <strong>and</strong> PDF on a pendrive, opened on a second laptop <em>— Vidushi</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">90-second screen recording exists as insurance <em>— Mayank</em></span></label>
     <label class="task"><input type="checkbox"><span class="tx">Repo pushed, README with the compliance table and a screenshot <em>— Mayank</em></span></label>
-    <label class="task"><input type="checkbox"><span class="tx">Two full run-throughs against a clock <em>— everyone</em></span></label>
+    <label class="task"><input type="checkbox"><span class="tx">Two full run-throughs against a clock <em>— both</em></span></label>
   </div>
 </section>
 

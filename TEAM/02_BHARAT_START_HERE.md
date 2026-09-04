@@ -1,5 +1,10 @@
 # Bharat — start here
 
+> **SUPERSEDED — 4 Sep 19:00.** Read `TEAM/04_WEEKEND_HANDBOOK.html`
+> instead. It has the same tasks with the current schedule and Ayush's
+> work redistributed. This file is kept for its longer explanations.
+
+
 You own the database and the index engine. Work in this order. Don't read ahead.
 
 ---

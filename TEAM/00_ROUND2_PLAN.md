@@ -1,5 +1,9 @@
 # APIx — Internal Round 2 Plan
 
+> **SUPERSEDED.** Written when the presentation was 4 Sep. See
+> `TEAM/04_WEEKEND_HANDBOOK.html`.
+
+
 **Team TouchGrass.exe · SIH-UPES-2026-T020 · Problem SIH26056**
 Written 3 September 2026, 02:41.
 
