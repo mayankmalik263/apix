@@ -1,0 +1,736 @@
+<title>APIx Build Relay</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&display=swap">
+
+<style>
+:root{
+  --paper:#eff3f4; --card:#ffffff; --sunk:#e4eaec;
+  --rule:#ccd7db; --rule-soft:#dee6e9;
+  --ink:#111a1f; --ink-2:#3f525b; --ink-3:#6d818b;
+  --accent:#0e5570; --accent-soft:#d8e8ef;
+  --rust:#a84b1c; --rust-soft:#f6e3d7;
+  --good:#1e6b48; --good-soft:#d8ebe1;
+  --amber:#8a6100; --amber-soft:#f7ebcf;
+  --violet:#5a4a86; --violet-soft:#e3dff0;
+  --shadow:0 1px 2px rgba(17,26,31,.06),0 10px 26px -18px rgba(17,26,31,.30);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0c1317; --card:#141d22; --sunk:#101a1f;
+    --rule:#2a3a42; --rule-soft:#1e2b32;
+    --ink:#e6eef1; --ink-2:#adbfc7; --ink-3:#7a8f99;
+    --accent:#6cb8d6; --accent-soft:#14323f;
+    --rust:#e2915d; --rust-soft:#38220f;
+    --good:#71c49b; --good-soft:#12301f;
+    --amber:#d9ab4e; --amber-soft:#332609;
+    --violet:#a99ad4; --violet-soft:#241f38;
+    --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -20px rgba(0,0,0,.9);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0c1317; --card:#141d22; --sunk:#101a1f;
+  --rule:#2a3a42; --rule-soft:#1e2b32;
+  --ink:#e6eef1; --ink-2:#adbfc7; --ink-3:#7a8f99;
+  --accent:#6cb8d6; --accent-soft:#14323f;
+  --rust:#e2915d; --rust-soft:#38220f;
+  --good:#71c49b; --good-soft:#12301f;
+  --amber:#d9ab4e; --amber-soft:#332609;
+  --violet:#a99ad4; --violet-soft:#241f38;
+  --shadow:0 1px 2px rgba(0,0,0,.5),0 12px 30px -20px rgba(0,0,0,.9);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Serif",Georgia,serif;font-size:16.5px;line-height:1.6;
+  -webkit-font-smoothing:antialiased}
+img,svg{max-width:100%;height:auto;display:block}
+.wrap{max-width:1140px;margin:0 auto;padding:0 26px 100px}
+.col{max-width:70ch}
+p{margin:0}
+strong{font-weight:600;color:var(--ink)}
+a{color:var(--accent)}
+h1,h2,h3,h4,.ui{font-family:"IBM Plex Sans Condensed","Helvetica Neue",Arial,sans-serif}
+code,.mono,.k{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace}
+code{font-size:.85em;background:var(--sunk);border:1px solid var(--rule-soft);
+  border-radius:3px;padding:.06em .34em;word-break:break-word}
+.num{font-variant-numeric:tabular-nums}
+
+header{border-bottom:2px solid var(--ink);margin-bottom:16px}
+.mast{padding:44px 0 22px;display:flex;flex-direction:column;gap:18px}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);display:flex;flex-wrap:wrap;gap:7px 18px}
+.eyebrow b{color:var(--accent);font-weight:500}
+h1{font-size:clamp(36px,7vw,62px);font-weight:700;letter-spacing:-.025em;
+  line-height:.96;margin:0;text-wrap:balance}
+h1 span{color:var(--ink-3);font-weight:500}
+.deck{font-size:19px;line-height:1.5;color:var(--ink-2);max-width:62ch}
+.deck em{font-style:normal;color:var(--ink);font-weight:600}
+
+.clockbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
+  gap:1px;background:var(--rule);border:1px solid var(--rule);border-radius:5px;
+  overflow:hidden;margin:0 0 46px;box-shadow:var(--shadow)}
+.cb{background:var(--card);padding:13px 15px 14px}
+.cb .k{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3)}
+.cb .v{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:19px;font-weight:700;
+  margin-top:4px;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.cb.hot .v{color:var(--rust)}
+.cb.ok .v{color:var(--good)}
+
+section{margin-bottom:56px}
+.shead{display:flex;align-items:center;gap:14px;margin-bottom:20px}
+.shead h2{font-size:14px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;
+  margin:0;white-space:nowrap}
+.shead .rule{flex:1;height:1px;background:var(--rule)}
+.stack{display:flex;flex-direction:column;gap:16px}
+
+.flag{border:1px solid var(--rule);border-left:3px solid var(--rust);background:var(--card);
+  border-radius:0 5px 5px 0;padding:17px 20px;display:flex;flex-direction:column;gap:10px;
+  box-shadow:var(--shadow)}
+.flag.ok{border-left-color:var(--good)}
+.flag.warn{border-left-color:var(--amber)}
+.flag.info{border-left-color:var(--accent)}
+.flag h3{font-size:17px;font-weight:600;margin:0;letter-spacing:-.005em;text-wrap:balance}
+.flag .tagline{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--rust)}
+.flag.ok .tagline{color:var(--good)}
+.flag.warn .tagline{color:var(--amber)}
+.flag.info .tagline{color:var(--accent)}
+.flag p,.flag li{font-size:15.5px;color:var(--ink-2);line-height:1.55}
+.flag p{max-width:76ch}
+.quote{border-left:2px solid var(--accent);padding:2px 0 2px 16px;font-size:16.5px;
+  color:var(--ink);max-width:66ch}
+
+.tw{overflow-x:auto;border:1px solid var(--rule);border-radius:5px;background:var(--card);
+  box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:520px;
+  font-family:"IBM Plex Sans Condensed",sans-serif;font-size:14.5px}
+th{text-align:left;font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding:11px 14px;
+  border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:11px 14px;border-bottom:1px solid var(--rule-soft);vertical-align:top;
+  color:var(--ink-2);line-height:1.45}
+tr:last-child td{border-bottom:0}
+td:first-child{color:var(--ink);font-weight:600}
+td.n,th.n{font-variant-numeric:tabular-nums;text-align:right;white-space:nowrap}
+.pill{display:inline-block;font-family:"IBM Plex Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.07em;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.p-must{background:var(--good-soft);color:var(--good)}
+.p-should{background:var(--accent-soft);color:var(--accent)}
+.p-wont{background:var(--rust-soft);color:var(--rust)}
+.p-could{background:var(--sunk);color:var(--ink-3)}
+.p-done{background:var(--good-soft);color:var(--good)}
+.p-todo{background:var(--rust-soft);color:var(--rust)}
+
+/* ---------- ROUNDS ---------- */
+.round{margin-bottom:44px;scroll-margin-top:16px}
+.rhead{display:flex;align-items:baseline;gap:16px;flex-wrap:wrap;
+  padding-bottom:11px;margin-bottom:0;border-bottom:2px solid var(--ink)}
+.rhead .rn{font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:700;
+  letter-spacing:.1em;color:var(--paper);background:var(--ink);border-radius:3px;padding:4px 9px}
+.rhead .rt{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:25px;font-weight:700;
+  letter-spacing:-.02em}
+.rhead .rw{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--accent);
+  font-variant-numeric:tabular-nums;letter-spacing:.03em}
+.rhead .rg{font-size:15px;color:var(--ink-3);flex:1;min-width:170px;text-align:right}
+
+.baton{display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+  background:var(--violet-soft);border-radius:0 0 5px 5px;padding:10px 16px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;
+  color:var(--violet);font-weight:600;text-transform:uppercase}
+
+.lanes{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:14px;margin-top:16px}
+.lane{background:var(--card);border:1px solid var(--rule);border-radius:6px;
+  overflow:hidden;box-shadow:var(--shadow);display:flex;flex-direction:column}
+.lane.first{border-color:var(--violet);border-width:2px}
+.lh{padding:12px 16px;border-bottom:1px solid var(--rule-soft);background:var(--sunk);
+  display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lh .nm{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:19px;font-weight:700;
+  letter-spacing:-.015em}
+.lh .badge{font-family:"IBM Plex Mono",monospace;font-size:9px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:3px;
+  background:var(--violet);color:var(--card)}
+.lh .mins{font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-3);margin-left:auto}
+.lb{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.lb h4{font-size:14.5px;font-weight:600;margin:0;letter-spacing:-.005em}
+.lb ul{margin:0;padding-left:17px;font-size:14.5px;color:var(--ink-2);line-height:1.5;
+  display:flex;flex-direction:column;gap:5px}
+.lb li::marker{color:var(--ink-3)}
+.lb p{font-size:14.5px;color:var(--ink-2);line-height:1.5}
+.dod{font-family:"IBM Plex Sans Condensed",sans-serif;font-size:13px;color:var(--ink-2);
+  border-left:2px solid var(--good);padding-left:10px;margin-top:auto}
+.dod b{display:block;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--good);margin-bottom:2px}
+.warnbox{background:var(--rust-soft);border-radius:4px;padding:10px 12px;font-size:13.5px;
+  color:var(--ink-2);line-height:1.45}
+.warnbox b{display:block;font-family:"IBM Plex Mono",monospace;font-size:9px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--rust);margin-bottom:3px}
+
+pre{margin:0;overflow-x:auto;background:var(--sunk);border:1px solid var(--rule-soft);
+  border-radius:4px;padding:12px 14px;font-family:"IBM Plex Mono",monospace;
+  font-size:12px;line-height:1.65;color:var(--ink-2)}
+pre b{color:var(--ink);font-weight:600}
+pre i{color:var(--ink-3);font-style:normal}
+
+.check{display:flex;flex-direction:column;gap:1px;background:var(--rule);
+  border:1px solid var(--rule);border-radius:5px;overflow:hidden}
+.ci{background:var(--card);padding:12px 16px;display:flex;gap:12px;align-items:flex-start;
+  font-size:15px;color:var(--ink-2)}
+.ci .box{flex:none;width:14px;height:14px;border:1.5px solid var(--ink-3);border-radius:3px;margin-top:4px}
+.ci .who{font-family:"IBM Plex Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3);margin-left:auto;padding-top:3px;white-space:nowrap}
+
+.run{display:flex;flex-direction:column;gap:1px;background:var(--rule);border:1px solid var(--rule);
+  border-radius:5px;overflow:hidden}
+.beat{background:var(--card);display:grid;grid-template-columns:60px 1fr;gap:16px;padding:14px 17px}
+.beat .t{font-family:"IBM Plex Mono",monospace;font-size:12.5px;font-weight:600;color:var(--accent);
+  font-variant-numeric:tabular-nums}
+.beat .s{font-size:15px;color:var(--ink-2);line-height:1.5}
+.beat .s b{display:block;font-family:"IBM Plex Sans Condensed",sans-serif;font-size:14.5px;
+  color:var(--ink);margin-bottom:3px;font-weight:600}
+
+footer{border-top:2px solid var(--ink);padding-top:16px;margin-top:12px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  color:var(--ink-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+@media(max-width:700px){
+  .beat{grid-template-columns:50px 1fr;gap:12px}
+  .rhead .rg{text-align:left}
+}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header>
+  <div class="mast">
+    <div class="eyebrow">
+      <span>SIH 2026 · <b>SIH26056</b></span>
+      <span>MoSPI · Data Informatics &amp; Innovation</span>
+      <span>Team <b>TouchGrass.exe</b> · SIH-UPES-2026-T020</span>
+    </div>
+    <h1>Build Relay <span>/</span> Friday&nbsp;→&nbsp;Monday</h1>
+    <p class="deck">Every task, in order, for Mayank, Bharat and Ayush. Each round has <em>one person who starts</em> and unblocks the other two; then the baton moves. Written Friday 4 September, 15:30. Presentation <em>Monday 7 September, 15:00</em>.</p>
+  </div>
+</header>
+
+<div class="clockbar">
+  <div class="cb"><div class="k">Work starts</div><div class="v num">Fri 23:00</div></div>
+  <div class="cb hot"><div class="k">Prototype done</div><div class="v num">Sat 19:00</div></div>
+  <div class="cb"><div class="k">Freeze</div><div class="v num">Sun 20:00</div></div>
+  <div class="cb"><div class="k">Present</div><div class="v num">Mon 15:00</div></div>
+  <div class="cb ok"><div class="k">Real cells collected</div><div class="v num">30 ✓</div></div>
+  <div class="cb hot"><div class="k">Demo runs required</div><div class="v num">10</div></div>
+</div>
+
+<!-- ================= STATE ================= -->
+<section>
+  <div class="shead"><h2>Where we actually are</h2><span class="rule"></span></div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Piece</th><th>Owner</th><th>State</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Compliance gate</td><td>Mayank</td><td><span class="pill p-done">DONE</span></td><td>6 of 11 permitted, verified 3 separate runs, hashed evidence on disk</td></tr>
+        <tr><td>Bronze raw archive</td><td>Mayank</td><td><span class="pill p-done">DONE</span></td><td>JSONL, append-only, 2,760 records</td></tr>
+        <tr><td>Live Cleartrip adapter</td><td>Mayank</td><td><span class="pill p-done">DONE</span></td><td><strong>30 real cells collected 3 Sep.</strong> 46 MB of real payloads</td></tr>
+        <tr><td>Replay / simulated history</td><td>Mayank</td><td><span class="pill p-done">DONE</span></td><td>91 days, every row stamped SIMULATED</td></tr>
+        <tr><td>MoSPI airfare series</td><td>Mayank</td><td><span class="pill p-done">DONE</span></td><td>12 real monthly observations, extractor reproduces MoSPI's own rates</td></tr>
+        <tr><td><code>db/schema.sql</code></td><td>Bharat</td><td><span class="pill p-todo">NOT STARTED</span></td><td>Round 1</td></tr>
+        <tr><td>Loader, Bronze → Silver</td><td>Bharat</td><td><span class="pill p-todo">NOT STARTED</span></td><td>Round 2</td></tr>
+        <tr><td>Index engine</td><td>Bharat</td><td><span class="pill p-todo">NOT STARTED</span></td><td>Round 3 — the headline piece</td></tr>
+        <tr><td><code>METHODOLOGY.md</code> justifications</td><td>Ayush</td><td><span class="pill p-todo">NOT STARTED</span></td><td>7 boxes still empty. Formulas are drafted; the reasoning is his</td></tr>
+        <tr><td>FastAPI + lineage</td><td>Mayank</td><td><span class="pill p-todo">NOT STARTED</span></td><td>Round 1</td></tr>
+        <tr><td>Dashboard</td><td>Mayank</td><td><span class="pill p-todo">NOT STARTED</span></td><td>Round 2 &amp; 4</td></tr>
+        <tr><td>Manual ground truth</td><td>Girls</td><td><span class="pill p-todo">NOT STARTED</span></td><td>Sat 11:00, 20 minutes</td></tr>
+        <tr><td>PPT corrections</td><td>Girls</td><td><span class="pill p-todo">NOT STARTED</span></td><td>Still the Round 1 deck, with a claim we now know is wrong</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= HOW THE RELAY WORKS ================= -->
+<section>
+  <div class="shead"><h2>How the relay works</h2><span class="rule"></span></div>
+  <div class="stack">
+    <div class="flag info">
+      <span class="tagline">Read this once, then never again</span>
+      <h3>One person starts each round. The other two cannot begin until they finish.</h3>
+      <p>Every round has a <strong>STARTER</strong> — marked with a purple border — whose task is deliberately short, usually 15 to 40 minutes. Their output is what unblocks the other two. Then all three run in parallel for the rest of the round, and the baton passes to whoever starts the next one.</p>
+      <p>The baton order across the whole build is <strong>Ayush → Bharat → Bharat → Mayank → all three</strong>. It is not a rotation for fairness; it follows what actually blocks what.</p>
+      <p><strong>Rule that matters more than the schedule:</strong> when you finish your task, say so out loud in the room. You are all in one place — use that. A finished task nobody knows about is the same as an unfinished one.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ROUND 1 ================= -->
+<div class="round">
+  <div class="rhead">
+    <span class="rn">ROUND 1</span>
+    <span class="rt">Foundations</span>
+    <span class="rw">Fri 23:00 → Sat 02:00</span>
+    <span class="rg">Schema, API skeleton, formulas confirmed</span>
+  </div>
+  <div class="baton">🏁 Starter: Ayush · 20 min · then Bharat and Mayank begin</div>
+
+  <div class="lanes">
+    <div class="lane first">
+      <div class="lh"><span class="nm">Ayush</span><span class="badge">Starts</span><span class="mins">20 min, then 2 h</span></div>
+      <div class="lb">
+        <h4>First: confirm four formulas (20 min) — this unblocks Bharat</h4>
+        <p>Open <code>METHODOLOGY.md</code>. Read §3, §5, §6, §7. For each, say out loud in the room either <strong>“correct”</strong> or <strong>“wrong, change it to X”</strong>. That's it. You are not writing anything yet.</p>
+        <ul>
+          <li>§3 — median of OK, non-outlier fares</li>
+          <li>§5 — modified Z-score on MAD, threshold 3.5</li>
+          <li>§6 — geometric mean across windows (Jevons)</li>
+          <li>§7 — weighted arithmetic mean across routes (Laspeyres-type)</li>
+        </ul>
+        <div class="warnbox"><b>Why this is first</b>Bharat is about to write code that implements these. If a formula changes after he's built it, he rewrites. Twenty minutes now saves two hours later.</div>
+        <h4>Then: write two justification boxes (2 h)</h4>
+        <ul>
+          <li><strong>§8 first</strong> — why a sold-out flight and a broken scraper are different facts. This is the most quotable idea in the project.</li>
+          <li><strong>§3 second</strong> — why the median and not the mean.</li>
+        </ul>
+        <p>Use our own measurement: DEL–BOM on 24 Sep, cheapest <strong>₹6,090</strong>, median <strong>₹7,675</strong>, dearest <strong>₹24,056</strong>. A 4× spread inside one route on one date. The mean is around ₹8,900 — a price almost nobody paid.</p>
+        <p>You have free ChatGPT/Gemini. Use it to <em>check your writing</em>, not to write it. A judge will ask you to explain this in your own words.</p>
+        <div class="dod"><b>Done when</b>Formulas confirmed aloud, and §8 and §3 boxes are written, committed and pushed.</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Bharat</span><span class="mins">2.5 h</span></div>
+      <div class="lb">
+        <h4>Wait for Ayush's 20 minutes. Then: the schema.</h4>
+        <pre>git pull
+python -m apix.cli bronze --stats</pre>
+        <p>You should see <strong>cleartrip=30</strong> real records for 3&nbsp;September plus ~2,730 simulated. Look at one real record before designing anything — <code>TEAM/02_BHARAT_START_HERE.md</code> Task 1 has the command.</p>
+        <ul>
+          <li>Write <code>db/schema.sql</code> — SQLite, seven tables. Every column is listed in your brief.</li>
+          <li>Then <code>db/schema.postgres.sql</code> — JSONB, NUMERIC(10,2), TIMESTAMPTZ, real schemas, CHECK on the status vocabulary.</li>
+          <li>Add a <code>CHECK</code> constraint so the database itself refuses an eighth status.</li>
+        </ul>
+        <div class="warnbox"><b>The Postgres file is not busywork</b>It is your answer to “why SQLite?”. You show the file and say: <em>“SQLite is the demo profile because it installs nowhere and can't fail on stage. Postgres is the target — here's the schema, and here's exactly what changes.”</em></div>
+        <div class="dod"><b>Done when</b><code>sqlite3 apix.db &lt; db/schema.sql</code> runs clean and you can insert one fake Silver row. Commit and push.</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Mayank</span><span class="mins">2.5 h</span></div>
+      <div class="lb">
+        <h4>FastAPI skeleton + the lineage endpoint</h4>
+        <p>You don't need Bharat's database for this round — read the Bronze files directly. That's the whole point of the file contract.</p>
+        <ul>
+          <li><code>apix/api/main.py</code> — FastAPI app</li>
+          <li><code>GET /v1/compliance/report</code> — the 11-source table, straight from the verdict ledger</li>
+          <li><code>GET /v1/bronze/stats</code> — archive summary</li>
+          <li><strong><code>GET /v1/lineage/{date}/{route}/{window}</code></strong> — returns the Bronze record, its SHA-256, the byte count and the parsed quote count. <strong>Build this before anything cosmetic.</strong></li>
+          <li><code>GET /v1/methodology</code> — serves METHODOLOGY.md as text</li>
+        </ul>
+        <div class="warnbox"><b>Why lineage first</b>It <em>is</em> the auditability claim. AXIOM will have a scraper and a chart. Almost certainly they will not have a published number that walks back to a payload hash.</div>
+        <div class="dod"><b>Done when</b><code>/docs</code> renders and the lineage endpoint returns a real SHA-256 for DEL-BOM T+21 on 2026-09-03.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ROUND 2 ================= -->
+<div class="round">
+  <div class="rhead">
+    <span class="rn">ROUND 2</span>
+    <span class="rt">Data flows</span>
+    <span class="rw">Sat 02:00 → 04:00</span>
+    <span class="rg">Silver table exists, chart has real data</span>
+  </div>
+  <div class="baton">🏁 Starter: Bharat · 90 min · Mayank and Ayush work through</div>
+
+  <div class="lanes">
+    <div class="lane first">
+      <div class="lh"><span class="nm">Bharat</span><span class="badge">Starts</span><span class="mins">90 min</span></div>
+      <div class="lb">
+        <h4>The loader: Bronze → Silver</h4>
+        <p><code>apix/load/loader.py</code>. Full spec is Task 4 of your brief. The five things that matter:</p>
+        <ul>
+          <li><strong>Branch on <code>source_id</code></strong> — there are two payload shapes. For <code>cleartrip</code> call the existing <code>parse_quotes()</code>. Do not write a second parser.</li>
+          <li>A non-OK record still produces <strong>one Silver row</strong> carrying its status. That's how coverage stays honest.</li>
+          <li>Dedup on the logical flight key. <code>INSERT OR IGNORE</code>.</li>
+          <li>Outliers: modified Z-score on MAD, threshold 3.5, <em>within</em> each cell. <strong>Flag, never delete.</strong></li>
+          <li>Never modify a Bronze file. Read only.</li>
+        </ul>
+        <div class="dod"><b>Done when</b>Run the loader twice — identical row count. If not, the dedup key is wrong. Push immediately so Mayank can query Silver.</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Mayank</span><span class="mins">2 h</span></div>
+      <div class="lb">
+        <h4>Dashboard shell + the money chart</h4>
+        <p>Single static HTML file, ECharts vendored locally, served by FastAPI. No npm, no build step, works with the API down.</p>
+        <ul>
+          <li><strong>The money chart first:</strong> the real MoSPI monthly airfare series as a step line, with our daily series over it.</li>
+          <li>Headline strip: today's value, day-on-day change, coverage %, confidence grade.</li>
+          <li><strong>Simulated series drawn visibly differently</strong>, with a legend entry that says so. Non-negotiable.</li>
+        </ul>
+        <div class="warnbox"><b>If only one chart exists at the deadline</b>It is this one. Continuous signal against monthly steps, on real official data, in one frame.</div>
+        <div class="dod"><b>Done when</b>The MoSPI overlay renders from the real extracted series and the page opens with the API stopped.</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Ayush</span><span class="mins">2 h</span></div>
+      <div class="lb">
+        <h4>Three more justification boxes</h4>
+        <ul>
+          <li><strong>§5</strong> — why MAD and not mean ± 3σ. Mention that a festival surge moves the whole cell together, so it is correctly <em>not</em> flagged.</li>
+          <li><strong>§6</strong> — why windows combine geometrically.</li>
+          <li><strong>§7</strong> — why routes combine arithmetically but windows don't.</li>
+        </ul>
+        <p>§6 and §7 are one idea seen from two sides: routes carry expenditure weights, windows are repeated measures of the same route.</p>
+        <div class="warnbox"><b>This distinction is the whole thing</b>Getting it right is the difference between “a student built a scraper” and “a student built an index.” Bharat will be asked this on Monday and you are the one who has to have taught it to him.</div>
+        <div class="dod"><b>Done when</b>Five of seven boxes written, committed, pushed.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="flag warn" style="margin:0 0 44px">
+  <span class="tagline">Sat 04:00 → 11:00 · Sleep</span>
+  <h3>Stop at 04:00 even if something is nearly finished</h3>
+  <p>“Nearly finished” at 4am becomes a bug you spend Saturday afternoon chasing. You have all of Saturday and all of Sunday — this is not a deadline crunch, and the failure mode here is exhaustion, not time.</p>
+</div>
+
+<!-- ================= ROUND 3 ================= -->
+<div class="round">
+  <div class="rhead">
+    <span class="rn">ROUND 3</span>
+    <span class="rt">The index</span>
+    <span class="rw">Sat 11:30 → 15:30</span>
+    <span class="rg">A real APIx number exists</span>
+  </div>
+  <div class="baton">🏁 Starter: Bharat · the engine · Ayush verifies behind him, Mayank wires the API</div>
+
+  <div class="lanes">
+    <div class="lane first">
+      <div class="lh"><span class="nm">Bharat</span><span class="badge">Starts</span><span class="mins">3 h</span></div>
+      <div class="lb">
+        <h4>The index engine — your headline piece</h4>
+        <p><code>apix/index/engine.py</code>. Implement exactly what §3–§9 of <code>METHODOLOGY.md</code> says. Don't improvise. If something looks wrong, tell Ayush — don't quietly change it.</p>
+        <ul>
+          <li>Cell median → <code>gold_cell_median</code></li>
+          <li>Price relative against the base → same table</li>
+          <li>Route index, geometric mean across windows → <code>gold_route_index_daily</code></li>
+          <li>National APIx, weighted sum → <code>gold_apix_daily</code></li>
+          <li>Coverage and confidence <strong>in the same pass</strong>, not bolted on after</li>
+          <li>Carry <code>weights_provisional=true</code> onto every affected row</li>
+          <li><strong>Base = 3 September</strong>, the first real collection day. The real index starts at 100 there. Simulated history is based separately and never anchors it.</li>
+        </ul>
+        <div class="dod"><b>Done when</b><code>gold_apix_daily</code> has rows for 3 and 4 September with a coverage figure and a confidence grade on each.</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Ayush</span><span class="mins">2 h</span></div>
+      <div class="lb">
+        <h4>Verify Bharat by hand — the single most valuable check in the project</h4>
+        <ul>
+          <li>Pick <strong>one route, one day</strong>. Pull its Silver rows.</li>
+          <li>Work out the five cell medians on paper or in a spreadsheet.</li>
+          <li>Compute the price relatives, then the geometric mean.</li>
+          <li>Compare with what the engine wrote to <code>gold_route_index_daily</code>.</li>
+        </ul>
+        <div class="warnbox"><b>If the two numbers differ</b>That is the most important bug in the project and it must be fixed before anything else on Saturday. One of you is wrong and you need to know which, today — not while a judge is watching.</div>
+        <h4>Then: the last two justification boxes</h4>
+        <p>§4 (why a 1-day base and what changes at v0.2) and §12 review — check the simulation model description matches what the code actually does.</p>
+        <div class="dod"><b>Done when</b>You can say “I recomputed 4 September for DEL–BOM by hand and got the same number the engine did.”</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Mayank</span><span class="mins">3 h</span></div>
+      <div class="lb">
+        <h4>API reads Gold, dashboard wired to it</h4>
+        <ul>
+          <li><code>GET /v1/apix/latest</code> and <code>/v1/apix/series</code></li>
+          <li><code>GET /v1/routes/{code}/series</code></li>
+          <li><code>GET /v1/windows/{days}/series</code> — the booking-window curve</li>
+          <li><code>GET /v1/health/coverage</code></li>
+          <li>Extend lineage to walk Gold → Silver → Bronze properly, now the tables exist</li>
+          <li>Wire the dashboard to the live API</li>
+        </ul>
+        <h4>Then: the booking-window curve</h4>
+        <p>Five windows on one axis. <strong>Our real data already shows something no official index publishes</strong> — see the finding at the bottom of this page. Make that chart good.</p>
+        <div class="dod"><b>Done when</b>The dashboard shows a real APIx number end to end, sourced from the API, sourced from Gold, traceable to a payload hash.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ROUND 4 ================= -->
+<div class="round">
+  <div class="rhead">
+    <span class="rn">ROUND 4</span>
+    <span class="rt">Integration</span>
+    <span class="rw">Sat 16:00 → 19:00</span>
+    <span class="rg">PROTOTYPE COMPLETE</span>
+  </div>
+  <div class="baton">🏁 Starter: Mayank · one-command demo · then all three break it on purpose</div>
+
+  <div class="lanes">
+    <div class="lane first">
+      <div class="lh"><span class="nm">Mayank</span><span class="badge">Starts</span><span class="mins">90 min</span></div>
+      <div class="lb">
+        <h4>One command, cold start to dashboard</h4>
+        <pre>python -m apix.cli demo</pre>
+        <p>That single command must: check compliance → collect one live cell → load Silver → compute Gold → start the API → open the dashboard. Falls back to cached data if the portal is slow, <strong>and prints why</strong>.</p>
+        <ul>
+          <li>Write <code>README.md</code> — architecture, the compliance table, a screenshot</li>
+          <li>Three pytest tests: compliance gate refuses; loader is idempotent; index reproduces a hand-built fixture</li>
+        </ul>
+        <div class="dod"><b>Done when</b>Someone who has never seen the repo runs one command and reaches the dashboard.</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Bharat</span><span class="mins">90 min</span></div>
+      <div class="lb">
+        <h4>Load the compliance ledger and ground truth into the DB</h4>
+        <ul>
+          <li><code>source_registry</code> ← <code>compliance/verdicts/*.json</code></li>
+          <li><code>ground_truth</code> ← <code>data/ground_truth.csv</code> (the girls' morning sheets)</li>
+          <li>A query that compares our collected median against each hand-checked fare, with the deviation</li>
+        </ul>
+        <div class="warnbox"><b>This is the validation table</b>“Our collector said ₹6,090 and a human checking by hand said ₹6,090” is a sentence AXIOM almost certainly cannot say.</div>
+        <div class="dod"><b>Done when</b>A deviation table prints and you can read it aloud.</div>
+      </div>
+    </div>
+
+    <div class="lane">
+      <div class="lh"><span class="nm">Ayush</span><span class="mins">90 min</span></div>
+      <div class="lb">
+        <h4>Try to break the numbers</h4>
+        <ul>
+          <li>Does coverage fall when you delete a Bronze file and re-run?</li>
+          <li>Does the confidence grade drop from A to B or C when it should?</li>
+          <li>Does a <code>SOLD_OUT</code> cell count as observed, and a <code>BLOCKED</code> one not?</li>
+          <li>Is <code>weights_provisional</code> true on every row?</li>
+        </ul>
+        <h4>Then: DGCA weights, timeboxed to 60 minutes</h4>
+        <p>Look for city-pair passenger numbers. <strong>If you can't find them in an hour, stop.</strong> The provisional-weights flag is already built and is a perfectly good answer — arguably a better one.</p>
+        <div class="dod"><b>Done when</b>You've tried to make the index lie and it refused, or you've found where it does and told Bharat.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ROUND 5 ================= -->
+<div class="round">
+  <div class="rhead">
+    <span class="rn">ROUND 5</span>
+    <span class="rt">Ten runs</span>
+    <span class="rw">Sat 20:00 → 23:00</span>
+    <span class="rg">The meeting's own requirement</span>
+  </div>
+  <div class="baton">🏁 All three together · this is not solo work</div>
+  <div class="lanes">
+    <div class="lane">
+      <div class="lh"><span class="nm">All three</span><span class="mins">3 h</span></div>
+      <div class="lb">
+        <h4>Run the demo ten times. Write down the count.</h4>
+        <p>Not “it should work”. Ten actual runs, on a tally, with what broke each time. Rotate who drives so all three can run it.</p>
+        <ul>
+          <li>Runs 1–3: find what breaks. Expect breakage — that's the point.</li>
+          <li>Fix. Then runs 4–7 clean.</li>
+          <li>Runs 8–10: one person drives while the other two watch as if they were the jury.</li>
+          <li><strong>Run it once with the wifi off.</strong> That's a realistic venue failure and the fallback must be visibly graceful.</li>
+        </ul>
+        <div class="dod"><b>Done when</b>Ten runs recorded, and the last three were clean.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SUNDAY ================= -->
+<div class="round">
+  <div class="rhead">
+    <span class="rn">SUNDAY</span>
+    <span class="rt">Polish and rehearse</span>
+    <span class="rw">Sun 11:00 → 20:00</span>
+    <span class="rg">Freeze at 20:00</span>
+  </div>
+  <div class="baton">🏁 Starter: Mayank · morning collection · then rehearsal all day</div>
+  <div class="lanes">
+    <div class="lane first">
+      <div class="lh"><span class="nm">Mayank</span><span class="badge">Starts</span><span class="mins">all day</span></div>
+      <div class="lb">
+        <h4>11:00 — collect the day, then rehearse</h4>
+        <pre>python -m apix.cli compliance --check
+python -m apix.cli collect --today --live</pre>
+        <ul>
+          <li>Record the <strong>90-second screen capture</strong> as insurance against a live failure</li>
+          <li>Rehearse your 5-minute demo against a clock, three times</li>
+          <li>Copy the whole folder to a pendrive — it's SQLite, so it's just a folder</li>
+        </ul>
+        <div class="dod"><b>Done when</b>The recording exists and your 5 minutes lands at 4:45.</div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lh"><span class="nm">Bharat</span><span class="mins">all day</span></div>
+      <div class="lb">
+        <h4>Rehearse the 4–5 minute PPT section, and drill the four questions</h4>
+        <ul>
+          <li>Which index formula, and what's it called?</li>
+          <li>Why median not mean?</li>
+          <li>Why geometric across windows, arithmetic across routes?</li>
+          <li>What happens when a source is blocked for two days?</li>
+        </ul>
+        <p>Ayush asks, you answer, no notes. Repeat until it's boring.</p>
+        <div class="dod"><b>Done when</b>You can answer all four without looking anything up.</div>
+      </div>
+    </div>
+    <div class="lane">
+      <div class="lh"><span class="nm">Ayush</span><span class="mins">all day</span></div>
+      <div class="lb">
+        <h4>Be the jury</h4>
+        <ul>
+          <li>Drill Bharat on the four questions above until he's fluent</li>
+          <li>Drill Mayank on: “how much of this is real?”, “where's the AI?”, “the PS asks for CAPTCHA handling”</li>
+          <li>Finish <code>METHODOLOGY.md</code> — all seven boxes, version stamped 0.1</li>
+        </ul>
+        <div class="warnbox"><b>Apply the meeting rule</b>Anything either of them can't explain in one clean sentence, <strong>cut it from the script</strong>. You make that call and they don't get to argue.</div>
+        <div class="dod"><b>Done when</b>METHODOLOGY.md has no draft box left, and both of them are fluent.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MONDAY ================= -->
+<section>
+  <div class="shead"><h2>Monday</h2><span class="rule"></span></div>
+  <div class="run">
+    <div class="beat"><div class="t">09:00</div><div class="s"><b>Final collection — Mayank</b>Compliance check, then collect live. This is the freshest number you can show, and there is no second chance at it.</div></div>
+    <div class="beat"><div class="t">10:00</div><div class="s"><b>Girls: final manual panel</b>30 cells by hand. Same morning as the automated run so the two are comparable.</div></div>
+    <div class="beat"><div class="t">11:00</div><div class="s"><b>Two full run-throughs, timed</b>PPT 4–5 min, demo 5 min, Q&amp;A drill 5 min. Vidushi holds the clock.</div></div>
+    <div class="beat"><div class="t">13:00</div><div class="s"><b>Pendrive check</b>PPTX and PDF both on it. Open them on a second machine to be sure.</div></div>
+    <div class="beat"><div class="t">14:30</div><div class="s"><b>Arrive at Runway. Laptop charged, demo already running.</b>Do not start the app for the first time in front of the jury.</div></div>
+    <div class="beat"><div class="t">15:00</div><div class="s"><b>Present</b>Bharat 4–5 min · Mayank 5 min demo · all three on Q&amp;A.</div></div>
+  </div>
+</section>
+
+<!-- ================= THE GIRLS ================= -->
+<section>
+  <div class="shead"><h2>Kritika · Riya · Vidushi</h2><span class="rule"></span></div>
+  <div class="stack">
+    <div class="flag info">
+      <span class="tagline">Two jobs, both real</span>
+      <h3>The PPT, and 20 minutes of hand-checked fares</h3>
+      <p><strong>Saturday 11:00 — the manual panel.</strong> 10 cells each, 20 minutes, using the pre-filled sheets already in the repo. This is the only <em>independent</em> check on whether our collector tells the truth. Without it we are asserting our own code is correct; with it we have a validation table.</p>
+      <p><strong>Saturday onward — the deck.</strong> Vidushi leads. Three things:</p>
+      <ul>
+        <li><strong>Fix the wrong claim.</strong> Anywhere the deck says India has no airfare index — that is false and we can prove it. Replace with: <em>“India measures every airfare with one number, weight 0.08, national level only, once a month. It moved 4.4% in a single month.”</em></li>
+        <li><strong>Delete the state-level CPI numbers</strong> (Punjab 432.69, Sikkim 100.00, the 376-point spread). They don't trace to any file we hold.</li>
+        <li><strong>Cut to 4–5 minutes, timed out loud.</strong> Roughly 550–700 spoken words. Cut until it fits — do not speak faster. Export PPTX <em>and</em> PDF, both on the pendrive.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FINDING ================= -->
+<section>
+  <div class="shead"><h2>What our own data already found</h2><span class="rule"></span></div>
+  <div class="stack">
+    <div class="flag ok">
+      <span class="tagline">Real measurement · 3 September · 30 of 30 cells</span>
+      <h3>The booking-window curve is U-shaped, not downward-sloping</h3>
+      <div class="tw" style="margin:4px 0">
+        <table>
+          <thead><tr><th>Route</th><th class="n">T+1</th><th class="n">T+7</th><th class="n">T+14</th><th class="n">T+21</th><th class="n">T+45</th></tr></thead>
+          <tbody>
+            <tr><td>DEL-BOM</td><td class="n">10,086</td><td class="n">9,914</td><td class="n">8,374</td><td class="n">7,675</td><td class="n">10,121</td></tr>
+            <tr><td>DEL-BLR</td><td class="n">14,716</td><td class="n">13,624</td><td class="n">12,284</td><td class="n">12,082</td><td class="n">14,108</td></tr>
+            <tr><td>BOM-BLR</td><td class="n">16,493</td><td class="n">13,071</td><td class="n">8,552</td><td class="n">8,690</td><td class="n">8,223</td></tr>
+            <tr><td>DEL-CCU</td><td class="n">13,667</td><td class="n">14,614</td><td class="n">13,876</td><td class="n">12,304</td><td class="n">15,523</td></tr>
+            <tr><td>BLR-HYD</td><td class="n">16,269</td><td class="n">14,833</td><td class="n">6,153</td><td class="n">5,887</td><td class="n">8,484</td></tr>
+            <tr><td>MAA-DEL</td><td class="n">14,414</td><td class="n">13,124</td><td class="n">13,462</td><td class="n">12,520</td><td class="n">15,711</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p>Median fare in ₹. Two things stand out. <strong>BLR–HYD falls 2.8× from ₹16,269 at T+1 to ₹5,887 at T+21.</strong> And on four of six routes <strong>T+45 is dearer than T+21</strong> — the cheapest moment is around two to three weeks out, not as far ahead as possible.</p>
+      <p class="quote">No official index anywhere publishes a booking-window curve. Nobody had looked. We looked, and it isn't the shape we assumed.</p>
+      <div class="warnbox"><b>Say “we observed”, never “airfares are”</b>This is one day on six routes. A U-shape on 3 September is not proof of a general pattern. Sunday's and Monday's collections will tell you whether it holds — and if a judge asks, “we have three days and we'd want a quarter before claiming it” is a strong answer, not a weak one.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CUT LINE ================= -->
+<section>
+  <div class="shead"><h2>The cut line</h2><span class="rule"></span></div>
+  <div class="stack col" style="margin-bottom:18px">
+    <p>Decide now, while it's cheap. When Saturday runs late, cut from the bottom without a discussion.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Item</th><th>Call</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Compliance gate with dated evidence</td><td><span class="pill p-must">MUST</span></td><td>Already done. Answers the hardest question in the PS.</td></tr>
+        <tr><td>Live collection from a permitted source</td><td><span class="pill p-must">MUST</span></td><td>Already done. 30 real cells.</td></tr>
+        <tr><td>Bronze → Silver → Gold with lineage</td><td><span class="pill p-must">MUST</span></td><td>The auditability claim collapses without it</td></tr>
+        <tr><td>Index engine + method version + confidence</td><td><span class="pill p-must">MUST</span></td><td>Separates an index from a scraper</td></tr>
+        <tr><td>APIx vs MoSPI overlay chart</td><td><span class="pill p-must">MUST</span></td><td>The single frame that carries the pitch</td></tr>
+        <tr><td>Ten counted demo runs</td><td><span class="pill p-must">MUST</span></td><td>The meeting said so. It is also how you find the bugs.</td></tr>
+        <tr><td>Booking-window curve</td><td><span class="pill p-should">SHOULD</span></td><td>Unique to us, and our data already made it interesting</td></tr>
+        <tr><td>Manual ground-truth validation</td><td><span class="pill p-should">SHOULD</span></td><td>20 minutes of non-coder time for a disproportionate claim</td></tr>
+        <tr><td>Lineage drill-down in the UI</td><td><span class="pill p-should">SHOULD</span></td><td>The API endpoint alone can carry it</td></tr>
+        <tr><td>Route heatmap</td><td><span class="pill p-could">COULD</span></td><td>Cut this first</td></tr>
+        <tr><td>A second live source</td><td><span class="pill p-wont">WON'T</span></td><td>The adapter pattern demonstrates extensibility once</td></tr>
+        <tr><td>Docker, Postgres running, CI, auth</td><td><span class="pill p-wont">WON'T</span></td><td>Zero marks. The schema file is the story.</td></tr>
+        <tr><td>Forecasting or ML</td><td><span class="pill p-wont">WON'T</span></td><td>Actively harmful — MoSPI wants measurement, not prediction</td></tr>
+        <tr><td>Anti-bot work of any kind</td><td><span class="pill p-wont">WON'T</span></td><td>Contradicts the position the whole project stands on</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= QA ================= -->
+<section>
+  <div class="shead"><h2>The five-minute Q&amp;A — answers, not notes</h2><span class="rule"></span></div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Question</th><th>Who answers</th><th>The answer</th></tr></thead>
+      <tbody>
+        <tr><td>Which index formula?</td><td>Bharat</td><td>Jevons — geometric mean — for elementary aggregation across booking windows; Laspeyres-type fixed weights across routes. The same elementary form CPI construction uses.</td></tr>
+        <tr><td>Why median not mean?</td><td>Bharat</td><td>Fare distributions are right-skewed. On DEL–BOM, one route one date, we measured ₹6,090 to ₹24,056. The mean is ~₹8,900, a price almost nobody paid. The median describes the fare a typical buyer sees.</td></tr>
+        <tr><td>Where's the AI?</td><td>Mayank</td><td>There is none, deliberately. This measures, it doesn't predict. A model would make the number harder to audit, and a statistical office needs to defend every published figure.</td></tr>
+        <tr><td>The PS asks for CAPTCHA handling and IP rotation.</td><td>Mayank</td><td>Deliberately absent. The same statement also requires robots.txt and ToS compliance — both cannot hold. We built a permission-tiered architecture instead, and we report the sources that refuse as a finding about market observability.</td></tr>
+        <tr><td>How much of this is real?</td><td>Mayank</td><td>The MoSPI overlay is real official data. The compliance checks are real, run today. The collection is real — 30 cells a day from a permitted source. The 91-day history behind it is simulated from a documented model, labelled SIMULATED in the database, and drawn differently on the chart.</td></tr>
+        <tr><td>Six routes out of 1,100 city pairs?</td><td>Bharat</td><td>Answer per route, never in aggregate. Five observations a day is ~150 a month against MoSPI's one national monthly figure. Adding a route is one line of config.</td></tr>
+        <tr><td>A festival surge and a broken parser both look like a spike.</td><td>Ayush</td><td>They arrive as different statuses. A surge is a run of OK rows and the median resists it. A broken parser is PARSE_FAIL — no fare, coverage drops, confidence downgrades, and Bronze is kept so the history can be re-parsed.</td></tr>
+        <tr><td>What if a portal redesigns its page?</td><td>Mayank</td><td>Rows go to PARSE_FAIL, coverage falls, the grade drops, and the series says so rather than quietly interpolating. Because Bronze is immutable, fixing the adapter recovers the history retroactively.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ================= DOD ================= -->
+<section>
+  <div class="shead"><h2>Definition of done</h2><span class="rule"></span></div>
+  <div class="check">
+    <div class="ci"><span class="box"></span><span>Demo run <strong>10 times</strong>, count written down, last three clean</span><span class="who">All three</span></div>
+    <div class="ci"><span class="box"></span><span>Run once with wifi off — fallback is visibly graceful</span><span class="who">Mayank</span></div>
+    <div class="ci"><span class="box"></span><span>Ayush recomputed one route-day by hand and it matched the engine</span><span class="who">Ayush</span></div>
+    <div class="ci"><span class="box"></span><span>Bharat answers all four formula questions without notes</span><span class="who">Bharat</span></div>
+    <div class="ci"><span class="box"></span><span><code>METHODOLOGY.md</code> v0.1 — all seven justification boxes written</span><span class="who">Ayush</span></div>
+    <div class="ci"><span class="box"></span><span>Real collection ran Sat, Sun and Mon morning</span><span class="who">Mayank</span></div>
+    <div class="ci"><span class="box"></span><span>Manual panel: 30 cells hand-checked, deviation table prints</span><span class="who">Girls + Bharat</span></div>
+    <div class="ci"><span class="box"></span><span>PPT is 4–5 minutes timed aloud, wrong airfare claim fixed</span><span class="who">Vidushi</span></div>
+    <div class="ci"><span class="box"></span><span>PPTX <strong>and</strong> PDF on a pendrive, opened on a second machine</span><span class="who">Vidushi</span></div>
+    <div class="ci"><span class="box"></span><span>90-second screen recording exists as demo insurance</span><span class="who">Mayank</span></div>
+    <div class="ci"><span class="box"></span><span>Repo pushed, README with the compliance table and a screenshot</span><span class="who">Mayank</span></div>
+    <div class="ci"><span class="box"></span><span>Two full run-throughs against a clock</span><span class="who">Everyone</span></div>
+  </div>
+</section>
+
+<footer>
+  <span>APIx · SIH26056 · TouchGrass.exe</span>
+  <span>Written Fri 4 Sep 15:30 · Present Mon 7 Sep 15:00</span>
+</footer>
+
+</div>
