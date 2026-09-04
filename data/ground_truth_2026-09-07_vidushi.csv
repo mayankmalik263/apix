@@ -1,0 +1,11 @@
+observation_date,route_code,window_days,departure_date,checker,time_checked,website,airline,flight_no,fare_shown,status,notes
+2026-09-07,BLR-HYD,1,2026-09-08,Vidushi,,,,,,,
+2026-09-07,BLR-HYD,7,2026-09-14,Vidushi,,,,,,,
+2026-09-07,BLR-HYD,14,2026-09-21,Vidushi,,,,,,,
+2026-09-07,BLR-HYD,21,2026-09-28,Vidushi,,,,,,,
+2026-09-07,BLR-HYD,45,2026-10-22,Vidushi,,,,,,,
+2026-09-07,MAA-DEL,1,2026-09-08,Vidushi,,,,,,,
+2026-09-07,MAA-DEL,7,2026-09-14,Vidushi,,,,,,,
+2026-09-07,MAA-DEL,14,2026-09-21,Vidushi,,,,,,,
+2026-09-07,MAA-DEL,21,2026-09-28,Vidushi,,,,,,,
+2026-09-07,MAA-DEL,45,2026-10-22,Vidushi,,,,,,,

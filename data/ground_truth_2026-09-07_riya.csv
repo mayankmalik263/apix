@@ -1,0 +1,11 @@
+observation_date,route_code,window_days,departure_date,checker,time_checked,website,airline,flight_no,fare_shown,status,notes
+2026-09-07,BOM-BLR,1,2026-09-08,Riya,,,,,,,
+2026-09-07,BOM-BLR,7,2026-09-14,Riya,,,,,,,
+2026-09-07,BOM-BLR,14,2026-09-21,Riya,,,,,,,
+2026-09-07,BOM-BLR,21,2026-09-28,Riya,,,,,,,
+2026-09-07,BOM-BLR,45,2026-10-22,Riya,,,,,,,
+2026-09-07,DEL-CCU,1,2026-09-08,Riya,,,,,,,
+2026-09-07,DEL-CCU,7,2026-09-14,Riya,,,,,,,
+2026-09-07,DEL-CCU,14,2026-09-21,Riya,,,,,,,
+2026-09-07,DEL-CCU,21,2026-09-28,Riya,,,,,,,
+2026-09-07,DEL-CCU,45,2026-10-22,Riya,,,,,,,

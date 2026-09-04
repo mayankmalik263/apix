@@ -33,15 +33,14 @@ ASSIGNMENT = {
     "Vidushi": ["BLR-HYD", "MAA-DEL"],
 }
 
-# Two collection days: 3 and 4 September. Presentation is 4 Sep at 15:00, so
-# the 4th must be collected in the MORNING -- it is the freshest number we can
-# show, and there is no second chance at it.
+# Presentation is Monday 7 September at 15:00, so Monday's sheet must be
+# filled in the MORNING. There is no second chance at any of these -- a fare
+# cannot be looked up after the day has passed.
 #
-# 2 September was available and was not collected. That day is permanently
-# missing from the series and cannot be recovered, which is precisely the
-# property of this data that makes the project worth building. Do not lose
-# the 3rd the same way.
-COLLECTION_DAYS = [date(2026, 9, 3), date(2026, 9, 4)]
+# 2 September was available and nobody collected it. That day is permanently
+# gone, which is precisely the property of this data that makes the project
+# worth building.
+COLLECTION_DAYS = [date(2026, 9, 5), date(2026, 9, 6), date(2026, 9, 7)]
 
 COLUMNS = [
     "observation_date",   # pre-filled

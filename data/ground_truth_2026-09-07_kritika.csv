@@ -1,0 +1,11 @@
+observation_date,route_code,window_days,departure_date,checker,time_checked,website,airline,flight_no,fare_shown,status,notes
+2026-09-07,DEL-BOM,1,2026-09-08,Kritika,,,,,,,
+2026-09-07,DEL-BOM,7,2026-09-14,Kritika,,,,,,,
+2026-09-07,DEL-BOM,14,2026-09-21,Kritika,,,,,,,
+2026-09-07,DEL-BOM,21,2026-09-28,Kritika,,,,,,,
+2026-09-07,DEL-BOM,45,2026-10-22,Kritika,,,,,,,
+2026-09-07,DEL-BLR,1,2026-09-08,Kritika,,,,,,,
+2026-09-07,DEL-BLR,7,2026-09-14,Kritika,,,,,,,
+2026-09-07,DEL-BLR,14,2026-09-21,Kritika,,,,,,,
+2026-09-07,DEL-BLR,21,2026-09-28,Kritika,,,,,,,
+2026-09-07,DEL-BLR,45,2026-10-22,Kritika,,,,,,,
