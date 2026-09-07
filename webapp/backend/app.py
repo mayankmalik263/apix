@@ -16,6 +16,7 @@ and a reason instead.
 from __future__ import annotations
 
 import json
+import os
 import logging
 import sqlite3
 from contextlib import asynccontextmanager
@@ -47,7 +48,16 @@ DB_PATH = db_path()
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Scheduler lifetime is tied to the app, so running it is one command.
-    A failure to start is logged and the API serves anyway."""
+    A failure to start is logged and the API serves anyway.
+
+    APIX_SCHEDULER=off disables it outright. A public read-only deployment
+    publishes numbers collected elsewhere: it has no browser installed, no
+    business reaching an airline portal, and nothing to gain from trying.
+    """
+    if os.environ.get("APIX_SCHEDULER", "on").lower() in {"off", "0", "false", "no"}:
+        log.info("scheduler disabled by APIX_SCHEDULER; serving read-only")
+        yield
+        return
     try:
         scheduler.start(catch_up=True)
     except Exception:

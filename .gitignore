@@ -32,3 +32,7 @@ Thumbs.db
 
 # Scratch database used by scripts/dry_run.py
 apix.dryrun.db
+
+# The compressed live archive IS tracked: it is the only copy of three days of
+# real collection that cannot be gathered again, and 13 MB is a fair price.
+!data/seed/

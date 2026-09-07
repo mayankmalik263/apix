@@ -1,23 +1,24 @@
-# Render blueprint. Push this repo to GitHub, then New > Blueprint on Render
-# and point it at the repo.
+# One service. FastAPI already serves the dashboard, the open data feed and the
+# keyed API from the same process, so splitting the frontend onto a second host
+# would add a CORS surface and a second deploy for no gain.
 #
-# The disk matters more than the plan: Bronze is an append-only archive of
-# fares that cannot be re-collected, so it needs storage that survives a
-# deploy. A free instance that sleeps will also miss its collection slot —
-# the catch-up run covers a short nap, not an overnight one.
+# No persistent disk, deliberately. The build step rebuilds the whole database
+# from the raw archive in data/seed, so the SQLite file is baked into the image
+# and a restart cannot lose anything that was not already in git. That also
+# means the free plan is enough.
 services:
   - type: web
     name: apix
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    plan: starter
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements-web.txt && python -m scripts.bootstrap
+    startCommand: python -m uvicorn webapp.backend.app:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /v1/health
     envVars:
-      - key: APIX_DB_PATH
-        value: /data/apix.db
-      - key: TZ
-        value: Asia/Kolkata
-    disk:
-      name: apix-data
-      mountPath: /data
-      sizeGB: 5
+      - key: PYTHON_VERSION
+        value: "3.12.6"
+      - key: APIX_SCHEDULER
+        value: "off"          # read-only instance: it never collects
+      - key: PYTHONIOENCODING
+        value: "utf-8"

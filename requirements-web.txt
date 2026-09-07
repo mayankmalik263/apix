@@ -1,0 +1,17 @@
+# Serving only. No collection.
+#
+# A public deployment publishes numbers collected elsewhere, so it needs no
+# browser: playwright and scrapling are the two heaviest things in
+# requirements.txt and neither is imported by the web application. Leaving
+# them out takes a Render build from minutes to seconds.
+#
+# Run the collector from requirements.txt, on a machine you control.
+
+fastapi>=0.110
+uvicorn>=0.27
+slowapi>=0.1.10
+itsdangerous>=2.2
+python-multipart>=0.0.20
+apscheduler>=3.11
+pyyaml>=6.0
+httpx>=0.27
