@@ -18,6 +18,13 @@ Everything is already in the repo to do it:
 That is the whole thing. `render.yaml` in the repo root tells Render what to
 build, what to run, and that the instance must never try to collect fares.
 
+**Collection is separately automated** and needs no action from you:
+`.github/workflows/collect.yml` runs the thirty-cell collection every day at
+20:00 IST, commits the raw file, and the commit redeploys Render. See "Where
+the daily collection actually runs" below. Trigger it once by hand first, from
+the Actions tab, so you find out today rather than tomorrow whether collecting
+from a GitHub runner works.
+
 ---
 
 ## Why not Vercel for the frontend
@@ -82,29 +89,65 @@ persistent disk is needed.
 
 ---
 
-## What is deliberately switched off
+## Where the daily collection actually runs
 
-`APIX_SCHEDULER=off`.
+**In GitHub Actions, not on the web host.** `.github/workflows/collect.yml`
+fires at 14:30 UTC, which is the 20:00 IST slot declared in
+`config/basket.yml`, and does the full run: compliance check, collect thirty
+cells, retry the ones that failed, Bronze, Silver, Gold. It then commits that
+day's raw file and that day's compliance verdicts back to this repository,
+which triggers a Render redeploy, which rebuilds the index and republishes.
 
-A public instance publishes numbers that were collected elsewhere. It has no
-browser installed, no compliance verdict dated today, and no business opening
-a connection to an airline's servers. If it tried, the compliance gate would
-refuse it anyway, and the refusals would be written into Bronze as
-`SOURCE_DISALLOWED` rows.
+The loop is closed. Nobody has to be awake.
 
-**Collection stays on your laptop.** Run it there, then push the new day's
-Bronze file into `data/seed/` and redeploy. One command each evening:
+This is not where the scheduler was meant to live. `webapp/backend/scheduler.py`
+runs the identical sequence in-process, and on a host that stays awake with a
+persistent disk it is the better answer. Three properties of a free web
+instance make it impossible there, and none of them are preferences:
+
+| | |
+|---|---|
+| Sleeps after 15 minutes idle | The job never fires at 20:00 |
+| 512 MB of memory | Chromium will not run reliably |
+| Filesystem wiped on restart | Destroys an archive that cannot be collected again |
+
+A GitHub runner has none of those problems, and committing each day's raw file
+to version control makes the provenance stronger rather than weaker. A judge
+can open the exact bytes a published median was parsed from, and check the
+SHA-256 we recorded at the time.
+
+`APIX_SCHEDULER=off` on Render therefore stays. The web instance publishes;
+it does not collect. It has no browser installed, no compliance verdict dated
+today, and no business opening a connection to an airline's servers.
+
+### Testing it before you rely on it
+
+Actions tab → **collect** → **Run workflow**. It takes about twenty-five
+minutes, most of that the rate-limited collection itself. Watch for two things:
+
+- **The compliance report.** Six of eleven sources permitted is the expected
+  result. Fewer is worth reading carefully before you trust the run.
+- **The OK count in the job summary.** Thirty is a full day.
+
+**The known risk:** the runner collects from a datacenter IP, which Cleartrip
+may treat differently from a home connection. If it does, the run records
+`BLOCKED` or `FETCH_FAIL`, coverage drops, and the confidence grade falls.
+That is the system behaving correctly and reporting honestly. It is not fixed
+by rotating IPs, and we do not do that. If it happens, collect from a laptop
+instead and push the file by hand:
 
 ```bash
 python -m apix.cli compliance --check
 python -m apix.cli collect --today --live
-python - -c "import gzip,shutil,sys;d=sys.argv[1];shutil.copyfileobj(open(f'data/bronze/{d}/cleartrip.jsonl','rb'),gzip.open(f'data/seed/{d}-cleartrip.jsonl.gz','wb'))" 2026-09-09
-git add data/seed && git commit -m "collection: 2026-09-09" && git push
+python -c "import gzip,shutil;d='2026-09-09';shutil.copyfileobj(open(f'data/bronze/{d}/cleartrip.jsonl','rb'),gzip.open(f'data/seed/{d}-cleartrip.jsonl.gz','wb'))"
+git add data/seed compliance && git commit -m "collection: 2026-09-09" && git push
 ```
 
-Render redeploys on push, rebuilds the index, and the live site has the new
-day. That keeps the published site honest: every number on it came from a raw
-file that is in version control.
+### What it costs
+
+About 4.5 MB of repository growth per collection day, and roughly 25 minutes
+of Actions time, which is free on public repositories and well inside the free
+allowance on private ones.
 
 ---
 

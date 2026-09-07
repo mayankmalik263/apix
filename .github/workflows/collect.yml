@@ -1,0 +1,147 @@
+# The daily collection run.
+#
+# This is the automation the problem statement asks for: thirty observations a
+# day, every day, on a declared schedule, with no human in the loop. It runs
+# here rather than on the web host for three reasons that are not preferences:
+# a free web instance sleeps and would never fire the job, it has too little
+# memory to run Chromium, and its filesystem is wiped on every restart, which
+# would destroy an archive that cannot be collected again.
+#
+# What this job produces is committed to the repository. That is the point.
+# Every number the live site publishes traces back to a raw file in version
+# control that anyone can open, hash, and re-parse.
+#
+# The compliance gate runs first and runs here too. If a source is not cleared
+# today, the collector refuses it before a browser is launched. There is no
+# CAPTCHA handling and no IP rotation, and adding either to get around a block
+# would be a decision to stop measuring honestly.
+
+name: collect
+
+on:
+  schedule:
+    # 14:30 UTC = 20:00 IST, the observation slot declared in config/basket.yml.
+    # GitHub runs cron on a best-effort basis and can be late under load, so
+    # the scheduled time is the intent and every observation records the actual
+    # fetch time it was captured at.
+    - cron: "30 14 * * *"
+  workflow_dispatch:
+    inputs:
+      observation_date:
+        description: "Override the observation date (YYYY-MM-DD). Leave blank for today."
+        required: false
+        type: string
+
+# One collection at a time, ever. Two overlapping runs would double-write
+# Bronze and fight over the same rows.
+concurrency:
+  group: apix-collect
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      PYTHONIOENCODING: utf-8
+      TZ: Asia/Kolkata
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          python -m playwright install --with-deps chromium
+
+      - name: Rebuild the database from the archive
+        run: python -m scripts.bootstrap
+
+      - name: Compliance check
+        # Writes today's verdict ledger and stores each robots.txt verbatim
+        # with its SHA-256. Collection cannot proceed without it.
+        run: |
+          python -m apix.cli compliance --check
+          python -m apix.cli compliance --report
+
+      - name: Collect
+        run: |
+          if [ -n "${{ inputs.observation_date }}" ]; then
+            python -m apix.cli collect --date "${{ inputs.observation_date }}" --live
+          else
+            python -m apix.cli collect --today --live
+          fi
+
+      - name: Retry the cells that failed
+        # A second pass re-fetches only non-MARKET results. A timeout is worth
+        # retrying; a sold-out flight is an answer and is left alone.
+        run: |
+          if [ -n "${{ inputs.observation_date }}" ]; then
+            python -m apix.cli collect --date "${{ inputs.observation_date }}" --live
+          else
+            python -m apix.cli collect --today --live
+          fi
+
+      - name: Build silver and gold
+        run: |
+          python -m apix.load.loader
+          python -m apix.index.engine
+
+      - name: Pack the day into the seed archive
+        id: pack
+        run: |
+          DAY="${{ inputs.observation_date }}"
+          if [ -z "$DAY" ]; then DAY=$(date +%F); fi
+          SRC="data/bronze/$DAY/cleartrip.jsonl"
+          if [ ! -f "$SRC" ]; then
+            echo "no bronze file for $DAY; nothing collected"
+            echo "collected=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          mkdir -p data/seed
+          gzip -9 -c "$SRC" > "data/seed/$DAY-cleartrip.jsonl.gz"
+          OK=$(grep -c '"fetch_status": "OK"' "$SRC" || true)
+          echo "day=$DAY"       >> "$GITHUB_OUTPUT"
+          echo "ok=$OK"         >> "$GITHUB_OUTPUT"
+          echo "collected=true" >> "$GITHUB_OUTPUT"
+          python -m apix.cli bronze --stats
+
+      - name: Publish
+        if: steps.pack.outputs.collected == 'true'
+        run: |
+          git config user.name  "apix-collector"
+          git config user.email "noreply@github.com"
+          git add data/seed compliance/verdicts compliance/evidence
+          if git diff --cached --quiet; then
+            echo "nothing changed; not committing"
+            exit 0
+          fi
+          git commit -m "collection: ${{ steps.pack.outputs.day }} (${{ steps.pack.outputs.ok }} OK observations)
+
+          Collected on the declared schedule. Raw payloads and today's
+          compliance verdicts are committed alongside, so every published
+          value traces to a file in version control."
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: Report
+        if: always()
+        run: |
+          echo "### APIx collection" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.pack.outputs.collected }}" = "true" ]; then
+            echo "Day: \`${{ steps.pack.outputs.day }}\`" >> $GITHUB_STEP_SUMMARY
+            echo "OK observations: **${{ steps.pack.outputs.ok }}**" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Nothing was collected. Check the compliance report above:" >> $GITHUB_STEP_SUMMARY
+            echo "a refusal is a policy outcome, not a crash." >> $GITHUB_STEP_SUMMARY
+          fi
