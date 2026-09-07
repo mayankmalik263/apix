@@ -540,6 +540,11 @@ function renderOutliers(rows) {
 function renderCompliance(c) {
   if (!c) return;
   $("g-src").textContent = c.permitted + " / " + c.total;
+  // State the date the verdict actually carries. Asserting "checked today"
+  // on a page that does not know when the check ran is a claim we cannot
+  // support, and this project is meant to be checkable.
+  if ($("g-srcw")) $("g-srcw").textContent =
+    c.checked_on ? "robots.txt, checked " + c.checked_on : "robots.txt";
   $("rail").innerHTML = c.sources.map(s => `
     <div class="src ${s.verdict === "PERMITTED" ? "on" : ""}">
       <div style="display:flex;justify-content:space-between;align-items:center;gap:8px">

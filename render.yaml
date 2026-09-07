@@ -22,3 +22,9 @@ services:
         value: "off"          # read-only instance: it never collects
       - key: PYTHONIOENCODING
         value: "utf-8"
+      - key: TZ
+        # The observation slot in config/basket.yml is declared in IST, so the
+        # server's idea of "today" has to be IST too. On a UTC host the date
+        # rolls over at 05:30 IST, which puts the 20:00 collection slot and the
+        # compliance verdict it depends on on opposite sides of midnight.
+        value: "Asia/Kolkata"
