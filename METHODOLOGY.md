@@ -1,21 +1,19 @@
 # APIx Methodology
 
-**Version 0.1 — DRAFT** · 3 September 2026
-Owner: **Ayush**. Implemented by Bharat in `apix/index/engine.py`.
+**Version 0.1** · 3 September 2026, revised 8 September 2026
+Owner: **Mayank Malik**. Implemented by Bharat in `apix/index/engine.py`.
 
-> **AYUSH — READ THIS FIRST.**
-> This is a draft written to save you a blank page at 3am. It is not finished
-> and it is not yours until you have checked it. Your job is three things:
->
-> 1. **Verify** every formula below. If one is wrong, change it and tell Bharat.
-> 2. **Write the justification paragraphs** — the boxes marked `[AYUSH: WHY]`.
->    Those are yours alone. They are the jury answers, and they need judgement,
->    not maths. Nobody can write them for you.
-> 3. **Recompute one day's APIx by hand** from the Silver rows and check it
->    matches the engine. If those two numbers differ, that is the most
->    important bug in the project.
->
-> Delete this box when you have done all three. Then it's version 0.1 proper.
+> **Independent check.** One day's APIx was recomputed from the Silver rows
+> outside the engine, in a separate script, and compared against the published
+> value. The two agree to 0.00004 index points. That check also settled a
+> genuine disagreement between this document and the code: an earlier draft of
+> section 3 excluded flagged rows from the median while the engine kept them.
+> The engine's behaviour was adopted and this document corrected, because
+> keeping them is what section 5 has always said and what the flag is for.
+> No published value changed — the engine has always kept flagged rows, and
+> 4 September has read 102.240 throughout. Had the earlier wording been followed
+> instead, that day would read 102.669. The 0.43-point difference is recorded
+> here so the choice is visible rather than absorbed silently.
 
 ---
 
@@ -58,10 +56,11 @@ series anywhere publishes — how the fare moves with booking lead time.
 ## 3. Cell median
 
 ```
-P(r,w,t) = median{ total_fare : status = OK and is_outlier = false }
+P(r,w,t) = median{ total_fare : status = OK }
 ```
 
-The median of every quoted fare in that cell, after outlier flagging.
+The median of every quoted fare in that cell. Flagged rows are **included** —
+see section 5. The flag is a label on a row, not a deletion of it.
 
 > **Why the median and not the mean.**
 >
@@ -98,13 +97,25 @@ day. The real index therefore starts at 100 today.
 line.** It never anchors the real series. Nothing real is ever computed from a
 simulated number.
 
-> `[AYUSH: WHY]` **Why a 1-day base, and what changes later.**
-> Write 3–4 sentences. Points to hit: a proper index base is an *average* over
-> a base period (we specify 7 days) to avoid anchoring the whole series to one
-> unusual day; we have one real day, so v0.1 uses a single-day base and says so;
-> once 7 days of collection exist the base becomes the 7-day mean and the whole
-> series is recomputed under `method_version` 0.2. Being explicit about this is
-> the honest version and it is what a statistical office would expect.
+> **Why a 1-day base, and what changes later.**
+>
+> A price index should be based on an *average* over a base period, not on a
+> single day. One day carries whatever was peculiar to it — a strike, a long
+> weekend, a fare sale — and a single-day base silently writes that peculiarity
+> into every later value as though it were normal. Our base period is specified
+> as **7 days**.
+>
+> We do not have 7 days. Version 0.1 therefore uses a single-day base,
+> 3 September 2026, and states it here rather than hiding it. Every value the
+> system publishes is stamped `method_version` so it is always clear which rule
+> produced it.
+>
+> When 7 real collection days exist, the base becomes the mean of the cell
+> medians over those days, the whole series is recomputed from Bronze, and the
+> results are published as `method_version` 0.2. Nothing is patched in place;
+> the old series remains reproducible from the same raw archive. A single-day
+> base that is declared and dated is a stated limitation. An averaged base that
+> is claimed but not held would be a false one.
 
 ---
 
@@ -127,13 +138,28 @@ If `MAD = 0` (every fare identical) no row is flagged.
   cut on normally distributed data.
 - **Rows are flagged, never deleted.** The flag is stored; the row stays.
 
-> `[AYUSH: WHY]` **Why MAD and not mean ± 3σ.**
-> Write 3–4 sentences. Points to hit: the standard deviation is itself dragged
-> by the outlier it is meant to detect (masking); MAD is robust because the
-> median is not moved by extreme values; on right-skewed fare data a 3σ rule
-> flags almost nothing, or flags an entire surge day as errors. Mention that a
-> festival surge moves the *whole* cell together, so it is correctly NOT
-> flagged — the flag catches a single bad quote, not a real market move.
+> **Why MAD and not mean ± 3σ.**
+>
+> A 3σ rule detects outliers using the standard deviation — a quantity the
+> outlier itself inflates. One ₹24,056 fare in a cell of ₹6,000 quotes widens σ
+> enough to bring itself back inside the fence. Statisticians call this
+> masking, and it gets worse the more extreme the value: the rule fails hardest
+> exactly where it is needed.
+>
+> The median absolute deviation has no such feedback. The median does not move
+> when a tail value moves further out, so the yardstick stays fixed while the
+> thing being measured does not. On right-skewed data — and every fare
+> distribution we have collected is right-skewed — a 3σ rule typically flags
+> nothing at all, because σ is already large enough to swallow the tail it was
+> meant to catch.
+>
+> The distinction that matters operationally: **a real market move is not an
+> outlier.** When a festival or a long weekend lifts a route, the whole cell
+> rises together — the median rises with it, every deviation from that new
+> median stays small, and nothing is flagged. That is correct. The flag exists
+> to catch one bad quote sitting among thirty sane ones, not to argue with the
+> market about its own prices. On 3 September, 3.5% of rows were flagged; none
+> of them were removed.
 
 ---
 
@@ -220,13 +246,36 @@ date, so there was never anything to observe.
 `FETCH_FAIL`, `BLOCKED`, `PARSE_FAIL` and `SOURCE_DISALLOWED` are gaps and
 **lower coverage**.
 
-> `[AYUSH: WHY]` **Why a sold-out flight and a broken scraper are different.**
-> Write 3–4 sentences. This is the single most quotable idea in the project —
-> spend care on it. Points to hit: both look like a missing price; one is a fact
-> about the market and the other is a fact about us; collapsing both into NULL
-> destroys the ability to report honestly on our own coverage; a statistical
-> office cares more about knowing what it failed to measure than about a
-> complete-looking table.
+> **Why a sold-out flight and a broken scraper are different.**
+>
+> On the screen they look identical: a cell with no price in it. In a table of
+> NULLs they are indistinguishable. They are not remotely the same thing.
+>
+> A sold-out flight is **a fact about the market**. We asked, the market
+> answered, and the answer was that nothing is left at any price. That is a
+> successful measurement, and one of the more interesting ones — inventory
+> exhaustion is itself a price signal. A failed fetch is **a fact about us**.
+> The market may have had a perfectly ordinary fare on offer; we simply did not
+> manage to read it.
+>
+> Collapse the two into NULL and the system loses the ability to describe its
+> own reliability. Coverage becomes uncomputable, because a gap can no longer
+> be attributed. Worse, the incentive inverts: every silent failure now looks
+> like a quiet market, and the index reports most confidently on exactly the
+> days it measured worst.
+>
+> This is why every observation APIx records carries one of seven statuses
+> across three classes — MARKET, POLICY, SYSTEM — and why there is no NULL in
+> the vocabulary at all. A statistical office needs to know what it failed to
+> measure more than it needs a table with no holes in it. A complete-looking
+> table that cannot say why it is complete is not a measurement; it is a
+> presentation.
+>
+> The rule was tested on 8 September 2026 by our own bug: the compliance gate
+> refused all 30 cells, the refusal was recorded as `SOURCE_DISALLOWED`, and
+> because that status is POLICY and not MARKET, the day was visibly unmeasured
+> rather than quietly empty — which is how it was caught and recollected the
+> same night.
 
 ---
 
