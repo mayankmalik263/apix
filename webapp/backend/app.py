@@ -69,7 +69,14 @@ app = FastAPI(
         "A daily, route-level airfare price index built for augmentation of the "
         "Consumer Price Index. Every published value carries its coverage, a "
         "confidence grade, and a lineage path back to the stored payload.\n\n"
-        "**SIH26056 · Ministry of Statistics and Programme Implementation**"
+        "**SIH26056 · Ministry of Statistics and Programme Implementation**\n\n"
+        "Every endpoint below is documented under `/v1`, which needs an API key. "
+        "The same routes are open and unkeyed under `/public` — a published "
+        "index is a public statistic, so reading it never requires a credential. "
+        "Try [`/public/apix/latest`](/public/apix/latest), "
+        "[`/public/apix/series`](/public/apix/series) or "
+        "[`/public/methodology`](/public/methodology). The key protects write "
+        "and operator routes, not the numbers."
     ),
 )
 app.state.limiter = limiter
