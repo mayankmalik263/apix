@@ -41,19 +41,9 @@ Conventional wisdom suggests that flight tickets simply get cheaper the earlier 
 
 When tracking fares across lead times, APIx observed a distinct **U-shaped price curve**:
 
-```
- Fare (₹)
-  ▲
-  │   ₹14,781 (T+1) ── Last-minute business surge
-  │     \
-  │      \    ₹10,500 (T+7)
-  │       \     \
-  │        \     \                      ₹9,800 (T+45) ── Advance buffer
-  │         \     \                    /
-  │          ─── ₹9,043 (T+21) ───────
-  │             (Sweet Spot)
-  └──────────────────────────────────────────────────────────► Advance Window
-```
+<p align="center">
+  <img src="assets/u_shaped_curve.svg" alt="Empirical Booking Lead-Time Curve across Indian Domestic Routes" width="100%" />
+</p>
 
 * **Last-Minute Surge (T+1):** Fares spike sharply to a median of **₹14,781** (+63.4% premium).
 * **The Sweet Spot (T+21):** Fares bottom out at **₹9,043** — matching MoSPI's own recommended 3-week domestic collection window.

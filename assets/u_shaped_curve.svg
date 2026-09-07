@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 400" width="100%" height="100%" style="background: #0d1527; border-radius: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+  <defs>
+    <!-- Gradient for Area fill -->
+    <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#00e5ff" stop-opacity="0.32" />
+      <stop offset="60%" stop-color="#00e5ff" stop-opacity="0.08" />
+      <stop offset="100%" stop-color="#00e5ff" stop-opacity="0.0" />
+    </linearGradient>
+
+    <!-- Sweet Spot Radial Glow -->
+    <radialGradient id="greenGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00e676" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#00e676" stop-opacity="0.0" />
+    </radialGradient>
+
+    <!-- Surge Radial Glow -->
+    <radialGradient id="redGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff5252" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ff5252" stop-opacity="0.0" />
+    </radialGradient>
+
+    <!-- Orange Radial Glow -->
+    <radialGradient id="orangeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffab40" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#ffab40" stop-opacity="0.0" />
+    </radialGradient>
+
+    <!-- Card Shadow -->
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000000" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+
+  <!-- Border Outline -->
+  <rect x="1" y="1" width="838" height="398" rx="12" fill="none" stroke="#1e293b" stroke-width="1.5" />
+
+  <!-- Graph Header -->
+  <text x="35" y="42" fill="#ffffff" font-size="16" font-weight="700" letter-spacing="0.3">Empirical Booking Lead-Time Curve</text>
+  <text x="35" y="62" fill="#94a3b8" font-size="12">Daily median fares across 30 cells (6 domestic routes) · September 2026</text>
+
+  <!-- Top Right Badge -->
+  <rect x="670" y="30" width="135" height="26" rx="13" fill="#064e3b" stroke="#059669" stroke-width="1" />
+  <circle cx="684" cy="43" r="4" fill="#34d399" />
+  <text x="696" y="47" fill="#6ee7b7" font-size="11" font-weight="600">U-SHAPED PROFILE</text>
+
+  <!-- Horizontal Grid Lines & Y-Axis Labels -->
+  <!-- Fare Scale: y = 320 is ₹8,000; y = 100 is ₹16,000 (Height = 220px, 8000 spread => 0.0275 px per ₹) -->
+  
+  <!-- ₹16,000 -->
+  <line x1="85" y1="100" x2="790" y2="100" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 4" />
+  <text x="75" y="104" fill="#64748b" font-size="11" text-anchor="end">₹16,000</text>
+
+  <!-- ₹14,000 -->
+  <line x1="85" y1="155" x2="790" y2="155" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 4" />
+  <text x="75" y="159" fill="#64748b" font-size="11" text-anchor="end">₹14,000</text>
+
+  <!-- ₹12,000 -->
+  <line x1="85" y1="210" x2="790" y2="210" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 4" />
+  <text x="75" y="214" fill="#64748b" font-size="11" text-anchor="end">₹12,000</text>
+
+  <!-- ₹10,000 -->
+  <line x1="85" y1="265" x2="790" y2="265" stroke="#1e293b" stroke-width="1" stroke-dasharray="4 4" />
+  <text x="75" y="269" fill="#64748b" font-size="11" text-anchor="end">₹10,000</text>
+
+  <!-- ₹8,000 (Baseline) -->
+  <line x1="85" y1="320" x2="790" y2="320" stroke="#334155" stroke-width="1.5" />
+  <text x="75" y="324" fill="#64748b" font-size="11" text-anchor="end">₹8,000</text>
+
+  <!-- Vertical Guide Lines for Windows -->
+  <line x1="130" y1="100" x2="130" y2="320" stroke="#1e293b" stroke-width="1" stroke-dasharray="2 4" />
+  <line x1="280" y1="100" x2="280" y2="320" stroke="#1e293b" stroke-width="1" stroke-dasharray="2 4" />
+  <line x1="430" y1="100" x2="430" y2="320" stroke="#1e293b" stroke-width="1" stroke-dasharray="2 4" />
+  <line x1="580" y1="100" x2="580" y2="320" stroke="#059669" stroke-width="1.5" stroke-dasharray="3 3" opacity="0.6" />
+  <line x1="730" y1="100" x2="730" y2="320" stroke="#1e293b" stroke-width="1" stroke-dasharray="2 4" />
+
+  <!-- Shaded Area Below Curve -->
+  <!-- Points:
+       T+1  (130, 133) [₹14,781]
+       T+7  (280, 248) [₹10,600]
+       T+14 (430, 277) [₹9,550]
+       T+21 (580, 291) [₹9,043]
+       T+45 (730, 270) [₹9,800]
+  -->
+  <path d="M 130 133 
+           C 200 190, 230 240, 280 248
+           C 330 256, 380 273, 430 277
+           C 480 282, 530 291, 580 291
+           C 630 291, 680 282, 730 270
+           L 730 320 
+           L 130 320 Z" 
+        fill="url(#areaGradient)" />
+
+  <!-- Main Curve Line -->
+  <path d="M 130 133 
+           C 200 190, 230 240, 280 248
+           C 330 256, 380 273, 430 277
+           C 480 282, 530 291, 580 291
+           C 630 291, 680 282, 730 270" 
+        fill="none" 
+        stroke="#00e5ff" 
+        stroke-width="3.5" 
+        stroke-linecap="round" />
+
+  <!-- Data Point: T+7 -->
+  <circle cx="280" cy="248" r="4.5" fill="#00e5ff" stroke="#0d1527" stroke-width="2" />
+  <text x="280" y="236" fill="#cbd5e1" font-size="11" font-weight="600" text-anchor="middle">₹10,500</text>
+
+  <!-- Data Point: T+14 -->
+  <circle cx="430" cy="277" r="4.5" fill="#00e5ff" stroke="#0d1527" stroke-width="2" />
+  <text x="430" y="265" fill="#cbd5e1" font-size="11" font-weight="600" text-anchor="middle">₹9,550</text>
+
+  <!-- Data Point: T+45 (Advance Rebound) -->
+  <circle cx="730" cy="270" r="14" fill="url(#orangeGlow)" />
+  <circle cx="730" cy="270" r="5" fill="#ffab40" stroke="#0d1527" stroke-width="2" />
+  
+  <!-- T+45 Pill Label -->
+  <g filter="url(#dropShadow)">
+    <rect x="655" y="215" width="150" height="42" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="1.2" />
+    <text x="730" y="233" fill="#a5b4fc" font-size="12" font-weight="700" text-anchor="middle">₹9,800 (T+45)</text>
+    <text x="730" y="248" fill="#cbd5e1" font-size="10" text-anchor="middle">Advance Buffer (+8.4%)</text>
+  </g>
+
+  <!-- Data Point: T+1 (Surge) -->
+  <circle cx="130" cy="133" r="16" fill="url(#redGlow)" />
+  <circle cx="130" cy="133" r="6" fill="#ff5252" stroke="#ffffff" stroke-width="2" />
+
+  <!-- T+1 Pill Label -->
+  <g filter="url(#dropShadow)">
+    <rect x="55" y="78" width="150" height="42" rx="6" fill="#450a0a" stroke="#ef4444" stroke-width="1.2" />
+    <text x="130" y="96" fill="#fca5a5" font-size="12" font-weight="700" text-anchor="middle">₹14,781 (T+1)</text>
+    <text x="130" y="111" fill="#fecaca" font-size="10" text-anchor="middle">Last-Minute Surge (+63.4%)</text>
+  </g>
+
+  <!-- Data Point: T+21 (Sweet Spot) -->
+  <circle cx="580" cy="291" r="18" fill="url(#greenGlow)" />
+  <circle cx="580" cy="291" r="6.5" fill="#00e676" stroke="#ffffff" stroke-width="2" />
+
+  <!-- T+21 Pill Label -->
+  <g filter="url(#dropShadow)">
+    <rect x="495" y="325" width="170" height="44" rx="6" fill="#064e3b" stroke="#10b981" stroke-width="1.5" />
+    <text x="580" y="343" fill="#6ee7b7" font-size="12" font-weight="800" text-anchor="middle">★ ₹9,043 (T+21)</text>
+    <text x="580" y="358" fill="#a7f3d0" font-size="10" font-weight="500" text-anchor="middle">Sweet Spot (MoSPI Window)</text>
+  </g>
+
+  <!-- X-Axis Labels -->
+  <text x="130" y="345" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">T+1</text>
+  <text x="130" y="359" fill="#64748b" font-size="10" text-anchor="middle">(1 Day)</text>
+
+  <text x="280" y="345" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">T+7</text>
+  <text x="280" y="359" fill="#64748b" font-size="10" text-anchor="middle">(1 Week)</text>
+
+  <text x="430" y="345" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">T+14</text>
+  <text x="430" y="359" fill="#64748b" font-size="10" text-anchor="middle">(2 Weeks)</text>
+
+  <text x="580" y="380" fill="#34d399" font-size="11" font-weight="700" text-anchor="middle">T+21 Reference</text>
+
+  <text x="730" y="345" fill="#94a3b8" font-size="11" font-weight="600" text-anchor="middle">T+45</text>
+  <text x="730" y="359" fill="#64748b" font-size="10" text-anchor="middle">(45 Days)</text>
+
+</svg>
