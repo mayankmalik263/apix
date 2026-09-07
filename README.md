@@ -294,8 +294,12 @@ We believe that integrity is the foundation of public statistics. We state our c
 **Organisation:** Ministry of Statistics & Programme Implementation (MoSPI)  
 **Team:** `TouchGrass.exe` · UPES Dehradun  
 
-* **Mayank Malik** — System Architecture, Compliance Gate, Collection Pipeline, Dashboard & API  
-* **Bharat** — Database Architecture, Data Loader, Index Engine, Webapp  
+* **Mayank Malik** — Team Lead · System Architecture, Compliance Gate, Collection Pipeline, Dashboard & API  
+* **Bharat** — Database Architecture, Storage Pipeline, Index Engine & Webapp  
+* **Ayush** — Mathematical Formulation, Index Methodology & Computational Framework  
+* **Vidushi** — Presentation Deck, Research & Data Validation  
+* **Riya** — Presentation Deck, Research & Data Validation  
+* **Kritika** — Presentation Deck, Research & Data Validation  
 
 ---
 
