@@ -67,23 +67,50 @@ When tracking fares across lead times, APIx observed a distinct **U-shaped price
 
 APIx processes web observations into national economic statistics using an auditable, multi-stage architecture:
 
-```
-┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
-│ 1. Legal Gate   │  ───► │ 2. Bronze Vault │  ───► │ 3. Silver Layer │  ───► │ 4. Gold Index   │
-│                 │       │                 │       │                 │       │                 │
-│ Check robots.txt│       │ Raw, untouched  │       │ Standardised    │       │ Cell medians    │
-│ & crawler terms │       │ JSONL payloads  │       │ 7-status codes  │       │ Jevons & Lasp.  │
-│ Verify consent  │       │ SHA-256 hashed  │       │ MAD outlier tag │       │ Daily APIx      │
-└─────────────────┘       └─────────────────┘       └─────────────────┘       └─────────────────┘
-                                                                                       │
-                                                                                       ▼
-                                                                            ┌─────────────────────┐
-                                                                            │ 5. Public Delivery  │
-                                                                            │                     │
-                                                                            │ Dashboard & ECharts │
-                                                                            │ Secured /v1 API     │
-                                                                            │ Lineage Walk-back   │
-                                                                            └─────────────────────┘
+```mermaid
+flowchart TD
+    %% Stage 1: Compliance & Collection
+    subgraph S1["1. Compliance & Ethical Collection"]
+        direction TB
+        A["Airline & OTA Portals<br/><i>(11 Registered Portals)</i>"] --> B{"Compliance Gate<br/><i>robots.txt verified today?</i>"}
+        B -- "❌ Disallowed / Timeout" --> B1["Logged as Disallowed / Timeout<br/><i>Reported as an observable market gap</i>"]
+        B -- "✅ Permitted" --> C["Playwright Engine<br/><i>Network API Interception</i>"]
+    end
+
+    %% Stage 2: Bronze Layer
+    subgraph S2["2. Bronze Vault (Raw Storage)"]
+        direction TB
+        C --> D[("Raw JSONL Files<br/><code>data/bronze/YYYY-MM-DD/</code>")]
+        D --> D1["Cryptographic Ledger<br/><i>SHA-256 Hashed · Append-Only</i>"]
+    end
+
+    %% Stage 3: Silver Layer
+    subgraph S3["3. Silver Layer (Data Normalisation)"]
+        direction TB
+        D --> E["Parser & Normaliser<br/><i>Splits Base Fare, Taxes, & Fees</i>"]
+        E --> F["Operational Classifier<br/><i>7-Status Vocabulary (Zero NULLs)</i>"]
+        F --> G["MAD Outlier Detection<br/><i>|z| > 3.5 flagged, never deleted</i>"]
+    end
+
+    %% Stage 4: Gold Layer
+    subgraph S4["4. Gold Layer (The Index Engine)"]
+        direction TB
+        G --> H["Cell Medians: P(r, w, t)<br/><i>30 Cells (6 Routes × 5 Windows)</i>"]
+        H --> I["Route Index: I(r, t)<br/><i>Jevons Formula (Geometric Mean)</i>"]
+        I --> J["National Index: APIx(t)<br/><i>Laspeyres-Type Weighted Sum</i>"]
+        J --> K["Quality Grading<br/><i>Coverage Ratio & Grade A / B / C</i>"]
+    end
+
+    %% Stage 5: Delivery & Lineage
+    subgraph S5["5. Public Delivery & Lineage"]
+        direction TB
+        K --> L["Interactive Dashboard<br/><i>Public Webapp & ECharts</i>"]
+        K --> M["FastAPI Institutional Tier<br/><code>/v1/apix</code> · <code>/v1/routes</code>"]
+        M -.->|"Cryptographic Lineage Walk-back"| D1
+    end
+
+    %% Coverage link
+    B1 -.->|"Recorded in coverage ledger"| K
 ```
 
 1. **🛡️ The Compliance Gate:** Before a browser instance even spins up, APIx downloads and hashes the portal's `robots.txt`. If permissions are not explicitly clear today, collection stops immediately.
