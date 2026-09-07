@@ -496,3 +496,61 @@ code { font-family: var(--mono); font-size: .94em; }
   .mast, .scrim, .drawer, body::before { display: none !important; }
   body { background: #fff; color: #000; }
 }
+
+/* ==========================================================================
+   EDITORIAL LAYER
+   Family: Data-as-Texture. Style system: Editorial.
+
+   The page already had the right colours and the right information. What it
+   did not have was hierarchy: five identical gauges, cards of uniform weight,
+   and headlines set at the same size as everything around them, so a reader
+   at three metres had nothing to land on. Editorial fixes that with size and
+   space rather than with more colour.
+   ========================================================================== */
+
+/* --- the readout becomes a composition, not a row of equal boxes ---------
+   Coverage and sources cleared are the two a MoSPI jury checks first, so they
+   take half the row each; the other three sit underneath at a third the
+   weight. */
+.gauges { grid-template-columns: repeat(6, 1fr); }
+.gauge { grid-column: span 2; }
+.gauge.lead { grid-column: span 3; padding: 22px 24px; }
+.gauge.lead .v { font-size: clamp(2.25rem, 1.4rem + 3.4vw, 3.5rem); letter-spacing: -.04em; }
+.gauge.lead .k { color: var(--beam); }
+.gauge.lead .n { font-size: var(--t-body); color: var(--text-2); }
+
+/* --- editorial headline setting -----------------------------------------
+   A headline wants a shorter measure than a paragraph. Capping it near 26
+   characters forces the two-line break that makes it read as a headline
+   rather than as a long label. */
+.sec-head h2 { max-width: 26ch; font-weight: 700; letter-spacing: -.032em; }
+.sec-head > div > p {
+  font-size: var(--t-lead); line-height: 1.55; color: var(--text-2); max-width: 68ch;
+}
+
+/* the standfirst under the index reading */
+.hero-sub {
+  font-size: clamp(1.0625rem, .95rem + .5vw, 1.3125rem);
+  line-height: 1.48; max-width: 54ch; color: var(--text-2);
+}
+
+/* --- panel weight -------------------------------------------------------
+   Uniform cards are what make a dashboard read as generated. A panel holding
+   the argument should not weigh the same as a panel holding a footnote. */
+.sec > .card { background: var(--ink-2); }
+.duo > .card, .trio > .card { background: var(--surface); }
+.card-h h3 { font-size: var(--t-h3); letter-spacing: -.02em; font-weight: 650; }
+
+/* --- rhythm -------------------------------------------------------------- */
+.sec { margin-top: clamp(46px, 6vw, 78px); }
+.sec-head { padding-bottom: 20px; margin-bottom: 24px; }
+
+/* --- data as texture ----------------------------------------------------
+   The sparkline behind the reading is the ornament. It is the same series the
+   chart below plots, drawn faintly, so the decoration is the data. */
+.hero-spark { opacity: .42; }
+
+@media (max-width: 860px) {
+  .gauges { grid-template-columns: 1fr 1fr; }
+  .gauge, .gauge.lead { grid-column: span 2; }
+}

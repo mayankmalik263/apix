@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>APIx — Real-time Airfare Price Index for India</title>
 <meta name="description" content="A daily, route-level airfare price index for India, built to augment the Consumer Price Index.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="vendor/fonts.css">
 <link rel="stylesheet" href="app.css">
 <script src="vendor/echarts.min.js"></script>
 </head>
@@ -54,11 +52,11 @@
       <p class="hero-sub" id="hero-sub">—</p>
 
       <div class="gauges">
-        <div class="gauge"><span class="k">Coverage</span><span class="v" id="g-cov">—</span><span class="n" id="g-cells">—</span></div>
+        <div class="gauge lead"><span class="k">Coverage</span><span class="v" id="g-cov">—</span><span class="n" id="g-cells">—</span></div>
+        <div class="gauge lead"><span class="k">Sources cleared</span><span class="v" id="g-src">—</span><span class="n">robots.txt, checked today</span></div>
         <div class="gauge"><span class="k">Confidence</span><span class="v" id="g-grade">—</span><span class="n" id="g-why">—</span></div>
         <div class="gauge"><span class="k">Fares priced</span><span class="v" id="g-fares">—</span><span class="n" id="g-car">—</span></div>
         <div class="gauge"><span class="k">Median fare</span><span class="v" id="g-med">—</span><span class="n" id="g-range">—</span></div>
-        <div class="gauge"><span class="k">Sources cleared</span><span class="v" id="g-src">—</span><span class="n">robots.txt, checked today</span></div>
       </div>
     </div>
   </div>
