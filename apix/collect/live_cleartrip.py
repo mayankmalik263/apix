@@ -232,7 +232,10 @@ def parse_quotes(payload: str) -> list[dict]:
                 "fees": fees,
                 "total_fare": total,
                 "currency": "INR",
-                "fare_ref": fare_id[:64],
+                # Full id, not truncated. The first 64 characters are common to
+                # ~10 fares each, so truncating here collapsed 226 distinct
+                # quotes into 21 and moved the cell median by +52%.
+                "fare_ref": fare_id,
             }
         )
     return out

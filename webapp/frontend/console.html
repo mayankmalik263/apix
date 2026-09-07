@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="app.css">
+<title>Operator — APIx</title>
+<script src="vendor/echarts.min.js"></script>
+</head>
+<body>
+<header class="mast"><div class="mast-in">
+  <a class="logo" href="/">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M2 17.5 22 6.2M2 17.5l4.4.9 3.1-2M22 6.2l-3.6-1.8-4.2 2.4M9 20.6l1.9-3.4"
+            stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="12" cy="12" r="10.2" stroke="currentColor" stroke-width="1.1" opacity=".28"/>
+    </svg><b>APIx</b><span>Operator</span></a>
+  <nav class="tabs"><button onclick="location.href='/'">Dashboard</button></nav>
+  <div class="status">
+    <span><span class="beacon"></span></span>
+    <span class="opt">IST <b id="clock">--:--:--</b></span>
+    <span>next run <b id="countdown">—</b></span>
+    <form method="post" action="/auth/logout" style="display:inline">
+      <button class="go" style="padding:6px 12px;border-radius:6px;border:1px solid var(--edge);
+        background:var(--surface-2);color:var(--text-2);font-size:12px;cursor:pointer">Sign out</button>
+    </form>
+  </div>
+</div></header>
+
+<main class="shell">
+  <div class="sec" style="margin-top:26px">
+    <div class="sec-head"><span class="sec-num">OPS</span>
+      <div><h2>Operations</h2>
+        <p>The collector, the keys that reach the published index, and who has been reading it.</p></div>
+    </div>
+    <div id="alert" class="note" style="border-left-color:var(--alert)" hidden></div>
+
+    <div class="gauges" style="border:1px solid var(--edge);border-radius:10px;padding:18px 20px;
+         background:var(--surface);margin-bottom:16px">
+      <div class="gauge"><span class="k">Scheduler</span><span class="v" id="o-sched">—</span><span class="n" id="o-slot">—</span></div>
+      <div class="gauge"><span class="k">Next run</span><span class="v" id="o-next">—</span><span class="n" id="o-today">—</span></div>
+      <div class="gauge"><span class="k">Raw records</span><span class="v" id="o-bronze">—</span><span class="n" id="o-bdays">—</span></div>
+      <div class="gauge"><span class="k">Clean rows</span><span class="v" id="o-silver">—</span><span class="n" id="o-flag">—</span></div>
+      <div class="gauge"><span class="k">Published days</span><span class="v" id="o-days">—</span><span class="n" id="o-live">—</span></div>
+      <div class="gauge"><span class="k">API calls · 24h</span><span class="v" id="o-calls">—</span><span class="n" id="o-keys">—</span></div>
+    </div>
+
+    <div class="card">
+      <div class="card-h"><div><h3>Collection</h3>
+        <p>The slot is fixed: fares move through the day, so a series collected at different times
+           measures the clock as much as the price.</p></div>
+        <button class="go" id="run" style="padding:8px 15px;border-radius:8px;border:0;
+          background:var(--beam);color:var(--ink);font-weight:650;cursor:pointer">Collect now</button></div>
+      <div class="card-b">
+        <div id="msg" class="note" hidden></div>
+        <div class="scroll"><table id="t-runs">
+          <thead><tr><th>Started</th><th>Day</th><th>Trigger</th><th>Status</th>
+            <th style="text-align:right">Cells</th><th>Source</th></tr></thead>
+          <tbody><tr><td colspan="6" style="color:var(--text-3)">Loading…</td></tr></tbody></table></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card-h"><div><h3>Issue an API key</h3>
+        <p>Shown once, here. Only a SHA-256 of it is stored, so it cannot be recovered later.</p></div></div>
+      <div class="card-b">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end">
+          <div style="flex:2 1 220px"><label style="font-family:var(--mono);font-size:9.5px;
+            letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);display:block;
+            margin-bottom:6px">Label</label>
+            <input id="k-label" placeholder="Reserve Bank of India — research"
+              style="width:100%;padding:9px 12px;border-radius:7px;border:1px solid var(--edge);
+              background:var(--ink-2);color:var(--text);font-family:var(--face)"></div>
+          <div style="flex:1 1 140px"><label style="font-family:var(--mono);font-size:9.5px;
+            letter-spacing:.14em;text-transform:uppercase;color:var(--text-3);display:block;
+            margin-bottom:6px">Scopes</label>
+            <select id="k-scopes" style="width:100%;padding:9px 12px;border-radius:7px;
+              border:1px solid var(--edge);background:var(--ink-2);color:var(--text);
+              font-family:var(--face)">
+              <option value="read:index">read:index</option>
+              <option value="read:index,read:lineage">+ lineage</option>
+              <option value="read:index,read:lineage,read:compliance">all read scopes</option>
+            </select></div>
+          <button class="go" id="mint" style="padding:9px 16px;border-radius:7px;border:0;
+            background:var(--beam);color:var(--ink);font-weight:650;cursor:pointer">Issue</button>
+        </div>
+        <div id="newkey" class="note" style="border-left-color:var(--clear)" hidden></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card-h"><div><h3>Issued keys</h3>
+        <p>Revocation is recorded, not deleted — who had access and when is part of the trail.</p></div></div>
+      <div class="card-b"><div class="scroll"><table id="t-keys">
+        <thead><tr><th>Label</th><th>Prefix</th><th>Scopes</th><th style="text-align:right">Calls</th>
+          <th>Status</th><th></th></tr></thead>
+        <tbody><tr><td colspan="6" style="color:var(--text-3)">Loading…</td></tr></tbody></table></div></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card-h"><div><h3>Access log</h3>
+        <p>Keys appear by label. The key itself is never written here.</p></div></div>
+      <div class="card-b"><div class="scroll" style="max-height:300px;overflow-y:auto">
+        <table id="t-log"><thead><tr><th>When</th><th>Key</th><th>Path</th><th>Status</th></tr></thead>
+        <tbody><tr><td colspan="4" style="color:var(--text-3)">Loading…</td></tr></tbody></table></div></div>
+    </div>
+  </div>
+</main>
+<script src="console.js"></script>
+</body></html>

@@ -27,6 +27,17 @@ def db_url() -> str:
     return os.environ.get("APIX_DB_URL", DEFAULT_DB_URL)
 
 
+def db_path() -> Path:
+    """Where the SQLite file lives.
+
+    Overridable with APIX_DB_PATH so a test run, a dry run or a second
+    environment can use its own database. Without this the dry-run harness
+    deleted the live one -- taking every operator account and API key with it.
+    """
+    override = os.environ.get("APIX_DB_PATH")
+    return Path(override) if override else (ROOT / "apix.db")
+
+
 @dataclass(frozen=True)
 class Route:
     code: str

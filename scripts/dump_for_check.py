@@ -1,16 +1,15 @@
 """
-VERIFICATION TOOL — Mayank, Round 3.
+Independent verification tool.
 
 WHAT THIS DOES
     Pulls the raw fares for ONE route on ONE day out of the database and
     writes them to a CSV you can open in Google Sheets or Excel.
 
-WHY YOU NEED IT
-    Bharat writes the index engine. Somebody who did NOT write it has to work
-    the same number out independently, or the check is worthless. Mayank does
-    it in a spreadsheet: different tool, different person, no shared
-    assumptions. "We recomputed it by hand and it matched" is a sentence a
-    jury believes; "we ran our code twice" is not.
+WHY
+    Checking the engine with the engine proves nothing. This dumps the inputs
+    so the same number can be worked out in a spreadsheet — different tool, no
+    shared assumptions. "Recomputed by hand and it matched" is a claim that
+    means something; "ran it twice" is not.
 
 RUN IT
     python scripts/dump_for_check.py DEL-BOM 2026-09-04
@@ -18,8 +17,7 @@ RUN IT
     Then open  data/verify_DEL-BOM_2026-09-04.csv  in Google Sheets.
     Step-by-step spreadsheet instructions are in the build plan.
 
-If the database does not exist yet, Bharat has not finished the loader.
-Wait for him -- do not try to work around it.
+If the database does not exist yet, run the loader first.
 """
 from __future__ import annotations
 
@@ -102,8 +100,8 @@ def main() -> None:
     print("Excluded from those counts: rows where status is not OK, and rows")
     print("flagged as outliers. Both are still in the CSV -- flagged, not deleted.")
     print()
-    print("Next: open the CSV in Google Sheets and follow the steps in the")
-    print("handbook under 'Mayank, Round 3'.")
+    print("Next: open the CSV in a spreadsheet, take the median of total_fare")
+    print("per window, divide each by the base day, and geomean the result.")
 
 
 if __name__ == "__main__":

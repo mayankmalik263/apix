@@ -226,8 +226,8 @@ def verdict_for(source_id: str, on: date | None = None) -> tuple[str, str]:
 def assert_permitted(source_id: str, on: date | None = None) -> None:
     """Raise unless this source was cleared PERMITTED by a check dated today.
 
-    Called before the network layer is touched. That is the whole point: an
-    uncleared source cannot be collected even by mistake.
+    Called before the network layer is touched, so an uncleared source cannot
+    be reached even by mistake.
     """
     verdict, reason = verdict_for(source_id, on=on)
     if verdict != PERMITTED:

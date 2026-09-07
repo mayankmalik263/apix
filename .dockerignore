@@ -1,0 +1,13 @@
+.git
+.venv
+venv
+__pycache__
+*.pyc
+.pytest_cache
+apix.db
+apix.db-wal
+apix.db-shm
+apix.dryrun.db
+.apix_secret
+data/bronze
+TEAM

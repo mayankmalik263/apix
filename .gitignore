@@ -26,3 +26,9 @@ Thumbs.db
 
 # Filled ground-truth sheets are data, not code -- but the blank templates and
 # the combined file ARE tracked, so the team always has something to open.
+
+# Session signing secret: generated on first run, never committed.
+.apix_secret
+
+# Scratch database used by scripts/dry_run.py
+apix.dryrun.db

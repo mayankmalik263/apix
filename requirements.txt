@@ -1,0 +1,13 @@
+# APIx — SIH26056
+# python -m playwright install chromium   <- also needed, after pip install
+
+sqlalchemy>=2.0
+pyyaml>=6.0
+pandas>=2.0
+numpy>=1.26
+httpx>=0.27
+playwright>=1.40
+fastapi>=0.110
+uvicorn>=0.27
+pytest>=8.0
+openpyxl>=3.1

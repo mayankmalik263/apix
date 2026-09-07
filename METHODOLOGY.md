@@ -63,12 +63,19 @@ P(r,w,t) = median{ total_fare : status = OK and is_outlier = false }
 
 The median of every quoted fare in that cell, after outlier flagging.
 
-> `[AYUSH: WHY]` **Why the median and not the mean.**
-> Write 3–4 sentences. Points to hit: fare distributions are right-skewed;
-> a handful of genuine last-minute fares run 4–5× the typical one; a mean is
-> dragged upward by them and would report a price increase that most travellers
-> never faced; the median describes the fare a typical buyer sees. Say clearly
-> that the outliers are *real*, which is why we flag rather than delete them.
+> **Why the median and not the mean.**
+>
+> Fare distributions are lopsided in one direction. On DEL–BOM leaving
+> 24 September we measured a cheapest fare of ₹6,090 and a dearest of ₹24,056
+> on the same route, the same date, in the same search — a four-fold spread.
+> The mean of that cell is about ₹8,900, which is a price almost nobody in it
+> actually paid; the median is ₹7,675, which is roughly what a traveller
+> booking that seat would have seen. A mean would let a handful of last-minute
+> seats report a price rise that most travellers never faced.
+>
+> The important part is that those dear fares are **real**. They are not
+> errors, and we do not remove them — that would be editing the market. We
+> flag them, keep them, and publish a statistic that is not moved by them.
 
 **If a cell has no OK rows**, `P(r,w,t)` is undefined. The cell is skipped and
 the reason is recorded — it is never treated as zero, and never interpolated.
@@ -141,12 +148,22 @@ The geometric mean of the five window price relatives.
 This is a **Jevons index** — the same elementary aggregation form used in CPI
 construction.
 
-> `[AYUSH: WHY]` **Why geometric across windows.**
-> Write 3–4 sentences. Points to hit: the windows are *ratios* against their own
-> bases, and ratios combine multiplicatively; an arithmetic mean would let the
-> T+1 window — both the most expensive and by far the most volatile — dominate
-> the route index; the geometric mean treats a doubling and a halving
-> symmetrically. Name it as Jevons and say CPI elementary aggregation uses it.
+> **Why geometric across windows.**
+>
+> By the time the five windows are combined they are no longer prices, they
+> are ratios — each window divided by its own base — and ratios combine by
+> multiplying, not by adding. The practical consequence is symmetry: a window
+> that doubles and a window that halves cancel exactly under a geometric mean,
+> giving 100. Under a plain average the same pair gives 125, so the index
+> would report a 25% rise on a route where nothing had happened.
+>
+> It also stops one window running the route. T+1 is both the dearest window
+> and by far the jumpiest; on DEL–BOM its median sits 2.7× above T+45. Because
+> we aggregate relatives rather than levels that gap largely cancels, and the
+> geometric mean keeps what remains of it from dominating.
+>
+> This form has a name — a **Jevons index** — and it is the same elementary
+> aggregation CPI construction uses below the weighted level.
 
 ---
 
@@ -165,13 +182,24 @@ value computed this way is stamped `weights_provisional = true`.
 
 Do not hand-type weights to make that flag go away.
 
-> `[AYUSH: WHY]` **Why arithmetic across routes but geometric across windows.**
-> Write 3–4 sentences. Points to hit: routes carry *expenditure weights* — they
-> represent different volumes of actual spending, so they aggregate additively
-> like a budget share; windows are repeated measures of the same route's price
-> and carry no expenditure weight of their own. Getting this distinction right
-> is the difference between "a student built a scraper" and "a student built an
-> index."
+> **Why arithmetic across routes but geometric across windows.**
+>
+> The two levels are aggregating different kinds of thing, so they take
+> different forms. A route carries an **expenditure weight**: DEL–BOM
+> represents a real share of what Indian travellers spend on flying, and
+> shares of a budget add up. That is why routes combine as a weighted sum,
+> and why the weights have to total 1.
+>
+> The five windows carry no expenditure weight of their own. They are five
+> repeated readings of the same route's price at different booking lead times,
+> not five different things people buy. There is no budget share to attach to
+> T+7, so there is nothing to add up — which is what leaves the geometric mean
+> as the right form one level down.
+>
+> Strictly this makes APIx a **Laspeyres-type** index, and once the weights
+> come from a period other than the price base — they are revised annually —
+> it is a **Lowe index**. Both are fixed-weight forms; the distinction is
+> which period the weights are drawn from."
 
 ---
 
@@ -247,6 +275,21 @@ Say these before a judge finds them.
    aggregate: five observations a day is ~150 a month against the official one.
 5. **Five of eleven named sources could not be checked** — read timeouts, which
    is *not* proof of a bot wall. Recorded as such, not overstated.
+6. **The daily series carries a day-of-week cycle, and we have not removed it.**
+   Every booking window shifts its departure date forward by one day on each
+   observation day, so all 30 cells rotate through the weekly fare cycle
+   together. Measured over the simulated history, mean APIx by observation
+   weekday spans 13.3 index points — Monday 92.7 against Thursday 106.0 — and
+   the mean absolute day-on-day move is 4.9%. For scale, the largest monthly
+   move in MoSPI's own airfare item is 4.4%.
+
+   Most of that daily movement is therefore composition, not price change:
+   the index is partly reporting which weekday it is looking at. This is a
+   known property of high-frequency price indices and the standard treatment
+   is a 7-day moving average published alongside the raw daily series
+   (Cavallo & Rigobon 2016 do exactly this). **v0.1 does not do it, and no
+   APIx daily value should be read as a pure price movement until it does.**
+   Scheduled for 0.2 with the 7-day base.
 
 ---
 

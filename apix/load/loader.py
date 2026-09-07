@@ -1,22 +1,15 @@
-"""
-BHARAT — Round 2. Bronze files -> Silver table.
+"""Bronze files -> Silver table.
 
-WHAT THIS DOES, IN ONE SENTENCE
-    Reads the raw files the collector saved, pulls the fares out of them, and
-    writes one clean row per flight quote into the database.
+Reads the raw responses the collector archived, pulls the fares out, and writes
+one row per flight quote.
 
-THE THREE RULES YOU MUST NOT BREAK
-    1. Never change a Bronze file. Read only. Those are the raw evidence.
-    2. Every record produces at least one Silver row, even the failures.
-       A failed fetch still tells us something, so it gets a row with a status.
-    3. Running this twice must not duplicate anything. Same row count both times.
+Three constraints the rest of the pipeline depends on:
+  - Bronze files are read-only. They are the evidence.
+  - Every record produces at least one row, failures included. A cell with no
+    row is indistinguishable from a cell nobody tried.
+  - Re-running is a no-op. Same row count every time.
 
-Everything marked "TODO" is yours to write. The structure, the signatures and
-the tricky bits are already here so you are not starting from a blank file.
-
-RUN IT:
-    python -m apix.load.loader
-    python -m apix.load.loader      <- run again, count must be identical
+    python -m apix.cli load
 """
 from __future__ import annotations
 
@@ -29,10 +22,12 @@ from apix.collect import bronze
 from apix.vocab import ObsStatus, status_class
 
 ROOT = Path(__file__).resolve().parents[2]
-DB_PATH = ROOT / "apix.db"
+from apix.config import db_path
+
+DB_PATH = db_path()
 SCHEMA_PATH = ROOT / "db" / "schema.sql"
 
-# From METHODOLOGY.md section 5. Ayush confirmed these numbers.
+# METHODOLOGY.md section 5.
 MAD_THRESHOLD = 3.5
 MAD_SCALE = 0.6745
 
@@ -76,13 +71,21 @@ def quotes_from_record(rec: dict) -> list[dict]:
 
     if rec["source_id"] == "cleartrip":
         from apix.collect.live_cleartrip import parse_quotes
-        # TODO: call parse_quotes(payload) and return the result.
-        # Wrap it in try/except json.JSONDecodeError and return [] on failure --
-        # the caller turns an empty list into a PARSE_FAIL row.
-        raise NotImplementedError("BHARAT: call parse_quotes here")
+        try:
+            return parse_quotes(payload)
+        except (json.JSONDecodeError, AttributeError, TypeError):
+            # A shape we did not expect. Say so by returning nothing and let
+            # the caller record PARSE_FAIL -- the payload is still in Bronze,
+            # so the day is re-parseable once the parser is fixed.
+            return []
 
-    # TODO: simulated payload. json.loads it, return data.get("quotes") or [].
-    raise NotImplementedError("BHARAT: parse the replay payload here")
+    try:
+        data = json.loads(payload)
+    except json.JSONDecodeError:
+        return []
+    if not isinstance(data, dict):
+        return []
+    return data.get("quotes") or []
 
 
 def silver_rows_for(rec: dict) -> list[dict]:
@@ -119,12 +122,58 @@ def silver_rows_for(rec: dict) -> list[dict]:
             base, status=status, status_class=status_class(status),
             carrier=None, flight_no=None, departure_time=None, stops=None,
             base_fare=None, taxes=None, fees=None, total_fare=None,
-            currency="INR", is_outlier=0, outlier_score=None,
+            currency="INR", fare_ref=None, is_outlier=0, outlier_score=None,
         )
 
-    # TODO: implement the three cases described above, using one() for the
-    # single-row cases. Return a list of dicts.
-    raise NotImplementedError("BHARAT: this is the heart of the loader")
+    # 1. The fetch never succeeded. One row carrying the reason, no fares.
+    #    The cell is still represented, which is what keeps coverage honest:
+    #    a BLOCKED cell and a cell nobody tried are different facts.
+    if rec["fetch_status"] != "OK":
+        return [one(rec["fetch_status"])]
+
+    quotes = quotes_from_record(rec)
+
+    # 2. Fetched fine, nothing came back. Two different reasons, and the
+    #    the difference is what the vocabulary exists to record:
+    #
+    #      payload present but yielded nothing  -> PARSE_FAIL, our fault
+    #      payload was an empty result set      -> SOLD_OUT, the market's answer
+    #
+    #    Both look like "no price". Only one is a failure.
+    if not quotes:
+        if not rec.get("payload"):
+            return [one(ObsStatus.PARSE_FAIL.value)]
+        try:
+            data = json.loads(rec["payload"])
+            empty_result = isinstance(data, dict) and "quotes" in data
+        except (json.JSONDecodeError, TypeError):
+            empty_result = False
+        return [one(ObsStatus.SOLD_OUT.value if empty_result
+                    else ObsStatus.PARSE_FAIL.value)]
+
+    # 3. Quotes found. One Silver row per quote, all of them OK.
+    rows = []
+    for q in quotes:
+        if q.get("total_fare") is None:
+            continue
+        rows.append(dict(
+            base, status=ObsStatus.OK.value,
+            status_class=status_class(ObsStatus.OK.value),
+            carrier=q.get("carrier"),
+            flight_no=q.get("flight_no"),
+            departure_time=q.get("departure_time"),
+            stops=q.get("stops"),
+            base_fare=q.get("base_fare"),
+            taxes=q.get("taxes"),
+            fees=q.get("fees"),
+            total_fare=float(q["total_fare"]),
+            currency=q.get("currency") or "INR",
+            fare_ref=q.get("fare_ref"),
+            is_outlier=0, outlier_score=None,
+        ))
+
+    # Every quote carried a null fare. Parsed, but useless.
+    return rows or [one(ObsStatus.PARSE_FAIL.value)]
 
 
 # ---------------------------------------------------------------------------
@@ -141,8 +190,17 @@ def modified_z_scores(values: list[float]) -> list[float]:
         - fewer than 3 values -> return all zeros (nothing is an outlier)
         - MAD is exactly 0    -> return all zeros (every fare is identical)
     """
-    # TODO: implement. Use statistics.median.
-    raise NotImplementedError("BHARAT: MAD outlier scores")
+    if len(values) < 3:
+        return [0.0] * len(values)
+
+    med = statistics.median(values)
+    mad = statistics.median([abs(v - med) for v in values])
+    if mad == 0:
+        # Every fare identical. There is no dispersion to be an outlier from,
+        # and dividing by zero here would flag the entire cell.
+        return [0.0] * len(values)
+
+    return [MAD_SCALE * (v - med) / mad for v in values]
 
 
 def flag_outliers(rows: list[dict]) -> int:
@@ -155,8 +213,27 @@ def flag_outliers(rows: list[dict]) -> int:
 
     Returns how many rows got flagged.
     """
-    # TODO: implement.
-    raise NotImplementedError("BHARAT: outlier flagging")
+    groups: dict[tuple, list[dict]] = {}
+    for r in rows:
+        if r["status"] != ObsStatus.OK.value or r["total_fare"] is None:
+            continue
+        # Grouped by source_class as well as by cell. Scoring a real Cleartrip
+        # fare against simulated ones would flag it for being real, and
+        # METHODOLOGY section 4 says the two never touch.
+        key = (r["observation_date"], r["route_code"],
+               r["window_days"], r["source_class"])
+        groups.setdefault(key, []).append(r)
+
+    n_flagged = 0
+    for group in groups.values():
+        scores = modified_z_scores([r["total_fare"] for r in group])
+        for r, z in zip(group, scores):
+            r["outlier_score"] = round(z, 4)
+            if abs(z) > MAD_THRESHOLD:
+                r["is_outlier"] = 1
+                n_flagged += 1
+
+    return n_flagged
 
 
 # ---------------------------------------------------------------------------
@@ -167,13 +244,13 @@ INSERT OR IGNORE INTO silver_fare_observation
     (observation_date, route_code, window_days, departure_date,
      source_id, source_class, status, status_class,
      carrier, flight_no, departure_time, stops,
-     base_fare, taxes, fees, total_fare, currency,
+     base_fare, taxes, fees, total_fare, currency, fare_ref,
      is_outlier, outlier_score)
 VALUES
     (:observation_date, :route_code, :window_days, :departure_date,
      :source_id, :source_class, :status, :status_class,
      :carrier, :flight_no, :departure_time, :stops,
-     :base_fare, :taxes, :fees, :total_fare, :currency,
+     :base_fare, :taxes, :fees, :total_fare, :currency, :fare_ref,
      :is_outlier, :outlier_score)
 """
 # "INSERT OR IGNORE" is what makes re-running safe. It only works if your

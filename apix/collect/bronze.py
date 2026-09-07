@@ -36,7 +36,7 @@ from apix.config import DATA_DIR
 
 BRONZE_DIR = DATA_DIR / "bronze"
 
-# The frozen wire format between collection (Mayank) and the database (Bharat).
+# The frozen wire format between collection and the database.
 # Adding a key is safe. Renaming or removing one is a breaking change and must
 # be announced before it is committed.
 FIELDS = (

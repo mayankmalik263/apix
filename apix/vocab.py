@@ -1,9 +1,8 @@
 """
 The controlled vocabulary. This is a CONTRACT, not a database detail.
 
-Owned by the collection layer (Mayank). Consumed by the database layer
-(Bharat) and the index engine. Bharat's schema stores these string values; it
-does not get to invent new ones, and neither does anyone else.
+Owned by the collection layer, consumed by the database and the index engine.
+The schema stores these values and rejects anything else.
 
 The rule this file exists to enforce:
 
