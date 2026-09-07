@@ -263,7 +263,7 @@ def _page(name: str):
     f = FRONTEND / name
     if not f.exists():
         return PlainTextResponse(f"{name} is missing from webapp/frontend/", 404)
-    return FileResponse(f)
+    return FileResponse(f, headers={"Cache-Control": "no-store"})
 
 
 @app.get("/", include_in_schema=False)
@@ -304,4 +304,7 @@ def static_asset(asset: str):
     target = (FRONTEND / asset).resolve()
     if not str(target).startswith(str(FRONTEND.resolve())) or not target.is_file():
         raise HTTPException(404, "Not found")
-    return FileResponse(target, media_type=ASSETS[Path(asset).suffix.lower()])
+    # no-store on the frontend assets: a judge opening this on a laptop that
+    # cached an older build would silently see the wrong dashboard.
+    return FileResponse(target, media_type=ASSETS[Path(asset).suffix.lower()],
+                        headers={"Cache-Control": "no-store"})

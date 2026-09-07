@@ -140,7 +140,7 @@ function renderHero(d) {
   $("g-grade").textContent = t.confidence;
   $("g-grade").className = "v g" + t.confidence;
   $("g-why").textContent = t.confidence === "A" ? "two portals corroborating"
-    : t.confidence === "B" ? "complete, single source" : "below 0.70 — provisional";
+    : t.confidence === "B" ? "complete, single source" : "coverage below 0.70, provisional";
 
   if (d.spread && d.spread.n) {
     $("g-fares").textContent = num(d.spread.n);
@@ -300,17 +300,16 @@ function renderLeadTime(d) {
 
   const cheapest = lt.curve.find(c => c.window_days === lt.cheapest_window);
   $("insight-big").textContent =
-    `Booking earliest is not booking cheapest. The floor is T+${lt.cheapest_window}.`;
+    `The cheapest day to book is ${lt.cheapest_window} days out, not the day the seats open.`;
   $("insight-p1").innerHTML =
-    `Across all six routes the median fare bottoms out at <b>T+${lt.cheapest_window}</b> —
-     ${inr(lt.cheapest_median)} — and rises to ${inr(lt.dearest_median)} at
-     T+${lt.dearest_window}. That is a spread of <b>${lt.spread_pct}%</b> for the same seat
-     specification, driven only by when you look.`;
+    `Across all six routes the median fare bottoms out at <b>T+${lt.cheapest_window}</b>
+     (${inr(lt.cheapest_median)}) and climbs to ${inr(lt.dearest_median)} at
+     T+${lt.dearest_window}. Same route, same cabin, same one-way seat. A spread of
+     <b>${lt.spread_pct}%</b> that depends on nothing except when you look.`;
   $("insight-p2").innerHTML = lt.u_shaped
-    ? `The curve turns back up at long lead times: T+${lt.curve[lt.curve.length - 1].window_days}
-       is dearer than the floor, so the cheapest moment is a window in the middle rather than as
-       early as possible. A monthly national average cannot carry this shape, which is why no
-       official series reports it.`
+    ? `The curve turns back up at long lead times. T+${lt.curve[lt.curve.length - 1].window_days}
+       costs more than the floor does, so the cheapest moment sits in the middle. A monthly
+       national average flattens this shape completely, which is why no official series reports it.`
     : `The curve falls monotonically with lead time on this day. Whether it turns back up is
        exactly the kind of question a daily route-level series can answer and a monthly national
        average cannot.`;
@@ -447,9 +446,9 @@ function renderComposition(c) {
     return;
   }
   $("comp-note").innerHTML =
-    `Taxes and fees are <b>${c.tax_share_pct}%</b> of the total fare. The brief requires base fare
-     to be separated from taxes, user development fee and convenience charges — this is that split,
-     averaged per route.`;
+    `Taxes and fees make up <b>${c.tax_share_pct}%</b> of what you pay. The brief asks for base
+     fare to be separated from taxes, user development fee and convenience charges. This is that
+     split, averaged per route.`;
   const rows = c.by_route;
   p.setOption(shell({
     grid: { left: 72, right: 22, top: 20, bottom: 42, containLabel: true },
@@ -477,8 +476,8 @@ function renderQuality(d) {
   if (s && s.n) {
     $("dist-note").innerHTML =
       `${num(s.n)} fares priced. Cheapest ${inr(s.min)}, median <b>${inr(s.median)}</b>,
-       dearest ${inr(s.max)}. The mean is ${inr(s.mean)} — a price almost nobody paid,
-       which is why the index takes the median.`;
+       dearest ${inr(s.max)}. The mean sits at ${inr(s.mean)}, a price almost nobody in this
+       cell actually paid. That is why the index takes the median.`;
   }
 
   const p = plot("p-hist");
@@ -580,14 +579,14 @@ async function openLineage(route, window_days) {
 
     $("dr-body").innerHTML = `
       <div class="step">
-        <span class="lbl">Published — gold_cell_median</span>
+        <span class="lbl">Published · gold_cell_median</span>
         <div class="val">${inr(g.median_fare)}</div>
         <div class="det">Median of ${L.used_in_median} fares, ${L.flagged} flagged and excluded.
           Price relative ${g.price_relative == null ? "—" : g.price_relative.toFixed(4)}.</div>
       </div>
 
       <div class="step">
-        <span class="lbl">Parsed — silver_fare_observation</span>
+        <span class="lbl">Parsed · silver_fare_observation</span>
         <div class="val">${num(L.silver_count)} fare rows</div>
         <div class="det">Every quote the search returned, each with a status and an outlier score.
           Flagged rows stay in the table; they are excluded from the median, never deleted.</div>
@@ -609,7 +608,7 @@ async function openLineage(route, window_days) {
       </div>
 
       <div class="step">
-        <span class="lbl">Stored — bronze archive</span>
+        <span class="lbl">Stored · bronze archive</span>
         <div class="val">${raw ? bytes(raw.payload_bytes) : "no payload"}</div>
         <div class="det">${raw ? `Captured from <code>${raw.source_id}</code> at
           ${(raw.fetched_at_utc || "").slice(0, 19)} UTC, status ${raw.fetch_status}.

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>APIx — Real-time Airfare Price Index for India</title>
-<meta name="description" content="A daily, route-level airfare price index for India, built for augmentation of the Consumer Price Index.">
+<meta name="description" content="A daily, route-level airfare price index for India, built to augment the Consumer Price Index.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
@@ -25,11 +25,11 @@
 
   <nav class="tabs" id="tabs" aria-label="Sections">
     <button data-v="index" aria-current="page">Index</button>
-    <button data-v="leadtime">Lead time</button>
-    <button data-v="basket">Basket</button>
-    <button data-v="quality">Quality</button>
+    <button data-v="leadtime">When you book</button>
+    <button data-v="basket">The basket</button>
+    <button data-v="quality">What we missed</button>
     <button data-v="api">API</button>
-    <button data-v="about">About</button>
+    <button data-v="about">Why</button>
   </nav>
 
   <div class="status">
@@ -58,7 +58,7 @@
         <div class="gauge"><span class="k">Confidence</span><span class="v" id="g-grade">—</span><span class="n" id="g-why">—</span></div>
         <div class="gauge"><span class="k">Fares priced</span><span class="v" id="g-fares">—</span><span class="n" id="g-car">—</span></div>
         <div class="gauge"><span class="k">Median fare</span><span class="v" id="g-med">—</span><span class="n" id="g-range">—</span></div>
-        <div class="gauge"><span class="k">Sources cleared</span><span class="v" id="g-src">—</span><span class="n">robots.txt, dated today</span></div>
+        <div class="gauge"><span class="k">Sources cleared</span><span class="v" id="g-src">—</span><span class="n">robots.txt, checked today</span></div>
       </div>
     </div>
   </div>
@@ -67,10 +67,12 @@
     <div class="sec-head">
       <span class="sec-num">01</span>
       <div style="flex:1">
-        <h2>Against the official series</h2>
-        <p>India publishes one airfare figure a month, at national level, weight 0.08 in the
-           consumer basket. Both series are indexed to 100 at their own first observation, so what
-           is being compared is movement and frequency, not rupee level.</p>
+        <h2>India publishes one airfare number a month. We publish thirty a day.</h2>
+        <p>Every fare in the country reaches the Consumer Price Index as a single national figure
+           at weight 0.08. Last year it fell 4.4% between June and July, and there was no way to
+           ask which route moved, which week it happened, or whether it hit people who book early
+           or people who book late. Both lines start at 100 on their own first day, so what you
+           are comparing is movement and frequency, not rupee level.</p>
       </div>
       <div class="seg" id="freq" role="group" aria-label="Frequency">
         <button data-f="daily" aria-pressed="true">Daily</button>
@@ -84,10 +86,10 @@
   <div class="sec">
     <div class="sec-head">
       <span class="sec-num">02</span>
-      <div><h2>Route indices and observation coverage</h2>
-        <p>Each route carries its own index; they combine into APIx by expenditure weight. Coverage
-           is published beside every value, because thirty observations out of thirty and eleven out
-           of thirty are not the same fact.</p></div>
+      <div><h2>Six routes, and they do not move together</h2>
+        <p>Each route carries its own index. They combine into APIx by expenditure weight. Every
+           value is published next to the coverage it was built from, because thirty observations
+           out of thirty and eleven out of thirty are not the same claim.</p></div>
     </div>
     <div class="duo">
       <div class="card">
@@ -95,7 +97,7 @@
         <div class="card-b flush"><div id="p-routes" class="plot"></div></div>
       </div>
       <div class="card">
-        <div class="card-h"><div><h3>Coverage over time</h3><p>Green ≥ 90%, amber ≥ 70%, red below.</p></div></div>
+        <div class="card-h"><div><h3>Coverage over time</h3><p>Green at or above 90%, amber at 70%, red below.</p></div></div>
         <div class="card-b flush"><div id="p-cov" class="plot"></div></div>
       </div>
     </div>
@@ -107,9 +109,9 @@
   <div class="sec" style="margin-top:26px">
     <div class="sec-head">
       <span class="sec-num">03</span>
-      <div><h2>Lead-time elasticity</h2>
-        <p>How the fare moves with how far ahead the seat is booked. No official index anywhere
-           publishes this, because a monthly national average cannot carry it.</p></div>
+      <div><h2>Booking earlier does not always cost less</h2>
+        <p>The same seat, priced at five different distances from departure, every day. No official
+           index anywhere publishes this. A monthly national average cannot carry it.</p></div>
     </div>
 
     <div class="insight" id="insight" style="margin-bottom:16px">
@@ -138,8 +140,8 @@
 
     <div class="card" style="margin-top:16px">
       <div class="card-h"><div><h3>Per route</h3>
-        <p>The curve differs by route. The cheapest moment to book is not the same everywhere,
-           which is precisely what a single national figure averages away.</p></div></div>
+        <p>The cheapest moment to book is different on every route. That difference is exactly what
+           a single national figure averages away.</p></div></div>
       <div class="card-b flush"><div id="p-leadroutes" class="plot tall"></div></div>
     </div>
   </div>
@@ -150,9 +152,9 @@
   <div class="sec" style="margin-top:26px">
     <div class="sec-head">
       <span class="sec-num">04</span>
-      <div><h2>The basket</h2>
-        <p>Six routes at five booking windows: thirty cells a day. Select any cell to walk it back
-           to the fares behind it and the stored payload they were parsed from.</p></div>
+      <div><h2>Thirty prices a day, and where every one came from</h2>
+        <p>Six routes at five booking windows. Click any cell to walk it back through the fares
+           behind it to the stored page it was parsed from, with the hash we recorded at the time.</p></div>
     </div>
 
     <div class="card">
@@ -186,9 +188,11 @@
   <div class="sec" style="margin-top:26px">
     <div class="sec-head">
       <span class="sec-num">05</span>
-      <div><h2>Data quality</h2>
-        <p>A sold-out flight and a crashed collector both look like a blank cell. One is a fact
-           about the market, the other is a fact about us. They are never recorded the same way.</p></div>
+      <div><h2>A sold-out flight and a crashed collector look identical. We never record them the same way.</h2>
+        <p>Both leave an empty cell. One is a fact about the market, the other is a fact about us.
+           Write both down as blank and the index can no longer say how well it measured anything.
+           Every observation carries a reason, from a list of seven the database will not let us
+           add an eighth to.</p></div>
     </div>
 
     <div class="duo">
@@ -198,32 +202,33 @@
       </div>
       <div class="card">
         <div class="card-h"><div><h3>Observation status</h3>
-          <p>Seven statuses, three classes. The database rejects an eighth.</p></div></div>
+          <p>Seven statuses, three classes: what the market said, what we chose, what we broke.</p></div></div>
         <div class="card-b flush"><div id="p-status" class="plot"></div></div>
       </div>
     </div>
 
     <div class="card" style="margin-top:16px">
-      <div class="card-h"><div><h3>Status vocabulary</h3>
-        <p>What each value means, and whether it counts towards coverage.</p></div></div>
+      <div class="card-h"><div><h3>The seven statuses</h3>
+        <p>What each one means, and whether it counts as an observation.</p></div></div>
       <div class="card-b"><div class="scroll"><table>
         <thead><tr><th>Status</th><th>Class</th><th>Meaning</th><th>Counts as observed</th></tr></thead>
         <tbody>
           <tr><td><strong>OK</strong></td><td><span class="chip c-ok">Market</span></td><td>Fare captured and parsed</td><td>Yes</td></tr>
-          <tr><td><strong>SOLD_OUT</strong></td><td><span class="chip c-ok">Market</span></td><td>Checked, nothing for sale</td><td><strong>Yes</strong></td></tr>
+          <tr><td><strong>SOLD_OUT</strong></td><td><span class="chip c-ok">Market</span></td><td>We asked, nothing was for sale</td><td><strong>Yes</strong></td></tr>
           <tr><td><strong>NO_SERVICE</strong></td><td><span class="chip c-ok">Market</span></td><td>No flight operates that pair</td><td>Leaves the denominator</td></tr>
-          <tr><td><strong>SOURCE_DISALLOWED</strong></td><td><span class="chip c-wn">Policy</span></td><td>We chose not to collect it</td><td>No — a gap we chose</td></tr>
-          <tr><td><strong>FETCH_FAIL</strong></td><td><span class="chip c-no">System</span></td><td>Timeout or network failure</td><td>No — counted against us</td></tr>
-          <tr><td><strong>BLOCKED</strong></td><td><span class="chip c-no">System</span></td><td>A bot wall, never bypassed</td><td>No — counted against us</td></tr>
-          <tr><td><strong>PARSE_FAIL</strong></td><td><span class="chip c-no">System</span></td><td>Fetched, page shape changed</td><td>No — counted against us</td></tr>
+          <tr><td><strong>SOURCE_DISALLOWED</strong></td><td><span class="chip c-wn">Policy</span></td><td>We chose not to collect it</td><td>No, a gap we chose</td></tr>
+          <tr><td><strong>FETCH_FAIL</strong></td><td><span class="chip c-no">System</span></td><td>Timeout or network failure</td><td>No, counted against us</td></tr>
+          <tr><td><strong>BLOCKED</strong></td><td><span class="chip c-no">System</span></td><td>A bot wall, never bypassed</td><td>No, counted against us</td></tr>
+          <tr><td><strong>PARSE_FAIL</strong></td><td><span class="chip c-no">System</span></td><td>Fetched, page shape changed</td><td>No, counted against us</td></tr>
         </tbody></table></div></div>
     </div>
 
     <div class="card" style="margin-top:16px">
-      <div class="card-h"><div><h3>Flagged fares</h3>
-        <p>Flagged inside their own cell by modified Z-score on the median absolute deviation, and
-           kept. A fare four times the typical one is usually real; deleting it would be editing
-           the market rather than measuring it.</p></div></div>
+      <div class="card-h"><div><h3>Flagged fares, and why they stay in</h3>
+        <p>Flagged inside their own cell by modified Z-score on the median absolute deviation, then
+           kept. On 3 September a Delhi to Mumbai search returned ₹6,090 at the bottom and ₹24,056
+           at the top on the same day for the same seat. The dear ones are real. Deleting them
+           would be editing the market instead of measuring it.</p></div></div>
       <div class="card-b"><div class="scroll"><table id="t-out">
         <thead><tr><th>Route</th><th>Window</th><th>Carrier</th>
           <th style="text-align:right">Fare</th><th style="text-align:right">Z</th></tr></thead>
@@ -233,10 +238,12 @@
     <div class="sec">
       <div class="sec-head">
         <span class="sec-num">06</span>
-        <div><h2>Compliance</h2>
-          <p>Every source is checked before collection. The robots.txt is fetched, hashed and
-             stored, and a source not cleared today cannot be reached — the gate fires before the
-             browser is launched. There is no CAPTCHA handling and no IP rotation in this codebase.</p></div>
+        <div><h2>We only collect where we are allowed to</h2>
+          <p>Every source is checked before collection starts. We fetch the robots.txt, hash it,
+             and store the file itself. A source not cleared today cannot be reached at all: the
+             gate fires before the browser is even launched. There is no CAPTCHA handling and no IP
+             rotation anywhere in this codebase, and the sources we could not clear are published
+             below as a gap rather than hidden.</p></div>
       </div>
       <div class="rail" id="rail"></div>
     </div>
@@ -248,45 +255,46 @@
   <div class="sec" style="margin-top:26px">
     <div class="sec-head">
       <span class="sec-num">07</span>
-      <div><h2>Consuming the index</h2>
-        <p>A read API so a statistical office or a central bank can take the series directly
-           instead of scraping a dashboard.</p></div>
+      <div><h2>Take the numbers directly</h2>
+        <p>A read API, so a statistical office or a central bank can pull the series into their own
+           systems instead of scraping this page.</p></div>
     </div>
 
-    <div class="note"><strong>Two tiers.</strong> <code>/public</code> is open and rate limited —
-      a published statistical series is public information, and it is what this dashboard reads.
-      <code>/v1</code> is the documented integration surface and takes a key, so bulk access is
-      attributable, rate-limitable and revocable.</div>
+    <div class="note"><strong>Two tiers.</strong> <code>/public</code> is open, rate limited, and
+      needs no key. A published statistical series is public information, and it is what this
+      dashboard itself reads. <code>/v1</code> is the same data with a key attached, so bulk
+      integration can be attributed, rate limited and revoked.</div>
 
     <div class="duo">
       <div class="card">
         <div class="card-h"><div><h3>Authentication</h3></div></div>
         <div class="card-b prose">
-          <pre><code>curl -H "<b>Authorization: Bearer</b> apix_live_..." \
-     https://apix.example.gov.in/v1/apix/latest
+          <pre><code>curl <b>https://apix.example.gov.in/public/apix/latest</b>
+     # open. no key. this is what the dashboard calls.
 
-curl -H "<b>X-API-Key:</b> apix_live_..." \
-     https://apix.example.gov.in/v1/lead-time</code></pre>
+curl -H "<b>Authorization: Bearer</b> apix_live_..." \
+     https://apix.example.gov.in/v1/apix/latest</code></pre>
           <p>Keys are 256 bits of randomness, shown once at creation and stored only as a SHA-256
-             hash. A lost key is rotated, not recovered. Scopes are enforced server-side:
+             hash. A lost key gets rotated, not recovered. Scopes are enforced on the server:
              <code>read:index</code>, <code>read:lineage</code>, <code>read:compliance</code>.</p>
         </div>
       </div>
       <div class="card">
         <div class="card-h"><div><h3>Live response</h3>
-          <p>Straight from this deployment.</p></div></div>
+          <p>Straight from this deployment, right now.</p></div></div>
         <div class="card-b"><pre id="api-sample">—</pre></div>
       </div>
     </div>
 
     <div class="card" style="margin-top:16px">
-      <div class="card-h"><div><h3>Endpoints</h3></div></div>
+      <div class="card-h"><div><h3>Endpoints</h3>
+        <p>Every one of these also answers on <code>/public</code> without a key.</p></div></div>
       <div class="card-b"><div class="scroll"><table>
         <thead><tr><th>Endpoint</th><th>Scope</th><th>Returns</th></tr></thead>
         <tbody>
           <tr><td class="mono">/v1/apix/latest</td><td class="mono">read:index</td><td>Today's value with coverage, cell counts and grade</td></tr>
           <tr><td class="mono">/v1/apix/series?freq=</td><td class="mono">read:index</td><td>The series at daily, weekly or monthly frequency</td></tr>
-          <tr><td class="mono">/v1/lead-time</td><td class="mono">read:index</td><td>Lead-time elasticity curve, overall and per route</td></tr>
+          <tr><td class="mono">/v1/lead-time</td><td class="mono">read:index</td><td>How fare moves with booking distance, overall and per route</td></tr>
           <tr><td class="mono">/v1/composition</td><td class="mono">read:index</td><td>Base fare separated from taxes and fees</td></tr>
           <tr><td class="mono">/v1/routes/{code}/series</td><td class="mono">read:index</td><td>One route over time</td></tr>
           <tr><td class="mono">/v1/windows/{days}/series</td><td class="mono">read:index</td><td>One booking window across routes</td></tr>
@@ -297,8 +305,8 @@ curl -H "<b>X-API-Key:</b> apix_live_..." \
           <tr><td class="mono">/v1/methodology</td><td class="mono">read:index</td><td>The methodology document</td></tr>
         </tbody></table></div></div>
     </div>
-    <p style="margin-top:14px;font-size:13.5px;color:var(--text-3)">
-      Machine-readable schema at <a href="/docs" style="color:var(--beam)">/docs</a>.</p>
+    <p style="margin-top:14px;font-size:var(--t-small);color:var(--text-3)">
+      Machine-readable schema at <a href="/docs">/docs</a>.</p>
   </div>
 </section>
 
@@ -307,24 +315,26 @@ curl -H "<b>X-API-Key:</b> apix_live_..." \
   <div class="sec" style="margin-top:26px">
     <div class="sec-head">
       <span class="sec-num">08</span>
-      <div><h2>The problem, and what this does about it</h2></div>
+      <div><h2>Why this exists</h2></div>
     </div>
 
     <div class="duo">
       <div class="card"><div class="card-b prose">
-        <h4 style="margin-top:0">One number a month</h4>
-        <p>Retail inflation is measured by collecting prices on a schedule. Air travel enters the
-           Consumer Price Index as a single national figure, published monthly, at weight 0.08.</p>
-        <p>An airline seat does not behave like a bag of rice. The same sector can move several
-           hundred percent inside a day depending on booking window, day of week, demand surges and
-           fuel-linked surcharges. Over 90% of domestic tickets are now sold online, where that
-           movement happens — and none of it reaches a monthly national average.</p>
+        <h4 style="margin-top:0">A seat is not a bag of rice</h4>
+        <p>Retail inflation is measured by collecting prices on a schedule. That works when the
+           price of a thing is the price of a thing. Air travel enters the Consumer Price Index as
+           one national figure, published once a month, at weight 0.08.</p>
+        <p>The same Delhi to Mumbai sector can cost ₹6,090 or ₹24,056 on the same day, depending on
+           how far ahead you book, which day of the week you fly, and what else is happening that
+           week. We measured that spread ourselves on 3 September. Over 90% of domestic tickets are
+           sold online, which is where all of that movement lives, and none of it survives a monthly
+           national average.</p>
         <h4>Thirty prices a day</h4>
-        <p>APIx prices six representative city pairs at five advance-purchase windows, every day, at
-           a fixed observation slot. Those quotes are cleaned, outliers are flagged inside their own
-           cell, and the result is aggregated the way a CPI elementary aggregate is built: a Jevons
-           geometric mean across booking windows, then a fixed-weight arithmetic mean across routes.</p>
-        <p>Every published value carries the coverage it was built from, a confidence grade, and a
+        <p>APIx prices six representative city pairs at five booking distances, every day, at the
+           same time. Quotes are cleaned, outliers are flagged inside their own cell, and the result
+           is aggregated the way a CPI elementary aggregate is built: a Jevons geometric mean across
+           booking windows, then a fixed-weight arithmetic mean across routes.</p>
+        <p>Every value we publish carries the coverage it was built from, a confidence grade, and a
            path back to the bytes it came from.</p>
       </div></div>
 
@@ -334,52 +344,56 @@ curl -H "<b>X-API-Key:</b> apix_live_..." \
 R(r,w,t) = P(r,w,t) / P(r,w,base)
 I(r,t)   = 100 × (R₁ × … × R_W)^(1/W)     <b>Jevons</b>
 APIx(t)  = Σ ω_r × I(r,t),  Σ ω_r = 1     <b>Laspeyres-type</b></code></pre>
-        <p><strong>Median, not average</strong> — fare distributions are lopsided, and an average
-           reports a price almost nobody paid.</p>
-        <p><strong>Geometric across windows</strong> — they are ratios by that point, and ratios
-           multiply. A doubling and a halving cancel to exactly 100; a plain average would say 125.</p>
-        <p><strong>Arithmetic across routes</strong> — each route carries a real share of what
-           travellers spend, and budget shares add. Weights are equal and flagged provisional
-           pending DGCA city-pair passenger data.</p>
+        <p><strong>Median, not average.</strong> Fare distributions lean hard to one side. The mean
+           of that Delhi to Mumbai cell was about ₹8,900, a price almost nobody in it actually paid.
+           The median was ₹7,675.</p>
+        <p><strong>Geometric across windows.</strong> By that point they are ratios, and ratios
+           multiply. A doubling and a halving cancel to exactly 100. A plain average would say 125.</p>
+        <p><strong>Arithmetic across routes.</strong> Each route carries a real share of what
+           travellers spend, and budget shares add. Weights are currently equal and flagged
+           provisional, pending DGCA city-pair passenger data.</p>
       </div></div>
     </div>
 
     <div class="card" style="margin-top:16px">
-      <div class="card-h"><div><h3>Against what exists</h3>
-        <p>No index anywhere measures airfares daily at route level.</p></div></div>
+      <div class="card-h"><div><h3>What already exists, and what it cannot tell you</h3>
+        <p>Nothing published anywhere measures airfares daily at route level.</p></div></div>
       <div class="card-b"><div class="scroll"><table>
         <thead><tr><th>System</th><th>Frequency</th><th>Airfare-specific</th><th>Route level</th><th>Public API</th></tr></thead>
         <tbody>
-          <tr><td><strong>CPI 07.3 (India)</strong></td><td>Monthly</td><td>Bundled</td><td>No</td><td>No</td></tr>
+          <tr><td><strong>CPI air fare item (India)</strong></td><td>Monthly</td><td>Yes</td><td>No</td><td>No</td></tr>
           <tr><td><strong>DGCA average fare</strong></td><td>Monthly</td><td>Yes</td><td>Limited</td><td>No</td></tr>
           <tr><td><strong>US BLS airline fares</strong></td><td>Monthly</td><td>Yes</td><td>No</td><td>Yes</td></tr>
           <tr><td><strong>Eurostat HICP CP0733</strong></td><td>Monthly</td><td>Yes</td><td>No</td><td>Yes</td></tr>
           <tr><td><strong>Fare-comparison apps</strong></td><td>Real time</td><td>Yes</td><td>Yes</td><td>No</td></tr>
-          <tr style="background:color-mix(in srgb, var(--beam) 7%, transparent)">
+          <tr style="background:color-mix(in srgb, var(--beam) 9%, transparent)">
             <td><strong>APIx</strong></td><td><strong>Daily</strong></td><td><strong>Yes</strong></td>
             <td><strong>Yes</strong></td><td><strong>Yes</strong></td></tr>
         </tbody></table></div>
-        <p style="margin-top:12px;font-size:12.5px;color:var(--text-3)">Fare-comparison tools are
-          not statistical indices: no published methodology, no weights, no continuous series.</p>
+        <p style="margin-top:12px;font-size:var(--t-small);color:var(--text-3)">A fare-comparison
+          tool is not a statistical index. No published methodology, no weights, no continuous
+          series anyone can audit.</p>
       </div>
     </div>
 
     <div class="card" style="margin-top:16px">
-      <div class="card-h"><div><h3>Stated limitations</h3>
-        <p>Recorded here rather than left to be found.</p></div></div>
+      <div class="card-h"><div><h3>What is wrong with this, in our own words</h3>
+        <p>Written down here so nobody has to find it.</p></div></div>
       <div class="card-b prose"><ul>
-        <li>Real collection is recent; the longer history is generated from a documented model,
-            labelled at every layer and drawn dashed. Nothing real is computed from it.</li>
+        <li>Real collection started on 3 September. The longer history is generated from a
+            documented model, labelled at every layer and drawn dashed. Nothing real is ever
+            computed from it.</li>
         <li>Route weights are equal and flagged provisional, pending DGCA city-pair passenger data.</li>
-        <li>Single-day base in v0.1; a seven-day mean at v0.2, with the series recomputed.</li>
-        <li>Six routes of roughly 1,100 city pairs. Adding a route is one line of configuration.</li>
-        <li>Five of eleven registered sources could not be verified — read timeouts, which is not
-            proof of a bot wall and is recorded as exactly that.</li>
-        <li>The daily series carries a day-of-week cycle that has not been removed: every window
-            shifts its departure date forward daily, so the basket rotates through the weekly fare
-            cycle. The standard treatment is a seven-day moving average alongside the raw series.</li>
-        <li>The brief asks for a 30-day backtest against DGCA monthly average fares. That dataset is
-            not held, and the hand-checked panel is a substitute rather than an equivalent.</li>
+        <li>The base is a single day in v0.1. It becomes a seven-day mean at v0.2, and the whole
+            series gets recomputed.</li>
+        <li>Six routes out of roughly 1,100 city pairs. Adding a route is one line of configuration.</li>
+        <li>Five of eleven registered sources could not be verified. They timed out, which is not
+            proof of a bot wall, and we record it as exactly that.</li>
+        <li>The daily series still carries a day-of-week cycle. Every window moves its departure
+            date forward each day, so the basket rotates through the weekly fare cycle. The standard
+            treatment is a seven-day moving average published alongside the raw series.</li>
+        <li>The brief asks for a 30-day backtest against DGCA monthly average fares. We do not hold
+            that dataset. The hand-checked panel is a substitute, not an equivalent.</li>
       </ul></div>
     </div>
   </div>
