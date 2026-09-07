@@ -1,4 +1,8 @@
-# ✈️ APIx — Real-Time Airfare Price Index for India
+<p align="center">
+  <img src="assets/logo.svg" width="72" height="72" alt="APIx Logo">
+</p>
+
+# APIx — Real-Time Airfare Price Index for India
 
 > **A high-frequency, statistically rigorous price index designed to measure daily airfare movements across India's major domestic routes — built to augment the Consumer Price Index (CPI).**
 

@@ -299,6 +299,22 @@ def page_console(request: Request):
     return _page("console.html")
 
 
+@app.get("/favicon.ico", include_in_schema=False)
+def favicon_ico():
+    f = FRONTEND / "favicon.ico"
+    if f.exists():
+        return FileResponse(f, media_type="image/x-icon")
+    return PlainTextResponse("", status_code=404)
+
+
+@app.get("/favicon.svg", include_in_schema=False)
+def favicon_svg():
+    f = FRONTEND / "favicon.svg"
+    if f.exists():
+        return FileResponse(f, media_type="image/svg+xml")
+    return PlainTextResponse("", status_code=404)
+
+
 ASSETS = {".css": "text/css", ".js": "application/javascript", ".html": "text/html",
           ".svg": "image/svg+xml", ".png": "image/png", ".woff2": "font/woff2",
           ".json": "application/json", ".ico": "image/x-icon"}
