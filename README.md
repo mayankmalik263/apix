@@ -45,9 +45,26 @@ When tracking fares across lead times, APIx observed a distinct **U-shaped price
   <img src="assets/u_shaped_curve.svg" alt="Empirical Booking Lead-Time Curve across Indian Domestic Routes" width="100%" />
 </p>
 
-* **Last-Minute Surge (T+1):** Fares spike sharply to a median of **₹14,781** (+63.4% premium).
-* **The Sweet Spot (T+21):** Fares bottom out at **₹9,043** — matching MoSPI's own recommended 3-week domestic collection window.
-* **The Early-Bird Trap (T+45):** On 4 out of 6 routes, booking 45 days ahead is actually **more expensive** than booking 21 days ahead, because airlines protect long-range revenue buckets.
+<details>
+<summary><b>📊 Click to expand route-by-route empirical cell medians (Sep 2026)</b></summary>
+<br/>
+
+| Route | T+1 (1 Day) | T+7 (1 Week) | T+14 (2 Weeks) | T+21 (3 Weeks) 🎯 | T+45 (45 Days) | Observed Dynamic |
+|:---|:---:|:---:|:---:|:---:|:---:|:---:|
+| **BLR ⇄ HYD** | ₹16,269 | ₹14,833 | ₹6,153 | **₹5,887** | ₹8,484 | U-Curve (Rebounds +44.1%) |
+| **BOM ⇄ BLR** | ₹16,493 | ₹13,071 | ₹8,552 | **₹8,690** | ₹8,223 | Plateau after T+14 |
+| **DEL ⇄ BLR** | ₹14,716 | ₹13,624 | ₹12,284 | **₹12,082** | ₹14,108 | U-Curve (Rebounds +16.8%) |
+| **DEL ⇄ BOM** | ₹10,086 | ₹9,914 | ₹8,374 | **₹7,675** | ₹10,121 | U-Curve (Rebounds +31.9%) |
+| **DEL ⇄ CCU** | ₹13,667 | ₹14,614 | ₹13,876 | **₹12,304** | ₹15,523 | U-Curve (Rebounds +26.2%) |
+| **MAA ⇄ DEL** | ₹14,414 | ₹13,124 | ₹13,462 | **₹12,520** | ₹15,711 | U-Curve (Rebounds +25.5%) |
+| **National P₅₀** | **₹14,781** | **₹10,500** | **₹9,550** | **₹9,043** | **₹9,800** | **Rebound on 5 of 6 routes (+8.4%)** |
+
+> *Source: `gold_cell_median` table in SQLite/Postgres. Medians calculated from live network-intercepted fare quotes.*
+</details>
+
+* **Last-Minute Surge (T+1):** Fares spike sharply to a median of **₹14,781** (+63.4% premium over the sweet spot).
+* **The Sweet Spot (T+21):** Fares bottom out at **₹9,043** — exactly aligning with MoSPI's own recommended 3-week domestic collection standard.
+* **The Early-Bird Trap (T+45):** On 5 out of 6 routes, booking 45 days ahead is noticeably **more expensive** than booking 21 days ahead, because airlines protect long-range revenue buckets.
 
 *No official statistical agency currently publishes booking-window curves. APIx provides this out of the box.*
 
