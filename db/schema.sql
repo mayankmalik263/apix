@@ -122,8 +122,15 @@ CREATE UNIQUE INDEX IF NOT EXISTS ux_silver_flight_key
     ON silver_fare_observation (
         observation_date, route_code, window_days, source_id,
         COALESCE(carrier, ''), COALESCE(flight_no, ''), COALESCE(total_fare, -1),
-        COALESCE(fare_ref, '')
+        COALESCE(fare_ref, ''), status
     );
+
+-- status is in the key deliberately. Every non-OK row carries NULL carrier,
+-- NULL flight_no and NULL total_fare, so without it a SOURCE_DISALLOWED cell
+-- and a FETCH_FAIL cell for the same (date, route, window) are the same key and
+-- the second one is silently dropped. Verified: 7 FETCH_FAIL rows for
+-- 2026-09-08 disappeared behind that day's refusal rows. The vocabulary exists
+-- to keep a policy refusal and a broken collector apart; the key has to agree.
 
 CREATE INDEX IF NOT EXISTS ix_silver_cell
     ON silver_fare_observation (observation_date, route_code, window_days);

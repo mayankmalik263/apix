@@ -2,7 +2,7 @@
 # source_id: akasa
 # url: https://www.akasaair.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-09-07T18:26:37.743504+00:00
+# fetched_at_utc: 2026-09-07T18:39:50.638176+00:00
 # sha256: 8679bca50522a4ba74ae634b99bc25ba121838fb61e6649964e3a9ce5a4d68b2
 # --------------- verbatim robots.txt below ---------------
 User-Agent: *

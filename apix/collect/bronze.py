@@ -33,6 +33,7 @@ from typing import Iterator
 
 from apix.collect.base import RawResponse
 from apix.config import DATA_DIR
+from apix.vocab import status_class
 
 BRONZE_DIR = DATA_DIR / "bronze"
 
@@ -146,10 +147,16 @@ def read_all() -> Iterator[dict]:
 def existing_cells(observation_date: date, source_id: str) -> set[tuple[str, int]]:
     """(route, window) pairs already collected, so a re-run resumes rather
     than duplicating. Collection is expensive and rate-limited; repeating a
-    cell we already have wastes the politeness budget."""
+    cell we already have wastes the politeness budget.
+
+    Only MARKET-class results count as collected. A POLICY refusal or a SYSTEM
+    failure is a record of what went wrong, not an observation of the market --
+    treating it as one means a re-run after the cause is fixed can never
+    recover the day, and airfares cannot be collected retrospectively."""
     return {
         (r["route_code"], int(r["window_days"]))
         for r in read_day(observation_date, source_id)
+        if status_class(r["fetch_status"]) == "MARKET"
     }
 
 
