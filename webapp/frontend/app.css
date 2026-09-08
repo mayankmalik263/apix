@@ -562,15 +562,20 @@ code { font-family: var(--mono); font-size: .94em; }
    everything else stacked in the content column. */
 .step {
   display: grid;
-  grid-template-columns: 116px minmax(0, 1fr);
+  grid-template-columns: 170px minmax(0, 1fr);
   gap: 4px 16px;
   align-items: start;
   padding: 16px 0;
 }
 .step .lbl {
   grid-column: 1; grid-row: 1 / span 99;
-  width: auto; line-height: 1.5;
-  overflow-wrap: anywhere;          /* silver_fare_observation is one long word */
+  width: auto; line-height: 1.6;
+  /* Table names are single long tokens. Uppercasing them with wide tracking
+     made them too wide for any sane column, so they broke mid-word. Lower case
+     and tighter tracking lets them wrap at the separator instead. */
+  text-transform: none;
+  letter-spacing: .04em;
+  overflow-wrap: normal;
 }
 .step .val, .step .det, .step .scroll, .step .hashbox { grid-column: 2; }
 .step .val {
