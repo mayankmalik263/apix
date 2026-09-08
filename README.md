@@ -39,38 +39,64 @@ Air travel does not follow a monthly heartbeat. Across India's 1,100+ domestic c
 
 ---
 
-## 💡 A Surprising Discovery: The "U-Shaped" Booking Curve
+## The booking curve is U-shaped, and nobody publishes it
 
-Conventional wisdom suggests that flight tickets simply get cheaper the earlier you book. **Our real-world collected data proved otherwise.**
+Fares are supposed to get cheaper the earlier you book. Ours did not.
 
-When tracking fares across lead times, APIx observed a distinct **U-shaped price curve**:
+Median fare across all six routes, at each booking window, on 2026-09-08:
 
-<p align="center">
-  <img src="assets/u_shaped_curve.svg" alt="Empirical Booking Lead-Time Curve across Indian Domestic Routes" width="100%" />
-</p>
+```
+   14.8k |     *
+         |      .
+         |       .
+   13.5k |        ..
+         |          .
+         |           .
+   12.1k |            .
+         |             .                                          .*
+         |              ..                                      ..
+   10.8k |                .                                   ..
+         |                 .       ......*..                ..
+         |                  *......         ....          ..
+    9.5k |                                      ....    ..
+    9.0k |                                          ..*.
+         +------------------------------------------------------------
+           T+1          T+7          T+14         T+21         T+45
+```
+
+* **T+1 costs the most.** ₹14,781, a 63.4% premium over the cheapest window.
+* **T+21 is the floor.** ₹9,043. That is the same three-week window MoSPI
+  documents for its own domestic collection.
+* **Booking earlier than that costs more again.** ₹11,595 at T+45, up
+  28.2% from the floor, on 5 of the 6 routes.
+
+The rebound is the part worth noticing. Airlines hold inventory back in
+long-range fare buckets, so the cheapest moment sits in the middle rather than
+as early as possible. A monthly national average flattens this shape
+completely, which is why no official series reports it.
 
 <details>
-<summary><b>📊 Click to expand route-by-route empirical cell medians (Sep 2026)</b></summary>
-<br/>
+<summary>Route by route, 2026-09-08</summary>
 
-| Route | T+1 (1 Day) | T+7 (1 Week) | T+14 (2 Weeks) | T+21 (3 Weeks) 🎯 | T+45 (45 Days) | Observed Dynamic |
-|:---|:---:|:---:|:---:|:---:|:---:|:---:|
-| **BLR ⇄ HYD** | ₹16,269 | ₹14,833 | ₹6,153 | **₹5,887** | ₹8,484 | U-Curve (Rebounds +44.1%) |
-| **BOM ⇄ BLR** | ₹16,493 | ₹13,071 | ₹8,552 | **₹8,690** | ₹8,223 | Plateau after T+14 |
-| **DEL ⇄ BLR** | ₹14,716 | ₹13,624 | ₹12,284 | **₹12,082** | ₹14,108 | U-Curve (Rebounds +16.8%) |
-| **DEL ⇄ BOM** | ₹10,086 | ₹9,914 | ₹8,374 | **₹7,675** | ₹10,121 | U-Curve (Rebounds +31.9%) |
-| **DEL ⇄ CCU** | ₹13,667 | ₹14,614 | ₹13,876 | **₹12,304** | ₹15,523 | U-Curve (Rebounds +26.2%) |
-| **MAA ⇄ DEL** | ₹14,414 | ₹13,124 | ₹13,462 | **₹12,520** | ₹15,711 | U-Curve (Rebounds +25.5%) |
-| **National P₅₀** | **₹14,781** | **₹10,500** | **₹9,550** | **₹9,043** | **₹9,800** | **Rebound on 5 of 6 routes (+8.4%)** |
+| Route | T+1 | T+7 | T+14 | T+21 | T+45 | T+45 vs T+21 |
+|:---|---:|---:|---:|---:|---:|:---|
+| **BLR-HYD** | ₹17,511 | ₹6,282 | **₹5,673** | ₹5,913 | ₹6,543 | rebounds +10.7% |
+| **BOM-BLR** | ₹15,727 | ₹10,825 | ₹8,646 | **₹7,967** | ₹9,364 | rebounds +17.5% |
+| **DEL-BLR** | ₹14,210 | ₹14,180 | ₹12,939 | **₹12,041** | ₹13,826 | rebounds +14.8% |
+| **DEL-BOM** | ₹14,630 | **₹7,730** | ₹8,362 | ₹9,164 | ₹8,666 | keeps falling (-5.4%) |
+| **DEL-CCU** | ₹12,435 | ₹9,392 | ₹13,278 | **₹8,922** | ₹18,057 | rebounds +102.4% |
+| **MAA-DEL** | ₹14,932 | ₹12,976 | **₹12,520** | ₹12,520 | ₹16,177 | rebounds +29.2% |
+| **All six, median** | ₹14,781 | ₹10,108 | ₹10,583 | **₹9,043** | ₹11,595 | rebounds +28.2% |
 
-> *Source: `gold_cell_median` table in SQLite/Postgres. Medians calculated from live network-intercepted fare quotes.*
+Cheapest window per route in bold. Every figure is a `gold_cell_median` value
+computed from live network-intercepted fare quotes, and each one can be walked
+back to its stored payload from the dashboard.
+
 </details>
 
-* **Last-Minute Surge (T+1):** Fares spike sharply to a median of **₹14,781** (+63.4% premium over the sweet spot).
-* **The Sweet Spot (T+21):** Fares bottom out at **₹9,043** — exactly aligning with MoSPI's own recommended 3-week domestic collection standard.
-* **The Early-Bird Trap (T+45):** On 5 out of 6 routes, booking 45 days ahead is noticeably **more expensive** than booking 21 days ahead, because airlines protect long-range revenue buckets.
-
-*No official statistical agency currently publishes booking-window curves. APIx provides this out of the box.*
+**Observed, not asserted.** Six routes, and real collection began on
+3 September 2026. We are reporting what our own data shows, not a law about
+airfares.
 
 ---
 
