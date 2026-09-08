@@ -8,9 +8,14 @@
 -- port, no password, and cannot fail on stage. Twenty-four hours before a
 -- presentation that has to run ten times, that is the whole argument.
 --
--- It is not the argument for production. Postgres is, and this file is what
--- that costs: about forty lines of difference, none of it in application
--- code, because everything above the database goes through SQLAlchemy.
+-- It is not the argument for production. Postgres is, and this file is the
+-- schema half of what that costs.
+--
+-- The other half is not done, and claiming otherwise would be the kind of
+-- thing a reviewer catches in thirty seconds. There is no ORM here: eighteen
+-- modules import sqlite3 and talk to it directly. Moving to Postgres means
+-- changing the driver and the connection handling in each of them. The SQL
+-- below is portable; the Python above it is not, yet.
 --
 --     psql -U apix -d apix -f db/schema.postgres.sql
 --     APIX_DB_URL=postgresql+psycopg2://apix:apix@localhost:5433/apix

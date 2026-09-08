@@ -15,10 +15,17 @@ COMPLIANCE_DIR = ROOT / "compliance"
 DATA_DIR = ROOT / "data"
 EVIDENCE_DIR = COMPLIANCE_DIR / "evidence"
 
-# Postgres is the target database. SQLite is the zero-install demo profile.
-# Identical SQLAlchemy models run on both -- switch with one environment
-# variable, no code change:
-#   set APIX_DB_URL=postgresql+psycopg2://apix:apix@localhost:5433/apix
+# Postgres is the stated production target; SQLite is what actually runs.
+#
+# Be accurate about what that migration costs. There is no ORM in this project:
+# eighteen modules use the sqlite3 driver directly, so moving to Postgres means
+# swapping the driver and the connection handling in those modules, not
+# flipping one environment variable. db/schema.postgres.sql is the schema half
+# of the job and is real; the application half is not written.
+#
+# APIX_DB_URL is read and returned below, and nothing consumes it yet. It is
+# kept because the URL form is what a Postgres deployment would configure, and
+# removing it would lose the only declared place that setting belongs.
 DEFAULT_DB_URL = f"sqlite:///{(ROOT / 'apix.db').as_posix()}"
 POSTGRES_DB_URL = "postgresql+psycopg2://apix:apix@localhost:5433/apix"
 
