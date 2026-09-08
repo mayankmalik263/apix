@@ -239,7 +239,12 @@ def lineage(conn, observation_date: str, route: str, window: int,
         from datetime import date as _d
         from apix.collect import bronze
         for rec in bronze.read_day(_d.fromisoformat(observation_date)):
-            if rec["route_code"] == route and int(rec["window_days"]) == window:
+            # source_class matters as much as route and window. Without it a
+            # LIVE cell can be shown a SIMULATED payload as its origin, which
+            # is the one mistake this whole feature exists to make impossible.
+            if (rec["route_code"] == route
+                    and int(rec["window_days"]) == window
+                    and rec["source_class"] == source_class):
                 raw.append({
                     "source_id": rec["source_id"],
                     "source_class": rec["source_class"],
