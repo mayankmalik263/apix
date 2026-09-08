@@ -253,13 +253,25 @@ def lineage(conn, observation_date: str, route: str, window: int,
     except Exception:
         pass
 
+    # A cell can hold several Bronze attempts: a compliance refusal, a timeout,
+    # then the fetch that actually worked. Order them so the record the parse
+    # came from is first, otherwise the lineage shows a zero-byte refusal as the
+    # origin of a median built from 142 real fares.
+    raw.sort(key=lambda r: (r["payload_bytes"] > 0, r.get("fetched_at_utc") or ""),
+             reverse=True)
+
     return {
         "cell": {"observation_date": observation_date, "route_code": route,
                  "window_days": window, "source_class": source_class},
         "gold": cell[0] if cell else None,
         "silver": fares,
         "silver_count": len(fares),
-        "used_in_median": sum(1 for f in fares if f["status"] == "OK" and not f["is_outlier"]),
+        # Matches the engine: the median is taken over every OK fare. Flagged
+        # rows are included, which is the whole point of flagging rather than
+        # deleting. Counting them out here made the drawer contradict the
+        # number it was explaining.
+        "used_in_median": sum(1 for f in fares if f["status"] == "OK"),
+        "attempts": len(raw),
         "flagged": sum(1 for f in fares if f["is_outlier"]),
         "bronze": raw,
     }

@@ -586,15 +586,17 @@ async function openLineage(route, window_days) {
       <div class="step">
         <span class="lbl">Published · gold_cell_median</span>
         <div class="val">${inr(g.median_fare)}</div>
-        <div class="det">Median of ${L.used_in_median} fares, ${L.flagged} flagged and excluded.
-          Price relative ${g.price_relative == null ? "—" : g.price_relative.toFixed(4)}.</div>
+        <div class="det">Median of ${L.used_in_median} fares, ${L.flagged} of them flagged as
+          outliers and kept. Price relative
+          ${g.price_relative == null ? "—" : g.price_relative.toFixed(4)}.</div>
       </div>
 
       <div class="step">
         <span class="lbl">Parsed · silver_fare_observation</span>
         <div class="val">${num(L.silver_count)} fare rows</div>
-        <div class="det">Every quote the search returned, each with a status and an outlier score.
-          Flagged rows stay in the table; they are excluded from the median, never deleted.</div>
+        <div class="det">Every quote the search returned, each with a status and an outlier
+          score. A flagged fare is marked and kept: it is usually a real price, and deleting it
+          would be editing the market rather than measuring it.</div>
         <div class="scroll" style="margin-top:10px">
           <table style="min-width:0;font-size:12px">
             <thead><tr><th>Carrier</th><th style="text-align:right">Base</th>
@@ -615,6 +617,9 @@ async function openLineage(route, window_days) {
       <div class="step">
         <span class="lbl">Stored · bronze archive</span>
         <div class="val">${raw ? bytes(raw.payload_bytes) : "no payload"}</div>
+        ${L.attempts > 1 ? `<div class="det">${L.attempts} attempts recorded for this cell;
+          this is the one the parse came from. The others are kept as evidence of what
+          went wrong.</div>` : ""}
         <div class="det">${raw ? `Captured from <code>${raw.source_id}</code> at
           ${(raw.fetched_at_utc || "").slice(0, 19)} UTC, status ${raw.fetch_status}.
           The response was written before anything parsed it, so this cell can be re-derived if the
