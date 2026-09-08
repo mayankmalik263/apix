@@ -2,21 +2,21 @@
 # source_id: air_india_express
 # url: https://www.airindiaexpress.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-09-07T18:39:50.255869+00:00
+# fetched_at_utc: 2026-09-08T18:02:57.124895+00:00
 # sha256: 05206b5dfa0a662c8800235342601117f0059b939628459796cf040c56e7ca03
 # --------------- verbatim robots.txt below ---------------
-User-agent: * 
-Disallow: /rsm-dashboard
-Disallow: /retro-claim
-Disallow: /loyalty-addon-packs
-Disallow: /tcp-terms
-Disallow: /tcp-terms-mb
-Disallow: /loyalty-benefits-mb
-Disallow: /loyalty-program-mb
-Disallow: /growtrees
-Disallow: /growtrees-certificate
-Disallow: /flight-availability
-Disallow: /dam
-Disallow: /content/dam
-Sitemap: https://www.airindiaexpress.com/sitemap.xml
-
+User-agent: * 
+Disallow: /rsm-dashboard
+Disallow: /retro-claim
+Disallow: /loyalty-addon-packs
+Disallow: /tcp-terms
+Disallow: /tcp-terms-mb
+Disallow: /loyalty-benefits-mb
+Disallow: /loyalty-program-mb
+Disallow: /growtrees
+Disallow: /growtrees-certificate
+Disallow: /flight-availability
+Disallow: /dam
+Disallow: /content/dam
+Sitemap: https://www.airindiaexpress.com/sitemap.xml
+

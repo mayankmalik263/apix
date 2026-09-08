@@ -2,7 +2,7 @@
 # source_id: spicejet
 # url: https://www.spicejet.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-09-07T18:39:50.941554+00:00
+# fetched_at_utc: 2026-09-08T18:02:58.479880+00:00
 # sha256: f9bece01c38061a8f92eb25bc23f2827a40befc98af496983c638ac559851b67
 # --------------- verbatim robots.txt below ---------------
 Disallow: 

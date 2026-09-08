@@ -2,7 +2,7 @@
 # source_id: ixigo
 # url: https://www.ixigo.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-09-07T18:40:23.574329+00:00
+# fetched_at_utc: 2026-09-08T18:03:29.886361+00:00
 # sha256: da8676fa944bbeae41cc121023aa57540ad920c05e06c3a91b86e8f0ee39d055
 # --------------- verbatim robots.txt below ---------------
 # Hi there! Since you are here, we assume you are either a bot or a geek. In either case, drop us an email at [careers@ixigo.com]. We would love to have a conversation with you ;)
