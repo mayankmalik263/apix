@@ -1,426 +1,259 @@
-# Jury prep — APIx, 8 September 2026, 15:00
+# Jury prep — 8 September, 15:00, Group G13
 
 Jury: **Om sir** and **Nikita ma'am**. Reported style: not aggressive, but
-**heavy weighting on technical questions**. At least four people must speak.
-
-Live site: **https://apix-fz3l.onrender.com**
+**technical questions carry higher weight**. At least four people must speak.
+One person answering everything counts against you.
 
 ---
 
-## The three sentences everything else hangs off
+## The one-sentence version
 
-Learn these. If you only remember one thing, remember the first.
+Learn this. Everything else hangs off it.
 
-> **India already measures airfares. It publishes one number, for the whole
-> country, once a month, at weight 0.08 in the consumer basket. We publish
-> thirty numbers a day, per route, per booking window.**
+> India measures every airfare in the country with **one number, once a month,
+> at weight 0.08 in the consumer basket**. Last year it moved 4.4% between June
+> and July, and nobody could say which route, which week, or whether it hit
+> people who book early or late. **We publish thirty prices a day** and every
+> one of them can be traced back to the page it came from.
 
-> **This is a measuring instrument that happens to use the web. It is not a
-> scraper that happens to compute an average.**
-
-> **Every number we publish carries how complete it was, how confident we are,
-> and a path back to the raw bytes it came from.**
+Never say "India has no airfare index." It does, and a MoSPI jury knows it.
+Saying that loses you the room in one sentence.
 
 ---
 
 ## Who answers what
 
-Never let one person answer everything. If a question lands on the wrong
-person, hand it over out loud: *"That's Bharat's layer, he'll take it."* That
-looks like a team, not a rehearsal.
+Do not let one person take everything. Agreed split:
 
-| Area | Owner | Backup |
-|---|---|---|
-| Collection, compliance, the browser, the API | **Mayank** | Bharat |
-| Database, loader, index engine, dashboard | **Bharat** | Mayank |
-| Why this matters, CPI context, MoSPI framing | **3rd speaker** | Mayank |
-| What exists already, why ours differs, what's next | **4th speaker** | Bharat |
+| Topic | Who |
+|---|---|
+| Problem, why it matters, the MoSPI number | **Mayank** |
+| Collection, compliance, robots.txt, the seven statuses | **Mayank** |
+| Database, loader, index maths, the engine | **Bharat** |
+| Dashboard, API, deployment, live demo | **Mayank / Bharat** |
+| Anything about scope, timeline, division of work | **anyone** |
 
-The third and fourth speakers do not need to know any code. Their sections are
-written out in full at the end of this document and can be learned in an hour.
+If a question lands on you and you don't know: *"That's Bharat's layer, he
+built it"* and hand over. That looks like a team. Guessing looks worse than
+handing over.
 
----
-
-## THE HARD ONES
-
-### "Did you use AI to build this?"
-
-**Answer yes. Immediately, without flinching.** Then take control of what the
-answer means.
-
-> "Yes. We used Claude as a coding assistant throughout, the same way you'd use
-> an IDE or Stack Overflow, and we're happy to talk about exactly where.
->
-> What it didn't do is make the decisions. Three examples.
->
-> One: we chose to obey robots.txt even though the problem statement asks for
-> bot-evasion techniques. Those two things contradict each other. We decided
-> that a government statistical product cannot be built on access we don't
-> have permission for, so we collect from six sources and we publish the five
-> we couldn't clear as a visible gap. That's a judgment call, and it cost us
-> coverage.
->
-> Two: we found a contradiction between our own methodology document and our
-> own code, about whether outlier fares stay in the median. We had to decide
-> which one was right, and defend it. We kept them in, and the document now
-> records that the number would have been 102.669 instead of 102.240 under the
-> other rule.
->
-> Three: there's no machine learning in this project at all, on purpose. That
-> was the most debated decision we made.
->
-> The code was written fast with assistance. The reason it's built this way
-> is ours."
-
-**Do not say:** "we only used it a little", "just for boilerplate", "we wrote
-it all ourselves". If they ask to see the repo, the commit history is right
-there. Getting caught understating it is far worse than admitting it.
-
-**If they push: "so what did YOU actually do?"**
-
-> "We decided what to measure, and what counts as having measured it. Six
-> routes, five booking windows, one adult, economy, one-way, cheapest available,
-> at a fixed time every day. We decided that a sold-out flight and a crashed
-> collector are different facts and must never be recorded the same way. We
-> decided the base date, the aggregation formula, and that outliers get flagged
-> and kept rather than deleted. And we wrote down every limitation we know
-> about, including the ones that make us look worse."
+**Get the third and fourth voices in early.** Even a short factual answer
+("we chose those six routes because they're the highest-traffic domestic
+sectors") counts as participation. Brief them on two facts each so they can
+speak once with confidence.
 
 ---
+
+## The questions they actually asked other teams
+
+### "What transformer did you use?"
+
+**This is the trap, and our answer is the strongest thing we have. Do not
+apologise for it.**
+
+> None. There's no machine learning in this at all, and that's a deliberate
+> design decision, not a gap.
+>
+> This is a **measurement** system, not a prediction system. MoSPI has to
+> defend every published figure — potentially in Parliament. The moment a
+> number comes out of a model, you can't explain why it is what it is. You can
+> only say the model produced it.
+>
+> So we use the same maths the CPI itself uses: a median inside each cell, a
+> Jevons geometric mean across booking windows, a weighted arithmetic mean
+> across routes. Anyone can recompute our number by hand from the raw data,
+> and we ship a test that does exactly that — it agrees with the engine to four
+> decimal places.
+
+If they push, *"so where is the innovation?"*:
+
+> The innovation is in **frequency and granularity**, not in the model. Nobody
+> in the world publishes a daily, route-level airfare index. Not MoSPI, not the
+> US Bureau of Labor Statistics, not Eurostat. Getting a number that a
+> statistical office would actually accept is the hard part, and that's a data
+> engineering and methodology problem, not a modelling one.
+
+### "Have you used AI?"
+
+**Say yes immediately. Be straightforward. Do not let them catch you hedging.**
+
+> Yes, we used AI as a coding tool, the same way you'd use an IDE or Stack
+> Overflow. It wrote code faster than we could type it.
+>
+> Two things it did not do. It did not make the decisions — which routes, which
+> booking windows, median instead of mean, geometric across windows and
+> arithmetic across routes, what counts as a failed observation. Those are
+> defended in our methodology document with reasons.
+>
+> And there is **no AI inside the product**. Not one line. Ask me about any part
+> of this system and I'll explain what it does and why.
+
+Then *invite the follow-up*: **"Which part would you like me to walk through?"**
+That single sentence flips it. It reads as confidence, and it moves the
+conversation onto the code you know.
+
+Bharat is right that transparency is the play here. Someone who says "no AI"
+and then can't explain their own code gets destroyed. Someone who says "yes,
+and here's exactly what I decided myself" doesn't.
 
 ### "How did you build something this complex without a mentor?"
 
-Don't be defensive. This is a compliment shaped like a question.
+> We split it by ownership rather than trying to all work on everything. I own
+> collection, compliance and the API. Bharat owns the database, the loader and
+> the index engine. We agreed the interface between our two halves first — a
+> fixed seven-value status vocabulary and a frozen raw record format — so we
+> could work in parallel without blocking each other.
+>
+> And we didn't invent the methodology. We followed what statistical offices
+> already publish: the CPI manual for elementary aggregation, the US BLS and
+> Eurostat for how airfares are treated elsewhere, and a standard published
+> method for outlier detection. Our job was to apply existing methodology to a
+> daily data source, not to invent statistics.
 
-> "We split it clean. I own collection, compliance and the API; Bharat owns the
-> database, the loader and the index engine. We agreed the contract between the
-> two layers first, in writing, before either of us wrote code: seven status
-> values, a fixed record format with fourteen fields, and a rule that raw data
-> is never edited. After that we could work in parallel without blocking each
-> other.
+### "Why this problem? How does it solve anything?"
+
+> Air travel is the most volatile thing in the consumer basket and the worst
+> measured. The same Delhi–Mumbai seat cost between ₹6,090 and ₹24,056 on the
+> same day when we measured it — a four-fold spread. A monthly national average
+> cannot see any of that.
 >
-> For the statistics we didn't invent anything. We used the same methods
-> official indices use, and we can name the sources: the geometric mean across
-> booking windows is a Jevons index, which is how CPI builds its elementary
-> aggregates. The outlier rule is Iglewicz and Hoaglin's modified Z-score. We
-> checked our approach against how the US Bureau of Labor Statistics and
-> Eurostat publish their airfare series.
+> A daily route-level index gives MoSPI an early signal on one of the fastest
+> moving items in the CPI, months before the monthly figure would show it.
+
+### "How did you arrive at your outcome?"
+
+Lead with the finding. This is your best moment.
+
+> We found something we didn't expect. **The cheapest time to book is not as
+> early as possible.** Across all six routes the median fare bottoms out at 21
+> days ahead and rises again at 45 days — the curve is U-shaped, not a straight
+> line down. The spread between the cheapest and dearest booking window is
+> 63.4% for the identical seat.
 >
-> And we checked ourselves. There's a test that recomputes the published index
-> from the raw rows without using our own engine, because otherwise the engine
-> would just be proving it agrees with itself. The two match to four decimal
-> places."
+> No official index publishes booking-window curves, so nobody had checked.
+
+**Say "we observed", never "airfares are".** It's three days of data on six
+routes. If they ask how confident you are, say exactly that — it's a strength,
+not a weakness, that you know the limits of your own data.
+
+### "Is there nothing else in the market? Why is yours better?"
+
+> There are two different things and neither is what we built.
+>
+> **Statistical indices** — MoSPI's monthly airfare item, DGCA's monthly average
+> fare, US BLS airline fares, Eurostat's HICP. All monthly. None route-level.
+>
+> **Fare comparison tools** — Skyscanner, Google Flights, Ixigo. Real time and
+> route level, but they're not indices. No published methodology, no weights,
+> no continuous series, no statement of how complete their data was.
+>
+> APIx is the only one that's daily, route-level, and auditable. Every value we
+> publish carries its coverage, a confidence grade, and a link back to the
+> stored bytes it came from.
+
+### "What references did you use?"
+
+Have these ready by name:
+
+- **MoSPI CPI press release, Annex-V** — the "Air fare [normal]: economy class
+  [adult]" item, weight 0.08, base 2012=100. We extracted the series and
+  reproduced MoSPI's own published inflation rates to the decimal.
+- **US Bureau of Labor Statistics** — CPI airline fares, series `CUUR0000SETG01`
+- **Eurostat** — HICP `CP0733`, passenger transport by air
+- **Iglewicz & Hoaglin** — the modified Z-score on median absolute deviation,
+  which is our outlier rule
+- **Jevons index** — the geometric mean form used for CPI elementary aggregates
 
 ---
 
-### "What transformer / model / algorithm did you use?"
+## Questions they will probably ask, and short answers
 
-This one has caught teams out. **The answer is: none, and that's the point.**
+**"Is scraping legal? Isn't this a grey area?"**
+> We check each source's robots.txt before every run, store the file itself
+> with its SHA-256, and refuse anything not cleared that day. Six of eleven
+> sources permit us. The other five we could not verify, and we record that as
+> a gap rather than pretending we have full coverage. There is no CAPTCHA
+> handling and no IP rotation anywhere in the code. If a source says no, we
+> don't collect it and we publish that we didn't.
 
-> "None. There's no machine learning in this project, and that's deliberate,
-> not a gap.
->
-> A model would make the number harder to defend. If MoSPI publishes a figure
-> and someone asks 'why is it 94.26 today', the answer has to be a chain of
-> arithmetic anyone can redo by hand. Ours is: take the median of the fares in
-> each cell, divide by the same cell on the base day, take a geometric mean
-> across the five booking windows, then a weighted average across the six
-> routes. You can check that in a spreadsheet. We did, and it matches our code
-> to four decimal places.
->
-> A neural network cannot be audited that way. A statistical office has to
-> defend every figure it publishes, sometimes in Parliament.
->
-> This measures. It doesn't predict. If you asked us to forecast next month's
-> fares, that's when you'd want a model, and that's a different product."
+**"You only have three days of data."**
+> Correct, and we say so on the dashboard. Three real days plus 91 days of
+> generated history that is labelled as generated at every layer, drawn dashed,
+> and never used to compute anything real. The system collects thirty more
+> observations tonight at 20:00, automatically.
 
-**If they say "so where's the innovation?"**
+**"Why only six routes?"**
+> They're high-traffic domestic sectors covering metro and non-metro pairs.
+> Adding a route is one line of configuration — the constraint is politeness
+> to the sources, not the code.
 
-> "In the measurement design, not the algorithm. Nobody publishes airfares
-> daily at route level anywhere in the world. The reason isn't that it's
-> computationally hard, it's that nobody built the collection discipline to do
-> it honestly. That's what we built."
+**"Why are all the route weights equal?"**
+> Because we don't have the data to set them properly. Proper weights need
+> city-pair passenger volumes from DGCA, and the reports we could access
+> contain traffic and load factors but not fares or pair-level volumes. So
+> every published value is stamped `weights_provisional`. We'd rather flag it
+> than invent a number.
 
----
+**"What happens when the airline site changes its layout?"**
+> The parser breaks, and the system says so. That cell records `PARSE_FAIL`,
+> coverage drops, and the confidence grade falls. It does not silently publish
+> a wrong number. And because we store the raw response before parsing
+> anything, we can fix the parser and re-derive the whole history from the
+> bytes we already have.
 
-### "Is there anything like this already? Why is yours better?"
+**"How do we know your numbers are correct?"**
+> Two ways. There's a test that recomputes the published index from the raw
+> rows using only the formulas in our methodology document, without touching
+> the engine — they agree to four decimal places. And on the dashboard you can
+> click any cell and walk it back through the fares it was built from to the
+> stored page and its hash. *(Then do it live. It's thirty seconds and it's the
+> most convincing thing on the site.)*
 
-Don't say "there's nothing like it". There is, and they may know it.
-
-> "Four things exist, and each does part of it.
->
-> **India's own CPI** has an air fare item, monthly, national, weight 0.08. It's
-> real and it works, it just can't answer route-level questions.
->
-> **DGCA** publishes monthly average fares. Also monthly, limited route detail,
-> no API.
->
-> **US BLS and Eurostat** both publish airfare indices. Monthly, national, not
-> route-level. Their methods are public, and we followed them.
->
-> **Skyscanner, MakeMyTrip and so on** have live route-level prices. But they
-> are not statistical products: no published methodology, no fixed basket, no
-> weights, no continuous series, and the number changes if you refresh.
->
-> So the gap is real: daily, route level, with a published method and an
-> auditable trail. We're not better than CPI, we're an input to it. The framing
-> in the problem statement is 'augment', and that's exactly right."
-
----
-
-### "How do we know your data is real?"
-
-This is your strongest moment. **Do it live rather than answering.**
-
-Open the dashboard → **The basket** tab → click any cell in the heatmap.
-
-> "This is the median for Delhi–Mumbai at 21 days out. Click it and you get the
-> fares behind it, the parse that produced them, and the SHA-256 hash of the
-> raw page we stored at collection time. The raw file is in our repository. You
-> can download it and hash it yourself."
-
-Then: **What we missed** tab.
-
-> "And this is what we didn't manage to collect, and whose fault each gap was."
+**"What's the difference between a sold-out flight and a failed scrape?"**
+This is the best idea in the project. Make sure it gets said.
+> On screen they look identical — an empty cell. But one is a fact about the
+> market and the other is a fact about us. If you record both as blank, your
+> index can no longer report honestly on its own reliability, and every silent
+> failure starts looking like a quiet market. So every observation carries one
+> of seven statuses across three classes: what the market said, what we chose
+> not to collect, and what we broke. There is no NULL in the vocabulary.
 
 ---
 
-## THE TECHNICAL ONES
+## The live demo — five minutes, in this order
 
-### "Why the median and not the average?"
+Have these open in tabs **before you start**. Open the site by 14:50 so the
+server is awake.
 
-Plain language, with the real number:
+1. **https://apix-fz3l.onrender.com** — the index. 94.26, −7.80%, coverage 30
+   of 30, grade B. Say: *"this is live, collected last night."*
+2. **When you book** — the U-curve. Your finding.
+3. **The basket** → click any cell → the lineage drawer. Show the raw payload
+   and the hash. *"This median came from those exact bytes."*
+4. **What we missed** — the seven statuses and the compliance table. Answers
+   the ethics question before it's asked.
+5. **/docs** — the API. *"A statistical office could pull this into their own
+   systems tomorrow."*
 
-> "On 3 September, one Delhi–Mumbai search returned 221 fares. The cheapest was
-> ₹6,090, the dearest ₹24,056. Same route, same day, same seat type.
->
-> The average of those is about ₹8,900, which is a price almost nobody in that
-> search actually paid, because a handful of very expensive last-minute seats
-> drags it upward. The median is ₹7,675, which is roughly what a normal person
-> booking that flight would see.
->
-> Fare distributions are lopsided in one direction. The median doesn't care."
-
-### "Why a geometric mean across windows, but a normal average across routes?"
-
-This is the question that separates "built a scraper" from "built an index".
-Mayank or Bharat only.
-
-> "Different things are being combined.
->
-> Across booking windows, we're combining **ratios**. Each window is measured
-> against its own starting point, so they're multiples, and multiples combine by
-> multiplying. If one window doubles and another halves, the honest answer is
-> 'no change' — a geometric mean gives exactly 100. A normal average would say
-> 125, which is wrong. This form is called a Jevons index and it's what CPI uses
-> for its elementary aggregates.
->
-> Across routes, we're combining **shares of spending**, like a household
-> budget. Budget shares add up. So that one is a weighted arithmetic mean,
-> Laspeyres-type.
->
-> Windows multiply, routes add."
-
-### "What are your weights?"
-
-**Tell the truth. This is a weakness, and owning it scores better than hiding it.**
-
-> "Equal, one-sixth each, and every value we publish is flagged
-> 'weights provisional' in the database and on the page.
->
-> Proper weights need passenger volume per city pair. The brief points at DGCA
-> for that. We downloaded twelve DGCA reports and none of them contain fare or
-> per-route passenger data — they have traffic totals, load factors,
-> cancellations and on-time performance. So rather than invent plausible-looking
-> weights, we left them equal and marked them provisional. The moment we get
-> that dataset, it's one configuration change and the whole series recomputes."
-
-### "How does the scraping actually work?"
-
-Mayank.
-
-> "We drive a real Chromium browser with Playwright, but we don't read the
-> screen. We listen to the network underneath it. When the page loads its
-> results, it fetches its own fare data as JSON, and we capture that response
-> before it's rendered.
->
-> That matters for two reasons. It's already structured, so base fare, taxes and
-> total come separated instead of being scraped out of text. And it survives a
-> redesign: if they move the buttons around tomorrow, our parser doesn't break,
-> because we were never reading the layout.
->
-> We also store the raw response, unedited, before we parse anything. If our
-> parser turns out to be wrong in three weeks, we can re-parse three weeks of
-> history."
-
-### "What happens when a website blocks you?"
-
-> "We record it and publish it. `BLOCKED` is one of our seven status values.
->
-> What we don't do is get around it. No CAPTCHA solving, no IP rotation, no
-> pretending to be a different browser. The problem statement asks for
-> bot-evasion techniques and also for robots.txt compliance, and those two
-> can't both be satisfied. We chose compliance, and we report the cost of that
-> choice on the dashboard: six of eleven sources cleared."
-
-### "Why SQLite and not a real database?"
-
-Bharat.
-
-> "Because Docker, WSL2 and Postgres weren't installed on the build machine, and
-> installing them meant two reboots the day before a demo.
->
-> The production schema is written and it's in the repository as
-> `db/schema.postgres.sql`. The same code runs against either, switched with one
-> environment variable. SQLite is the demo choice, not the architecture."
-
-### "What's the difference between your seven statuses?"
-
-Anyone. This is the most quotable idea you have.
-
-> "A sold-out flight and a crashed scraper both leave an empty cell. They are
-> completely different facts. One is the market telling us something. The other
-> is us failing.
->
-> If you record both as blank, your table looks complete and your index can no
-> longer tell you how well it measured anything. Worse, every silent failure
-> starts to look like a quiet market.
->
-> So there are seven statuses in three groups: what the market said, what we
-> chose not to collect, and what we broke. There is no 'null' option. The
-> database physically rejects an eighth value."
-
-**True story worth telling if it fits:** *"This caught a real bug. On 8
-September our compliance gate refused all thirty cells because the day's check
-hadn't run yet. Because that refusal was recorded as a policy decision rather
-than an empty cell, we could see the day was unmeasured and re-collect it the
-same night. If it had been stored as blank, we'd have lost the day."*
-
-### "Where does your historical data come from?"
-
-**Say this before they ask. Never let them discover it.**
-
-> "Two sources, and they're never mixed. We have three days of real collection,
-> 3, 4 and 8 September. Behind that there are 91 days of history generated from
-> a documented model, and every one of those rows is labelled SIMULATED in the
-> database, drawn as a dashed line on the chart, and computed separately. No
-> real number is ever derived from a generated one.
->
-> The seasonal shape in that generated history isn't invented either, it's
-> interpolated from MoSPI's own published airfare index."
-
-### "Why only three days? Why only six routes?"
-
-> "Three days because airfares can't be collected retrospectively. There's no
-> archive to go back for. We started on 3 September, and we lost 5, 6 and 7 to
-> a bug we've since fixed, which is recorded rather than hidden.
->
-> Six routes because six routes collected properly is worth more than sixty
-> collected badly. Adding a route is one line in a config file. The hard part
-> was never the number of routes, it was the discipline around each observation."
-
-### "How do we know your index is calculated correctly?"
-
-> "There's a test that recomputes the published index from the raw database
-> rows using only the formulas in our methodology document, without importing
-> our index engine at all. If we imported the engine, we'd only be proving the
-> engine agrees with itself. All three days match to better than 0.0001 index
-> points."
+If the internet fails: everything runs locally with `python -m webapp.run`. Say
+plainly that it's running locally and hosting is a detail. Don't fight it.
 
 ---
 
-## PLAIN-LANGUAGE CHEAT SHEET
+## Three things not to say
 
-Use these if a jury member isn't technical, or if you get stuck.
-
-| Term | Say it like this |
-|---|---|
-| **Price index** | "A number that shows how prices moved, not what they are. We set the first day to 100. Today is 94.26, so fares are about 6% below where we started." |
-| **Basket** | "The fixed shopping list. Ours is six routes at five booking distances. It never changes, so any movement is the price moving, not the list." |
-| **Booking window** | "How far ahead you're buying. T+21 means a flight leaving in 21 days." |
-| **Median** | "The middle price. Half cost more, half cost less. It ignores the few crazy ones." |
-| **Coverage** | "Out of the thirty prices we were supposed to collect today, how many we actually got. Today, all thirty." |
-| **Confidence grade** | "A school grade on the number. A needs 90% coverage and two independent sources. We're at B: complete, but one source." |
-| **Outlier** | "A price far away from the others in the same search. We mark them and keep them, because they're usually real." |
-| **Bronze / Silver / Gold** | "Raw, cleaned, published. The raw layer is never edited, so we can always go back." |
-| **robots.txt** | "A file every website publishes saying which parts automated visitors may read. We check it every day and store a copy." |
-| **API** | "A URL that returns the data instead of a webpage, so another system can consume our numbers directly." |
-| **Jevons index** | "Multiplying instead of averaging, used when you're combining ratios. CPI does the same thing." |
+1. **"India has no airfare index."** It does. Weight 0.08, monthly.
+2. **"The sources blocked us."** Five sources *timed out*. That is not proof of
+   a bot wall. Say "we could not verify them."
+3. **"Airfares are U-shaped."** *We observed* a U-shape, on six routes, over
+   three days.
 
 ---
 
-## THE TWO NON-TECHNICAL SPEAKERS
+## If you only remember four things
 
-Learn one of these. You do not need to understand the code.
-
-### Speaker 3 — why this matters
-
-> "Air travel sits inside India's Consumer Price Index as one number, published
-> once a month, at a weight of 0.08. That number is real and it moves: between
-> June and July last year it fell 4.4% in a single month.
->
-> But it's one number for the whole country. It can't tell you whether Delhi to
-> Mumbai moved or Bangalore to Hyderabad. It can't tell you whether it hit
-> people who book early or people who book late. And it arrives weeks after the
-> month it describes.
->
-> Meanwhile over 90% of domestic tickets are sold online, where prices change
-> several times a day. We're measuring where the prices actually live, at the
-> frequency they actually move."
-
-**If asked anything technical:** *"That's Mayank's area, he'll take it."*
-
-### Speaker 4 — what we found, and what's next
-
-> "One thing surprised us. Everyone assumes booking earlier is cheaper. Across
-> our six routes the cheapest point isn't the earliest, it's 21 days out. The
-> median there is ₹9,043, and at one day out it's ₹14,781, a spread of 63%. And
-> it goes back up at 45 days.
->
-> We want to be careful here: that's three days of data on six routes, so it's
-> what we observed, not a law of nature. But no official index anywhere
-> publishes booking-window curves, which means nobody had checked.
->
-> Next is more days, more routes, and proper route weights once we have
-> passenger volume data. The architecture doesn't change for any of that."
-
----
-
-## RULES FOR THE ROOM
-
-1. **Never bluff.** "I don't know, that's Bharat's layer" is a complete answer.
-   A wrong confident answer about your own system is the only thing that
-   actually loses marks here.
-2. **Hand questions over out loud.** It makes you look like a team.
-3. **Say the limitation before they find it.** Three days of data, six routes,
-   provisional weights, simulated history, five sources uncleared. Every one of
-   those sounds like honesty when you say it and like a cover-up when they do.
-4. **Use the live site.** Don't describe the lineage feature, click it.
-5. **Numbers, not adjectives.** Not "a lot of fares", but "5,323 fares priced
-   today". Not "very compliant", but "six of eleven sources cleared, verdicts
-   stored with SHA-256".
-6. **If a question is out of scope, say so and say why.** "We deliberately
-   didn't build forecasting. It measures, it doesn't predict."
-
----
-
-## NUMBERS TO KNOW COLD
-
-| | |
-|---|---|
-| Today's index | **94.26**, down 7.80% |
-| Coverage | **30 of 30 cells**, 100% |
-| Confidence | **B** (complete, single source) |
-| Fares priced today | **5,323** across 7 carriers |
-| Median fare today | **₹12,399**, range ₹4,074 to ₹54,641 |
-| Sources cleared | **6 of 11** |
-| Real collection days | **3** (3, 4 and 8 September) |
-| Generated history | **91 days**, labelled, dashed, never mixed |
-| Basket | **6 routes × 5 windows = 30 observations/day** |
-| Observation slot | **20:00 IST**, fixed |
-| CPI air fare weight | **0.08**, monthly, national |
-| CPI air fare move | **−4.4%** June to July 2025 |
-| Cheapest booking window | **T+21**, ₹9,043 vs ₹14,781 at T+1 (63% spread) |
-| The spread example | DEL–BOM, 3 Sep: ₹6,090 to ₹24,056, 221 quotes |
-| Automated tests | **57 passing** |
-| Hand-check agreement | **0.0001** index points |
+1. No AI in the product, on purpose — a statistical office must defend every
+   figure.
+2. Thirty prices a day against India's one a month.
+3. A sold-out flight and a broken scraper are different facts.
+4. Click a cell, see the raw bytes it came from.
