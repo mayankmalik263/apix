@@ -1,0 +1,29 @@
+# APIx compliance evidence
+# source_id: easemytrip
+# url: https://www.easemytrip.com/robots.txt
+# http_status: 200
+# fetched_at_utc: 2026-09-12T17:25:23.892440+00:00
+# sha256: 9c3d331b3f13a99e07e10c6902c1a11a5bf1f0a52c48cef955a8aab47f3a72e3
+# --------------- verbatim robots.txt below ---------------
+User-Agent: *
+Disallow: /cgi-bin/
+Disallow: /admin/
+Disallow: /test/
+Disallow: /cheap_flights/
+Disallow: /cheap-flights/
+Disallow: /flight-search/listing*
+Disallow: /hotel-new/*
+Disallow: /TrainListInfo/
+Disallow: /TrainInfo/
+Disallow: /trainService/
+Disallow: /holiday_packages/
+Disallow: /international_airlines/
+Disallow: /Packages/
+Disallow: /static/
+Disallow: /holiday-query/
+Disallow: /trains/
+Disallow: /*/?e=
+Disallow: /*/htl-in-
+Disallow: *?appcode=
+Disallow: /*?__sta=
+Sitemap: https://www.easemytrip.com/sitemap.xml
