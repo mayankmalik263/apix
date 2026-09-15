@@ -2,7 +2,7 @@
 # source_id: goibibo
 # url: https://www.goibibo.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-09-14T19:35:17.469705+00:00
+# fetched_at_utc: 2026-09-15T18:27:11.945299+00:00
 # sha256: 788921307bc5658818c741caeb562de22a770fa5f02669cb1f10338410ad4e5c
 # --------------- verbatim robots.txt below ---------------
 User-agent: google-hoteladsverifier
