@@ -2,8 +2,8 @@
 # source_id: cleartrip
 # url: https://www.cleartrip.com/robots.txt
 # http_status: 403
-# fetched_at_utc: 2026-09-17T18:31:08.412990+00:00
-# sha256: c8b167cef63ff8b7637081570d84841bc8c98560f7d9fb6d2c57b0c3a7af4f1a
+# fetched_at_utc: 2026-09-18T17:51:00.600313+00:00
+# sha256: e46ab00a39c94e140c6e01fcb39b6227f6822094fe33641cabee2cdd46d10e57
 # --------------- verbatim robots.txt below ---------------
 <HTML><HEAD>
 <TITLE>Access Denied</TITLE>
@@ -11,7 +11,7 @@
 <H1>Access Denied</H1>
  
 You don't have permission to access "http&#58;&#47;&#47;www&#46;cleartrip&#46;com&#47;robots&#46;txt" on this server.<P>
-Reference&#32;&#35;18&#46;240c3417&#46;1789669868&#46;293e623
-<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;240c3417&#46;1789669868&#46;293e623</P>
+Reference&#32;&#35;18&#46;1a13d517&#46;1789753860&#46;7bca577a
+<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;1a13d517&#46;1789753860&#46;7bca577a</P>
 </BODY>
 </HTML>
