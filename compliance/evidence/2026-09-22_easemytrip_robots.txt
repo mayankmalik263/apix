@@ -1,0 +1,9 @@
+# APIx compliance evidence
+# source_id: easemytrip
+# url: https://www.easemytrip.com/robots.txt
+# http_status: 200
+# fetched_at_utc: 2026-09-21T19:42:19.508391+00:00
+# sha256: ee674af3a74e90fed5a795ae3693f14416c14f38079197653b12ab19fd300484
+# --------------- verbatim robots.txt below ---------------
+User-Agent: *
+Allow: *
