@@ -1,6 +1,6 @@
 {
   "checked_on": "2026-09-22",
-  "generated_at_utc": "2026-09-21T19:42:20.180440+00:00",
+  "generated_at_utc": "2026-09-22T18:15:41.480779+00:00",
   "user_agent": "APIx-Research/0.1 (SIH26056 airfare price index; contact: mayankmalik.13857@stu.upes.ac.in)",
   "results": [
     {
@@ -58,7 +58,7 @@
       "reason": "robots.txt returned HTTP 403",
       "checked_on": "2026-09-22",
       "http_status": 403,
-      "robots_sha256": "e76e4c26d1e96e41385fd497b58e4ee2c42e0b17c18916259d6bb6bc18dc3562",
+      "robots_sha256": "77b24527f0ac1cc72ab7baebde779bf63063fdc7519229af85f54ffa00412729",
       "path_allowed": null,
       "crawl_delay": null,
       "evidence_file": "compliance/evidence/2026-09-22_akasa_robots.txt"
@@ -133,7 +133,7 @@
       "reason": "robots.txt returned HTTP 403",
       "checked_on": "2026-09-22",
       "http_status": 403,
-      "robots_sha256": "38ddf2be38a7719e4d3d8372e5730671cf51ae8cf5c858cc408b939d27929e8f",
+      "robots_sha256": "a07b2200dfa595e253caa5a3866c52ee770e2eb981dbfdb80feb2518e01cfaef",
       "path_allowed": null,
       "crawl_delay": null,
       "evidence_file": "compliance/evidence/2026-09-22_cleartrip_robots.txt"
