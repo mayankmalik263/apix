@@ -2,7 +2,7 @@
 # source_id: easemytrip
 # url: https://www.easemytrip.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-09-25T18:51:30.275331+00:00
+# fetched_at_utc: 2026-09-26T17:57:25.831192+00:00
 # sha256: 9c3d331b3f13a99e07e10c6902c1a11a5bf1f0a52c48cef955a8aab47f3a72e3
 # --------------- verbatim robots.txt below ---------------
 User-Agent: *
