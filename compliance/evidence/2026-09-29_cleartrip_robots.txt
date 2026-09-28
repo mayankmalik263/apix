@@ -1,0 +1,17 @@
+# APIx compliance evidence
+# source_id: cleartrip
+# url: https://www.cleartrip.com/robots.txt
+# http_status: 403
+# fetched_at_utc: 2026-09-28T20:43:33.830559+00:00
+# sha256: 7adc8a237a953acc1d86d6181df56e7466abfb48b46b2e287eb39fd732d06bb7
+# --------------- verbatim robots.txt below ---------------
+<HTML><HEAD>
+<TITLE>Access Denied</TITLE>
+</HEAD><BODY>
+<H1>Access Denied</H1>
+ 
+You don't have permission to access "http&#58;&#47;&#47;www&#46;cleartrip&#46;com&#47;robots&#46;txt" on this server.<P>
+Reference&#32;&#35;18&#46;d4ab3717&#46;1790628213&#46;351b19ee
+<P>https&#58;&#47;&#47;errors&#46;edgesuite&#46;net&#47;18&#46;d4ab3717&#46;1790628213&#46;351b19ee</P>
+</BODY>
+</HTML>
