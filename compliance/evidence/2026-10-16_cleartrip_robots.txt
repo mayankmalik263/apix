@@ -2,8 +2,8 @@
 # source_id: cleartrip
 # url: https://www.cleartrip.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-10-15T18:35:19.133608+00:00
-# sha256: 63e6712ea5abf28f71e317f3296efee9303c8c68c87f18d80791e6255b4466ac
+# fetched_at_utc: 2026-10-16T18:18:52.275734+00:00
+# sha256: 254e63d440ef25adabc4130a339c8d8c4636e4de464ffd34c7d6e1fd2decc4ea
 # --------------- verbatim robots.txt below ---------------
 User-agent: *
 Allow: /
@@ -16,6 +16,14 @@ Disallow: /trains/results*
 Disallow: /trains/search*
 Disallow: /trains/stations/amp*
 Disallow: /trains/train-schedule-details*
+Disallow: /trains/list
+Disallow: /trains/amp/
+Disallow: /trains/*/modal
+Disallow: /trains/show/
+Disallow: /trains/stations
+Disallow: /trains/routes
+Disallow: /trains/temporary
+Disallow: /trains/auto_complete_trains
 Disallow: /packages/search
 Disallow: /packages/results
 Disallow: /bus/chart
