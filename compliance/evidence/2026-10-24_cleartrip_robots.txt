@@ -2,7 +2,7 @@
 # source_id: cleartrip
 # url: https://www.cleartrip.com/robots.txt
 # http_status: 200
-# fetched_at_utc: 2026-10-23T18:40:28.640021+00:00
+# fetched_at_utc: 2026-10-24T17:34:10.005264+00:00
 # sha256: 254e63d440ef25adabc4130a339c8d8c4636e4de464ffd34c7d6e1fd2decc4ea
 # --------------- verbatim robots.txt below ---------------
 User-agent: *
